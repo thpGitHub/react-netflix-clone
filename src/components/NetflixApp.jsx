@@ -8,7 +8,8 @@ const NetflixApp = () => {
     return (
         <div>
             <NetflixAppBar />
-            <NetflixHeader />
+            {/* <NetflixHeader movie={''}/> */}
+            <NetflixHeader movie={'pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg'}/>
             <NetFlixRow title="Films Netflix" />
             <NetFlixRow title="Séries Netflix" wideImage={false} />
             <NetflixFooter />

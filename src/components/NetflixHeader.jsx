@@ -1,10 +1,26 @@
 import React from 'react'
 
-const NetflixHeader = () => {
+const NetflixHeader = ({movie}) => {
+    // const imageURL = `https://image.tmdb.org/t/p/w500/${movie?.backdrop_path}`
+    const imageURL = `https://image.tmdb.org/t/p/w500/${movie}`
+
+    const banner = {
+        backgroundImage: `url('${imageURL}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        color: 'white',
+        objectFit: 'contain',
+        height: '448px',
+    }
+
+    if (!movie) {
+        return <></>
+    }
+
     return (
-        <header className="banner">
+        <header style={banner}>
             <div className="banner__contents">
-                <h1 className="banner__title">La casa de papel</h1>
+                <h1 className="banner__title">{movie?.title ?? '...'}</h1>
                 <div className="banner__buttons">
                     <button className="banner__button banner__buttonplay">
                         Lecture
@@ -14,9 +30,7 @@ const NetflixHeader = () => {
                     </button>
                 </div>
                 <h1 className="synopsis">
-                    Le Professeur recrute une jeune braqueuse et sept autres
-                    criminels en vue d'un cambriolage grandiose ciblant la
-                    Maison royale de la Monnaie d'Espagne.
+                    {movie?.overview ?? '...'}
                 </h1>
             </div>
             <div className="banner--fadeBottom"></div>
