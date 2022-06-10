@@ -1,9 +1,9 @@
 import React from 'react'
 
 const NetflixHeader = ({movie}) => {
-    // const imageURL = `https://image.tmdb.org/t/p/w500/${movie?.backdrop_path}`
-    const imageURL = `https://image.tmdb.org/t/p/w500/${movie}`
-
+    // official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
+    const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
+    
     const banner = {
         backgroundImage: `url('${imageURL}')`,
         backgroundSize: 'cover',
