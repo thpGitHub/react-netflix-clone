@@ -4,9 +4,22 @@ import useDimension from '../hooks/useDimension'
 const NetflixHeader = ({movie}) => {
     const browserWidth = useDimension()
     console.log('browserWidth', browserWidth)
-    // official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
-    // backdrop_sizes : "w300" "w780" "w1280"
-    const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
+
+    let imageWidth = 1280
+    if ((browserWidth >= 780) & (browserWidth < 1280)) {
+        console.log('780 - 1280')
+        imageWidth = 780
+    }
+    if (browserWidth < 780) {
+        console.log('--- 780')
+        imageWidth = 300
+    }
+    /*
+     * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
+     * backdrop_sizes : "w300" "w780" "w1280"
+     */
+    const imageURL = `https://image.tmdb.org/t/p/w${imageWidth}/${movie?.backdrop_path}`
+    // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
 
     const banner = {
         color: 'white',
