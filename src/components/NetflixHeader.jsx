@@ -1,11 +1,14 @@
 import React from 'react'
 import useDimension from '../hooks/useDimension'
 
-const NetflixHeader = ({movie}) => {
+const NetflixHeader = ({movie, type= 'movie'}) => {
+    const title = type === 'movie' ? movie?.title : movie?.name
+
     const browserWidth = useDimension()
     console.log('browserWidth', browserWidth)
 
     let imageWidth = 1280
+
     if ((browserWidth >= 780) & (browserWidth < 1280)) {
         console.log('780 - 1280')
         imageWidth = 780
@@ -37,7 +40,7 @@ const NetflixHeader = ({movie}) => {
     return (
         <header style={banner}>
             <div className="banner__contents">
-                <h1 className="banner__title">{movie?.title ?? '...'}</h1>
+                <h1 className="banner__title">{title ?? '...'}</h1>
                 <div className="banner__buttons">
                     <button className="banner__button banner__buttonplay">
                         Lecture

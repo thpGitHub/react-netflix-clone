@@ -8,16 +8,17 @@ import axios from 'axios'
 
 const NetflixApp = () => {
     const [headerMovie, setHeaderMovie] = useState()
-    const defaultMovieId = 399566
+    const defaultMovieId = 399566 // 71446
     // const apiKey = '4fc7b001e8a107fe1fddc6b41ed0f4af'
     const apiKey = '8ee18f65008b7108b46834a1a60f55fc'
     const lang = 'fr-fr'
+    const type = 'movie' // tv
 
     useEffect(() => {
         const fetchMovie = async () => {
             try {
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/movie/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
+                    `https://api.themoviedb.org/3/${type}/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
                 )
                 console.log('response', response)
                 setHeaderMovie(response)
@@ -32,7 +33,7 @@ const NetflixApp = () => {
         <div>
             <NetflixAppBar />
             {/* <NetflixHeader movie={''}/> */}
-            <NetflixHeader movie={headerMovie?.data} />
+            <NetflixHeader movie={headerMovie?.data} type={type} />
             <NetFlixRow title="Films Netflix" />
             <NetFlixRow title="Séries Netflix" wideImage={false} />
             <NetflixFooter />
