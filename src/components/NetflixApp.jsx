@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import './Netflix.css'
 
 import NetFlixRow from './NetFlixRow'
-import NetflixAppBar from './NetflixAppBar'
+import NetflixAppBar from './NetflixAppBar.tsx'
 import NetflixHeader from './NetflixHeader'
 import NetflixFooter from './NetflixFooter.tsx'
 

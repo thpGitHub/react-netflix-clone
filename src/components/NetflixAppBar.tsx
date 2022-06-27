@@ -3,10 +3,11 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-const NetflixAppBar = () => {
+const NetflixAppBar = (): JSX.Element => {
     const [appBarStyle, setAppBarStyle] = useState({
         background: 'transparent',
         boxShadow: 'none',
+        transition: 'none',
     })
 
     useEffect(() => {
