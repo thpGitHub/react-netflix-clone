@@ -3,17 +3,18 @@ import useDimension from '../hooks/useDimension'
 
 const NetflixHeader = ({movie, type= 'movie'}) => {
     const title = type === 'movie' ? movie?.title : movie?.name
-
-    const browserWidth = useDimension()
-    console.log('browserWidth', browserWidth)
-
+    
     let imageWidth = 1280
 
-    if ((browserWidth >= 780) & (browserWidth < 1280)) {
+    const browserWidth: number | undefined = useDimension() 
+    console.log('browserWidth', browserWidth)
+
+
+    if (browserWidth && (browserWidth >= 780) && (browserWidth < 1280)) {
         console.log('780 - 1280')
         imageWidth = 780
     }
-    if (browserWidth < 780) {
+    if (browserWidth && browserWidth < 780) {
         console.log('--- 780')
         imageWidth = 300
     }
@@ -24,6 +25,7 @@ const NetflixHeader = ({movie, type= 'movie'}) => {
     const imageURL = `https://image.tmdb.org/t/p/w${imageWidth}/${movie?.backdrop_path}`
     // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
 
+    // const banner: React.CSSProperties = {
     const banner = {
         color: 'white',
         height: '448px',
@@ -31,7 +33,7 @@ const NetflixHeader = ({movie, type= 'movie'}) => {
         backgroundSize: 'cover',
         backgroundImage: `url('${imageURL}')`,
         backgroundPosition: 'center center',
-    }
+    } as const
 
     if (!movie) {
         return <></>

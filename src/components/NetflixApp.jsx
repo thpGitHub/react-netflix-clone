@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react'
 import './Netflix.css'
 
-import NetFlixRow from './NetFlixRow'
+import NetFlixRow from './NetFlixRow.tsx'
 import NetflixAppBar from './NetflixAppBar.tsx'
-import NetflixHeader from './NetflixHeader'
+import NetflixHeader from './NetflixHeader.tsx'
 import NetflixFooter from './NetflixFooter.tsx'
 
 import { getRandomIntInclusive } from '../utils/helper'
