@@ -4,7 +4,7 @@ import './Netflix.css'
 import NetFlixRow from './NetFlixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixHeader from './NetflixHeader'
-import NetflixFooter from './NetflixFooter'
+import NetflixFooter from './NetflixFooter.tsx'
 
 import { getRandomIntInclusive } from '../utils/helper'
 
