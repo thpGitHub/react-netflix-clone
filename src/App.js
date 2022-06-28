@@ -1,5 +1,5 @@
 // import {ThemeProvider} from '@mui/styles'
-import NetflixApp from './components/NetflixApp'
+import NetflixApp from './components/NetflixApp.tsx'
 
 import {ThemeProvider, createTheme} from '@mui/material/styles'
 

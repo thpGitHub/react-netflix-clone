@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -11,7 +11,7 @@ const NetflixAppBar = (): JSX.Element => {
     })
 
     useEffect(() => {
-        const onScroll = e => {
+        const onScroll = (e: any) => {
             console.log(e.target.documentElement.scrollTop)
             if (e.target.documentElement.scrollTop > 100) {
                 setAppBarStyle({

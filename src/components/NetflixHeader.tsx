@@ -1,7 +1,14 @@
 import React from 'react'
 import useDimension from '../hooks/useDimension'
+import {AxiosData} from '../ts/interfaces/axiosData'
 
-const NetflixHeader = ({movie, type= 'movie'}) => {
+interface IProps {
+    movie: AxiosData | undefined,
+    // movie: any,
+    type: string,
+}
+
+const NetflixHeader = ({movie, type= 'movie'}: IProps) => {
     const title = type === 'movie' ? movie?.title : movie?.name
     
     let imageWidth = 1280

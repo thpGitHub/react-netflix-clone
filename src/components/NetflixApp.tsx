@@ -1,17 +1,20 @@
+import React from 'react'
 import {useState, useEffect} from 'react'
 import './Netflix.css'
 
-import NetFlixRow from './NetFlixRow.tsx'
-import NetflixAppBar from './NetflixAppBar.tsx'
-import NetflixHeader from './NetflixHeader.tsx'
-import NetflixFooter from './NetflixFooter.tsx'
+import NetFlixRow from './NetFlixRow'
+import NetflixAppBar from './NetflixAppBar'
+import NetflixHeader from './NetflixHeader'
+import NetflixFooter from './NetflixFooter'
 
 import { getRandomIntInclusive } from '../utils/helper'
 
 import axios from 'axios'
 
+import {AxiosResponse} from '../ts/interfaces/axiosResponse'
+
 const NetflixApp = () => {
-    const [headerMovie, setHeaderMovie] = useState()
+    const [headerMovie, setHeaderMovie] = useState<AxiosResponse>()
     const [type] = useState(['movie', 'tv'][getRandomIntInclusive(0,1)])
 
     const moviesIds = [399566, 602734, 579047, 385128, 615658]
@@ -31,7 +34,7 @@ const NetflixApp = () => {
             try {
                 const response = await axios.get(
                     `https://api.themoviedb.org/3/${type}/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
-                )
+                ) as AxiosResponse
                 console.log('response', response)
                 setHeaderMovie(response)
             } catch (error) {
@@ -56,3 +59,4 @@ const NetflixApp = () => {
 export default NetflixApp
 
 // https://api.themoviedb.org/3/movie/550?api_key=8ee18f65008b7108b46834a1a60f55fc
+

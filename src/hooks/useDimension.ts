@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 
 export default function useDimension() {
-  const [dimension, setDimension] = useState();
+  const [dimension, setDimension] = useState<number>();
 
   useEffect(() => {
     window.onresize = resizeFunc;
