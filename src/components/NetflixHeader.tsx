@@ -1,6 +1,7 @@
 import React from 'react'
 import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
+import {IMAGE_URL, TYPE_MOVIE} from '../const'
 
 interface IProps {
     movie: AxiosData | undefined,
@@ -8,8 +9,8 @@ interface IProps {
     type: string,
 }
 
-const NetflixHeader = ({movie, type= 'movie'}: IProps) => {
-    const title = type === 'movie' ? movie?.title : movie?.name
+const NetflixHeader = ({movie, type= TYPE_MOVIE}: IProps) => {
+    const title = type === TYPE_MOVIE ? movie?.title : movie?.name
     
     let imageWidth = 1280
 
@@ -29,18 +30,18 @@ const NetflixHeader = ({movie, type= 'movie'}: IProps) => {
      * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
      * backdrop_sizes : "w300" "w780" "w1280"
      */
-    const imageURL = `https://image.tmdb.org/t/p/w${imageWidth}/${movie?.backdrop_path}`
+    const imageURL = `${IMAGE_URL}${imageWidth}/${movie?.backdrop_path}`
     // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
 
-    // const banner: React.CSSProperties = {
-    const banner = {
+    // const banner = {
+    const banner: React.CSSProperties = {
         color: 'white',
         height: '448px',
         objectFit: 'contain',
         backgroundSize: 'cover',
         backgroundImage: `url('${imageURL}')`,
         backgroundPosition: 'center center',
-    } as const
+    } //as const
 
     if (!movie) {
         return <></>

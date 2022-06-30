@@ -7,33 +7,27 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixHeader from './NetflixHeader'
 import NetflixFooter from './NetflixFooter'
 
-import { getRandomIntInclusive } from '../utils/helper'
+import { getRandomType, getRandomId } from '../utils/helper'
+import { clientApi } from '../utils/clientAPI'
+import { API_KEY, LANG} from '../const'
 
 import axios from 'axios'
-
 import {AxiosResponse} from '../ts/interfaces/axiosResponse'
 
 const NetflixApp = () => {
     const [headerMovie, setHeaderMovie] = useState<AxiosResponse>()
-    const [type] = useState(['movie', 'tv'][getRandomIntInclusive(0,1)])
-
-    const moviesIds = [399566, 602734, 579047, 385128, 615658]
-    const tvIds = [71446, 60574, 1399, 66732]
+    const [type] = useState(getRandomType())
   
-    const movieId = moviesIds[getRandomIntInclusive(0, moviesIds.length -1)]
-    const tvId = tvIds[getRandomIntInclusive(0, tvIds.length -1)]
-
-    const defaultMovieId = type === 'movie' ? movieId : tvId
+    const defaultMovieId = getRandomId(type)
 
     // const apiKey = '4fc7b001e8a107fe1fddc6b41ed0f4af'
-    const apiKey = '8ee18f65008b7108b46834a1a60f55fc'
-    const lang = 'fr-fr'
-    
+   
     useEffect(() => {
         const fetchMovie = async () => {
             try {
+                // clientApi(`${type}${defaultMovieId}`)
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/${type}/${defaultMovieId}?api_key=${apiKey}&language=${lang}`,
+                    `https://api.themoviedb.org/3/${type}/${defaultMovieId}?api_key=${API_KEY}&language=${LANG}`,
                 ) as AxiosResponse
                 console.log('response', response)
                 setHeaderMovie(response)
@@ -42,7 +36,7 @@ const NetflixApp = () => {
             }
         }
         fetchMovie()
-    }, [type, defaultMovieId])
+    }, [])
 
     return (
         <div>
