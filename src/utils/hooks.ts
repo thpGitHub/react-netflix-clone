@@ -50,7 +50,8 @@ function useFetchData() {
         [dispatch],
     )
 
-    return {data, error, status, execute, setData}
+    // return {data, error, status, execute, setData}
+    return {data, error, status, execute}
 }
 
 export {useFetchData}

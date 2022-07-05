@@ -21,6 +21,6 @@ export function getRandomId(type = TYPE_MOVIE) {
   return type === TYPE_TV ? getRandomSerie() : getRandomMovie()
 }
 
-export function sleep(t: number) {
-  return new Promise(resolve => setTimeout(resolve, t))
+export function sleep(howTimeToSleep: number) {
+  return new Promise(resolve => setTimeout(resolve, howTimeToSleep))
 }

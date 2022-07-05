@@ -20,6 +20,8 @@ import Alert from '@mui/material/Alert'
 import AlertTitle from '@mui/material/AlertTitle'
 import Box from '@mui/material/Box'
 
+import {useFetchData} from '../utils/hooks'
+
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
         width: '50%',
@@ -34,20 +36,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const NetflixApp = () => {
     const classes = useStyles()
+    const {data: headerMovie, error, status, execute} = useFetchData() as any
     // const [headerMovie, setHeaderMovie] = useState<AxiosResponse | null | void>()
-    const [headerMovie, setHeaderMovie] = useState<AxiosResponse>()
+    // const [headerMovie, setHeaderMovie] = useState<AxiosResponse>()
     const [type] = useState(getRandomType())
     const defaultMovieId = getRandomId(type)
-    const [status, setStatus] = useState<string>('idle')
+    // const [status, setStatus] = useState<string>('idle')
 
     useEffect(() => {
-        setStatus('fetching')
-        clientApi(`${type}/${defaultMovieId}`)
-            .then(response => {
-                setHeaderMovie(response)
-                setStatus('done')
-            })
-            .catch(error => setStatus('error'))
+        execute(clientApi(`${type}/${defaultMovieId}`))
+        // setStatus('fetching')
+        // clientApi(`${type}/${defaultMovieId}`)
+        //     .then(response => {
+        //         setHeaderMovie(response)
+        //         setStatus('done')
+        //     })
+        //     .catch(error => setStatus('error'))
     }, [])
 
     return (
@@ -63,7 +67,8 @@ const NetflixApp = () => {
                 <div className={classes.alert}>
                     <Alert severity="error">
                         <AlertTitle>Une erreur est survenue</AlertTitle>
-                        Réessayer ulterieurement - <strong>Netflix !</strong>
+                        {/* Réessayer ulterieurement - <strong>Netflix !</strong> */}
+                        détail : {error.message}
                     </Alert>
                 </div>
             ) : null}
