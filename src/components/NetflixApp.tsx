@@ -1,26 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import './Netflix.css'
-
+// ** Components **
 import NetFlixRow from './NetFlixRow'
 import NetflixAppBar from './NetflixAppBar'
-import NetflixHeader from './NetflixHeader'
 import NetflixFooter from './NetflixFooter'
-
-import {getRandomType, getRandomId} from '../utils/helper'
-import {clientApi} from '../utils/clientAPI'
-import {API_KEY, LANG} from '../const'
-
-import axios, {AxiosResponse} from 'axios'
-// import {AxiosResponse} from '../ts/interfaces/axiosResponse'
-
+import NetflixHeader from './NetflixHeader'
+// ** MUI **
 import {makeStyles} from '@mui/styles'
-import {Theme} from '@mui/material'
-import CircularProgress from '@mui/material/CircularProgress'
-import Alert from '@mui/material/Alert'
-import AlertTitle from '@mui/material/AlertTitle'
-import Box from '@mui/material/Box'
-
+import {Alert, AlertTitle, CircularProgress, Theme} from '@mui/material'
+// ** Utils **
+import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
+import {getRandomType, getRandomId} from '../utils/helper'
 
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
