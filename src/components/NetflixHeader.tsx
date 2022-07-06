@@ -30,7 +30,7 @@ const NetflixHeader = ({movie, type= TYPE_MOVIE}: IProps) => {
      * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
      * backdrop_sizes : "w300" "w780" "w1280"
      */
-    const imageURL = `${IMAGE_URL}${imageWidth}/${movie?.backdrop_path}`
+    const imageURL = `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`
     // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
 
     // const banner = {
