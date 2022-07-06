@@ -42,7 +42,7 @@ a {
   position: relative;
 }
 
-.C:after {
+.watermarked:after {
   content: '';
   display: block;
   width: 100%;

@@ -12,6 +12,7 @@ import {Alert, AlertTitle, CircularProgress, Theme} from '@mui/material'
 import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import {getRandomType, getRandomId} from '../utils/helper'
+import {TYPE_MOVIE, TYPE_TV} from '../const'
 
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
@@ -50,8 +51,49 @@ const NetflixApp = () => {
             <NetflixAppBar />
             {/* <NetflixHeader movie={''}/> */}
             <NetflixHeader movie={headerMovie?.data} type={type} />
-            <NetFlixRow title="Films Netflix" />
-            <NetFlixRow title="Séries Netflix" wideImage={false} />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                title="Films Netflix"
+                filter="trending"
+                watermark={true}
+                wideImage={true}
+            />
+
+            <NetFlixRow
+                type={TYPE_TV}
+                title="Séries Netflix"
+                filter="trending"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                title="Les mieux notés"
+                filter="toprated"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_TV}
+                param="10759"
+                title="Action & aventure"
+                filter="genre"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                param="53"
+                title="Les meilleurs thrillers"
+                filter="genre"
+                watermark={true}
+                wideImage={false}
+            />
+
             <NetflixFooter />
 
             {status === 'error' ? (

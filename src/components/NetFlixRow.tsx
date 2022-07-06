@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
+import './Netflix.css'
 // ** Const **
-import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
+import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
 // ** MUI **
 import {Alert, AlertTitle, CircularProgress} from '@mui/material'
 // ** Utils **
@@ -8,12 +9,12 @@ import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 
 const NetFlixRow = ({
-    title = '',
-    wideImage = true,
     type = TYPE_MOVIE,
     param,
+    title = '',
     filter = 'populaire',
-    watermark = true,
+    watermark = false,
+    wideImage = true,
 }) => {
     const {data, error, status, execute} = useFetchData()
 
@@ -52,7 +53,7 @@ const NetFlixRow = ({
         // console.log('data', data);
     }, [endpoint, execute])
 
-    const image = wideImage ? 'images/sample-poster.jpg' : 'images/sample.jpg'
+    // const image = wideImage ? 'images/sample-poster.jpg' : 'images/sample.jpg'
 
     const buildImagePath = data => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path
