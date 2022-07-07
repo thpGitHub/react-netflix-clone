@@ -1,4 +1,5 @@
 import React from 'react'
+import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
@@ -44,7 +45,7 @@ const NetflixHeader = ({movie, type= TYPE_MOVIE}: IProps) => {
     } //as const
 
     if (!movie) {
-        return <></>
+        return <HeaderSkeleton />
     }
 
     return (
