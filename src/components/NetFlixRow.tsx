@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react'
 import './Netflix.css'
+// ** Component **
+import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
 // ** MUI **
@@ -92,12 +94,13 @@ const NetFlixRow = ({
 
     if (status === 'fetching' || status === 'idle') {
         return (
-            <div className="row">
-                <h2>{title}</h2>
-                <div className="row__posters">
-                    <CircularProgress />
-                </div>
-            </div>
+            <RowSkeleton title={title} wideImage={true} />
+            // <div className="row">
+            //     <h2>{title}</h2>
+            //     <div className="row__posters">
+            //         <CircularProgress />
+            //     </div>
+            // </div>
         )
     }
 
