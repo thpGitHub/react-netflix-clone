@@ -29,9 +29,7 @@ const RowSkeleton = ({
     return (
         <div className="row" style={{backgroundColor: '#1C2833'}}>
             <h2>{title}</h2>
-            <div className="row__posters">
-               {postersSkeletons}
-            </div>
+            <div className="row__posters">{postersSkeletons}</div>
         </div>
     )
 }
