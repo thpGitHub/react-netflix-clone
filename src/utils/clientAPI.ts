@@ -5,7 +5,7 @@ import { sleep } from './helper'
 const clientApi = async (endpoint: string) => {
   const page = 1
   const startChar = endpoint.includes('?') ? `&` : `?`
-  await sleep(4000)
+  // await sleep(4000)
   const keyLang = `${startChar}api_key=${API_KEY}&language=${LANG}&page=${page}`
   return axios.get(`${API_URL}/${endpoint}${keyLang}`)
 }
