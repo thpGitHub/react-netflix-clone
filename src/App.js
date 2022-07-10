@@ -1,6 +1,12 @@
-// import {ThemeProvider} from '@mui/styles'
+import React from 'react'
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom'
+// **Components **
 import NetflixApp from './components/NetflixApp.tsx'
-
+import Page404 from './components/Error404'
+import NetflixSeries from './components/NetflixSeries'
+import NetflixMovies from './components/NetflixMovies'
+import NetflixNews from './components/NetflixNews'
+// ** MUI **
 import {ThemeProvider, createTheme} from '@mui/material/styles'
 
 const theme = createTheme({
@@ -22,7 +28,16 @@ const theme = createTheme({
 function App() {
     return (
         <ThemeProvider theme={theme}>
-            <NetflixApp />
+            <Router>
+                <Routes>
+                    <Route exact path="/" element={<NetflixApp />} />
+                    <Route exact path="/series" element={<NetflixSeries />} />
+                    <Route exact path="/movies" element={<NetflixMovies />} />
+                    <Route exact path="/news" element={<NetflixNews />} />
+                    <Route path="*" element={<Page404 />} />
+                </Routes>
+            </Router>
+            {/* <NetflixApp /> */}
         </ThemeProvider>
     )
 }

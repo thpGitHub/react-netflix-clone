@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react'
+import {Link} from 'react-router-dom'
+// ** MUI **
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -42,31 +44,31 @@ const NetflixAppBar = (): JSX.Element => {
                     src="images/netflix-logo.png"
                     alt=""
                 />
-                <a href="/">
+                <Link to="/">
                     <Typography style={margin10} variant="h6">
                         Accueil
                     </Typography>
-                </a>
-                <a href="/series">
+                </Link>
+                <Link to="/series">
                     <Typography style={margin10} variant="h6">
                         Series
                     </Typography>
-                </a>
-                <a href="/movies">
+                </Link>
+                <Link to="/movies">
                     <Typography style={margin10} variant="h6">
                         Movies
                     </Typography>
-                </a>
-                <a href="/news">
+                </Link>
+                <Link to="/news">
                     <Typography style={margin10} variant="h6">
                         News
                     </Typography>
-                </a>
-                <a href="/list">
+                </Link>
+                <Link to="/list">
                     <Typography style={margin10} variant="h6">
                         List
                     </Typography>
-                </a>
+                </Link>
                 <img
                     style={{marginLeft: 'auto'}}
                     className="nav__avatar"
