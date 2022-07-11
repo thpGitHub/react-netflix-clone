@@ -6,6 +6,7 @@ import Page404 from './components/Error404'
 import NetflixSeries from './components/NetflixSeries'
 import NetflixMovies from './components/NetflixMovies'
 import NetflixNews from './components/NetflixNews'
+import NetflixById from './components/NetflixById'
 // ** MUI **
 import {ThemeProvider, createTheme} from '@mui/material/styles'
 
@@ -27,18 +28,23 @@ const theme = createTheme({
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
-            <Router>
+        <Router>
+            <ThemeProvider theme={theme}>
                 <Routes>
                     <Route exact path="/" element={<NetflixApp />} />
+                    <Route path="/tv/:tvId" element={<NetflixById />}></Route>
+                    <Route
+                        path="/movie/:movieId"
+                        element={<NetflixById />}
+                    ></Route>
                     <Route exact path="/series" element={<NetflixSeries />} />
                     <Route exact path="/movies" element={<NetflixMovies />} />
                     <Route exact path="/news" element={<NetflixNews />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
-            </Router>
-            {/* <NetflixApp /> */}
-        </ThemeProvider>
+                {/* <NetflixApp /> */}
+            </ThemeProvider>
+        </Router>
     )
 }
 

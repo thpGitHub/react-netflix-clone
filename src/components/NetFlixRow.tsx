@@ -117,10 +117,10 @@ const NetFlixRow = ({
         <div className="row">
             <h2>{title}</h2>
             <div className="row__posters">
-                {data.data.results.map((movie: IMovie) => {
+                {data?.data?.results?.map((movie: IMovie) => {
                     return (
                         <div
-                            key={movie.id}
+                            key={movie?.id}
                             className={`row__poster row__posterLarge ${watermarkClass}`}
                         >
                             <img src={buildImagePath(movie)} alt={movie.name} />
