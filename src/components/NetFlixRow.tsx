@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import './Netflix.css'
+import {Link} from 'react-router-dom'
 // ** Component **
 import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
@@ -93,15 +94,7 @@ const NetFlixRow = ({
     const watermarkClass: string = watermark ? 'watermarked' : ''
 
     if (status === 'fetching' || status === 'idle') {
-        return (
-            <RowSkeleton title={title} wideImage={true} />
-            // <div className="row">
-            //     <h2>{title}</h2>
-            //     <div className="row__posters">
-            //         <CircularProgress />
-            //     </div>
-            // </div>
-        )
+        return <RowSkeleton title={title} wideImage={true} />
     }
 
     if (status === 'error') {
@@ -119,12 +112,17 @@ const NetFlixRow = ({
             <div className="row__posters">
                 {data?.data?.results?.map((movie: IMovie) => {
                     return (
-                        <div
-                            key={movie?.id}
-                            className={`row__poster row__posterLarge ${watermarkClass}`}
-                        >
-                            <img src={buildImagePath(movie)} alt={movie.name} />
-                        </div>
+                        <Link to={`${type}/${movie.id}`} key={movie?.id}>
+                            <div
+                                // key={movie?.id}
+                                className={`row__poster row__posterLarge ${watermarkClass}`}
+                            >
+                                <img
+                                    src={buildImagePath(movie)}
+                                    alt={movie.name}
+                                />
+                            </div>
+                        </Link>
                     )
                 })}
             </div>
