@@ -30,17 +30,17 @@ const NetflixById = () => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
 
-    const {tvID, movieId} = useParams()
+    let {tvId, movieId} = useParams()
     const location = useLocation()
 
     console.log('location', location)
-    console.log('params tvID', tvID)
+    console.log('params tvID', tvId)
     console.log('params movieId', movieId)
 
     const [type, setType] = useState(
         location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
     )
-    const [id, setId] = useState(type === TYPE_TV ? tvID : movieId)
+    const [id, setId] = useState(type === TYPE_TV ? tvId : movieId)
 
     useEffect(() => {
         execute(clientApi(`${type}/${id}`))
@@ -49,8 +49,8 @@ const NetflixById = () => {
     useEffect(() => {
         const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
         setType(type)
-        setId(type === TYPE_MOVIE ? movieId : tvID)
-    }, [location.pathname, movieId, tvID])
+        setId(type === TYPE_TV ? tvId : movieId )
+    }, [location.pathname, movieId, tvId])
 
     return (
         <div>

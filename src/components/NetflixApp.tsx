@@ -33,7 +33,7 @@ const NetflixApp = () => {
 
     useEffect(() => {
         execute(clientApi(`${type}/${defaultMovieId}`))
-    }, [])
+    }, [execute, defaultMovieId, type])
 
     return (
         <div>

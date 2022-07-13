@@ -31,15 +31,15 @@ function App() {
         <Router>
             <ThemeProvider theme={theme}>
                 <Routes>
-                    <Route exact path="/" element={<NetflixApp />} />
+                    <Route path="/" element={<NetflixApp />} />
                     <Route path="/tv/:tvId" element={<NetflixById />}></Route>
                     <Route
                         path="/movie/:movieId"
                         element={<NetflixById />}
                     ></Route>
-                    <Route exact path="/series" element={<NetflixSeries />} />
-                    <Route exact path="/movies" element={<NetflixMovies />} />
-                    <Route exact path="/news" element={<NetflixNews />} />
+                    <Route path="/series" element={<NetflixSeries />} />
+                    <Route path="/movies" element={<NetflixMovies />} />
+                    <Route path="/news" element={<NetflixNews />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
                 {/* <NetflixApp /> */}
