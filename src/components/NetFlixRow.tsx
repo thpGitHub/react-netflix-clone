@@ -49,7 +49,7 @@ const NetFlixRow = ({
 }: IProps) => {
     const {data, error, status, execute} = useFetchData()
 
-    const endpointLatest = `${type}/latest`
+    const endpointLatest = `${type}/upcoming`
     const endpointPopular = `${type}/popular`
     const endpointTopRated = `${type}/top_rated`
     const endpointGenre = `discover/${type}?with_genres=${param}`
@@ -75,7 +75,7 @@ const NetFlixRow = ({
             break
 
         default:
-            break
+            throw new Error('Type non supporté')
     }
 
     useEffect(() => {
@@ -110,11 +110,10 @@ const NetFlixRow = ({
         <div className="row">
             <h2>{title}</h2>
             <div className="row__posters">
-                {data?.data?.results?.map((movie: IMovie) => {
+                {data.data.results.map((movie: IMovie) => {
                     return (
-                        <Link to={`${type}/${movie.id}`} key={movie?.id}>
+                        <Link key={movie.id} to={`/${type}/${movie.id}`}>
                             <div
-                                // key={movie?.id}
                                 className={`row__poster row__posterLarge ${watermarkClass}`}
                             >
                                 <img
