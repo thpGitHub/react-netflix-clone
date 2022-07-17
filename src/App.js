@@ -9,6 +9,7 @@ import NetflixNews from './components/NetflixNews'
 import NetflixById from './components/NetflixById'
 // ** MUI **
 import {ThemeProvider, createTheme} from '@mui/material/styles'
+import LoginRegister from './components/LoginRegister'
 
 const theme = createTheme({
     palette: {
@@ -17,7 +18,7 @@ const theme = createTheme({
             main: '#E50914',
         },
         secondary: {
-            main: '#000',
+            main: '#E50914',
         },
     },
 })
@@ -31,7 +32,8 @@ function App() {
         <Router>
             <ThemeProvider theme={theme}>
                 <Routes>
-                    <Route path="/" element={<NetflixApp />} />
+                    {/* <Route path="/" element={<NetflixApp />} /> */}
+                    <Route path="/" element={<LoginRegister />} />
                     <Route path="/tv/:tvId" element={<NetflixById />}></Route>
                     <Route
                         path="/movie/:movieId"
