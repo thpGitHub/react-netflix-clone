@@ -12,52 +12,40 @@ import Checkbox from '@mui/material/Checkbox'
 
 const FormLogin = ({createLoginCount = true}) => {
     const labelButton = createLoginCount ? 'Inscrivez vous' : 'Connexion'
-    const labelButtonInfoCount = createLoginCount
-        ? 'Vous posséder déjà un compte ?'
-        : 'Nouveau sur Netflix ?'
 
     return (
         <form autoComplete="off">
             <TextField
-                autoFocus
-                margin="dense"
                 id="filled-basic-username"
-                label="Email ou numéro de téléphone"
                 type="email"
-                fullWidth
+                label="Email ou numéro de téléphone"
+                margin="dense"
                 variant="filled"
+                autoFocus
+                fullWidth
             />
             <TextField
-                margin="dense"
                 id="filled-basic-password"
-                label="Mot de passe"
                 type="password"
-                fullWidth
+                label="Mot de passe"
+                margin="dense"
                 variant="filled"
+                fullWidth
             />
             <Button variant="contained" fullWidth>
                 {labelButton}
-                {/* CONNEXION */}
             </Button>
             <FormGroup>
                 <FormControlLabel
                     style={{
-                        justifyContent: 'flex-start',
                         paddingLeft: '24px',
                         paddingRight: '24px',
+                        justifyContent: 'flex-start',
                     }}
                     control={<Checkbox defaultChecked />}
                     label="Se souvenir de moi"
                 />
             </FormGroup>
-            {/* <Button
-                style={{
-                    justifyContent: 'flex-start',
-                    marginTop: '24px',
-                }}
-            >
-                {labelButtonInfoCount}
-            </Button> */}
         </form>
     )
 }
@@ -65,6 +53,8 @@ const FormLogin = ({createLoginCount = true}) => {
 const PopupLogin = ({signUp = false}) => {
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open, setOpen] = React.useState(true)
+
+    const labelTitle = createLogin ? 'Inscrivez vous' : 'Connexion'
 
     const handleSignUp = () => {
         setCreateLogin(true)
@@ -76,9 +66,9 @@ const PopupLogin = ({signUp = false}) => {
     return (
         <div>
             <Dialog open={open} style={{backgroundColor: 'transparent'}}>
-                <DialogTitle>Connexion</DialogTitle>
+                <DialogTitle>{labelTitle}</DialogTitle>
                 <DialogContent>
-                    <FormLogin />
+                    <FormLogin createLoginCount={createLogin} />
                 </DialogContent>
                 <DialogActions
                     style={{
