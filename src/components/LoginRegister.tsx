@@ -10,11 +10,24 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
+// import {browser} from '../mocks/browser'
+
 const FormLogin = ({createLoginCount = true}) => {
     const labelButton = createLoginCount ? 'Inscrivez vous' : 'Connexion'
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        console.log('on handleSubmit')
+
+        fetch('https://example.com/api/login')
+            .then(response => response.json())
+            .then(data => {
+                console.log('data :)', data)
+            })
+    }
+
     return (
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
             <TextField
                 id="filled-basic-username"
                 type="email"
@@ -32,7 +45,7 @@ const FormLogin = ({createLoginCount = true}) => {
                 variant="filled"
                 fullWidth
             />
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" fullWidth type="submit">
                 {labelButton}
             </Button>
             <FormGroup>
