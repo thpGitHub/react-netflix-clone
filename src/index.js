@@ -8,8 +8,8 @@ import PopupLogin  from './components/LoginRegister'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-    // <App />
-    <PopupLogin />
+    <App />
+    // <PopupLogin />
   // </React.StrictMode>
 );
 

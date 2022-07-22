@@ -32,6 +32,8 @@ const NetflixApp = () => {
     const defaultMovieId = getRandomId(type)
 
     useEffect(() => {
+        console.log('crypto === ', crypto)
+
         execute(clientApi(`${type}/${defaultMovieId}`))
     }, [execute, defaultMovieId, type])
 
