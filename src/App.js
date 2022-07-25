@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import './mocks'
 // **Components **
 import AuthApp from './AuthApp'
 import UnauthApp from './UnauthApp'

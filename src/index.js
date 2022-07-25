@@ -5,11 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import PopupLogin  from './components/LoginRegister'
 
-if (process.env.NODE_ENV === 'development') {
-  console.log("process.env.NODE_ENV === 'development'");
-  const { worker } = require('./mocks/browser')
-  // worker.start()
-}
+// if (process.env.NODE_ENV === 'development') {
+//   console.log("process.env.NODE_ENV === 'development'");
+//   const { worker } = require('./mocks/browser')
+//   // worker.start()
+// }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
