@@ -12,7 +12,17 @@ import Checkbox from '@mui/material/Checkbox'
 
 // import {browser} from '../mocks/browser'
 
-const FormLogin = ({createLoginCount = true}) => {
+interface IProps {
+    signUp?: boolean
+    createLoginCount?: boolean
+    login: () => void
+    register: () => void
+}
+
+const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+
     const labelButton = createLoginCount ? 'Inscrivez vous' : 'Connexion'
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +44,7 @@ const FormLogin = ({createLoginCount = true}) => {
                 label="Email ou numéro de téléphone"
                 margin="dense"
                 variant="filled"
+                onChange={e => setUserName(e.target.value)}
                 autoFocus
                 fullWidth
             />
@@ -42,12 +53,14 @@ const FormLogin = ({createLoginCount = true}) => {
                 type="password"
                 label="Mot de passe"
                 margin="dense"
+                onChange={e => setPassword(e.target.value)}
                 variant="filled"
                 fullWidth
             />
             <Button variant="contained" fullWidth type="submit">
                 {labelButton}
             </Button>
+
             <FormGroup>
                 <FormControlLabel
                     style={{
@@ -63,7 +76,7 @@ const FormLogin = ({createLoginCount = true}) => {
     )
 }
 
-const PopupLogin = ({signUp = false}) => {
+const PopupLogin = ({signUp = false, login, register}: IProps) => {
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open, setOpen] = React.useState(true)
 
@@ -81,7 +94,11 @@ const PopupLogin = ({signUp = false}) => {
             <Dialog open={open} style={{backgroundColor: 'transparent'}}>
                 <DialogTitle>{labelTitle}</DialogTitle>
                 <DialogContent>
-                    <FormLogin createLoginCount={createLogin} />
+                    <FormLogin
+                        createLoginCount={createLogin}
+                        login={login}
+                        register={register}
+                    />
                 </DialogContent>
                 <DialogActions
                     style={{

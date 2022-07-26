@@ -8,7 +8,7 @@ import {ThemeProvider, createTheme} from '@mui/material/styles'
 
 const theme = createTheme({
     palette: {
-        type: 'dark',
+        // type: 'dark',
         primary: {
             main: '#E50914',
         },
@@ -21,9 +21,17 @@ const theme = createTheme({
 function App() {
     const [authUser, setAuthUser] = useState(null)
 
+    const login = () => {}
+
+    const register = () => {}
+
     return (
         <ThemeProvider theme={theme}>
-            {authUser ? <AuthApp /> : <UnauthApp />}
+            {authUser ? (
+                <AuthApp />
+            ) : (
+                <UnauthApp login={login} register={register} />
+            )}
         </ThemeProvider>
     )
 }
