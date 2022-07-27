@@ -2,7 +2,16 @@ import {rest} from 'msw'
 
 export const handlers = [
     // Handles a POST /login request
-    rest.post('/login', null),
+    rest.post('https://auth.service.mock.com/register', (req, res, ctx) => {
+        const {userName, password} = req.body
+        const userFields = {userName, password}
+
+        return res(
+            ctx.json({
+                message: userFields
+            })
+        )
+    }),
 
     // Handles a GET /user request
     rest.get('https://example.com/api/login', (req, res, ctx) => {

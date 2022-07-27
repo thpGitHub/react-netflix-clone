@@ -21,9 +21,36 @@ const theme = createTheme({
 function App() {
     const [authUser, setAuthUser] = useState(null)
 
-    const login = () => {}
+    const login = ({
+        userName,
+        password,
+    }: {
+        userName: string
+        password: string
+    }) => {
+        console.log(userName, password)
+    }
 
-    const register = () => {}
+    // const register = (data: {userName: string, password: string}) => {}
+    const register = (data: {userName: string; password: string}) => {
+        console.log('register')
+        //https://auth.service.mock.com/register
+        fetch('https://auth.service.mock.com/register', {
+            method: 'POST',
+            // body: JSON.stringify(data),
+            body: JSON.stringify(data),
+            headers: {'Content-Type': 'application/json'},
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('data fetch post', data)
+            })
+    }
+
+    // .then(response => response.json())
+    //         .then(data => {
+    //             console.log('data :)', data)
+    //         })
 
     return (
         <ThemeProvider theme={theme}>

@@ -15,13 +15,20 @@ import Checkbox from '@mui/material/Checkbox'
 interface IProps {
     signUp?: boolean
     createLoginCount?: boolean
-    login: () => void
-    register: () => void
+    login: ({userName, password}: {userName: string; password: string}) => void
+    // register: ({userName?: string, password?: string}) => void
+    register: ({
+        userName,
+        password,
+    }: {
+        userName: string
+        password: string
+    }) => void
 }
 
 const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
-    const [userName, setUserName] = useState('')
-    const [password, setPassword] = useState('')
+    const [userName, setUserName] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
 
     const labelButton = createLoginCount ? 'Inscrivez vous' : 'Connexion'
 
@@ -57,9 +64,29 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
                 variant="filled"
                 fullWidth
             />
-            <Button variant="contained" fullWidth type="submit">
-                {labelButton}
-            </Button>
+            {createLoginCount ? (
+                <>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        type="submit"
+                        onClick={() => register({userName, password})}
+                    >
+                        {labelButton}
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        type="submit"
+                        onClick={() => login({userName, password})}
+                    >
+                        {labelButton}
+                    </Button>
+                </>
+            )}
 
             <FormGroup>
                 <FormControlLabel
