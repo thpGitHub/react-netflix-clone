@@ -40,11 +40,17 @@ function App() {
             // body: JSON.stringify(data),
             body: JSON.stringify(data),
             headers: {'Content-Type': 'application/json'},
+        }).then(async response => {
+            console.log('response before', response)
+            const data = await response.json()
+            console.log('data after', data)
+            if (response.ok) {
+                return data
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('data fetch post', data)
-            })
+        // .then(data => {
+        //     console.log('data fetch post', data)
+        // })
     }
 
     // .then(response => response.json())
