@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import './mocks'
+import * as authNetflix from './utils/authNetflixProvider'
 // **Components **
 import AuthApp from './AuthApp'
 import UnauthApp from './UnauthApp'
@@ -31,32 +32,12 @@ function App() {
         console.log(userName, password)
     }
 
-    // const register = (data: {userName: string, password: string}) => {}
     const register = (data: {userName: string; password: string}) => {
-        console.log('register')
-        //https://auth.service.mock.com/register
-        fetch('https://auth.service.mock.com/register', {
-            method: 'POST',
-            // body: JSON.stringify(data),
-            body: JSON.stringify(data),
-            headers: {'Content-Type': 'application/json'},
-        }).then(async response => {
-            console.log('response before', response)
-            const data = await response.json()
-            console.log('data after', data)
-            if (response.ok) {
-                return data
-            }
-        })
-        // .then(data => {
-        //     console.log('data fetch post', data)
-        // })
-    }
+        console.log('in register in App.tsx')
 
-    // .then(response => response.json())
-    //         .then(data => {
-    //             console.log('data :)', data)
-    //         })
+        authNetflix.register(data)
+        
+    }
 
     return (
         <ThemeProvider theme={theme}>

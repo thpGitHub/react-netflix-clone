@@ -1,14 +1,17 @@
 import {rest} from 'msw'
+import * as usersDB from './db'
 
 export const handlers = [
     // Handles a POST /login request
-    rest.post('https://auth.service.mock.com/register', (req, res, ctx) => {
+    rest.post('https://auth.service.mock.com/register', async (req, res, ctx) => {
         const {userName, password} = req.body
         const userFields = {userName, password}
 
+        await usersDB.createUser(userFields)
+
         return res(
             ctx.json({
-                message: userFields
+                user: userFields
             })
         )
     }),
