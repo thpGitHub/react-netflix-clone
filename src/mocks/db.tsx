@@ -2,26 +2,19 @@
    dans le localStorage
 */
 
-// const localStorageKey = 'netflix2222F-clone-users'
-const localStorageKey = 'netflix-clone-users'
+const localStorageKey = 'netflixTEST-clone-users'
+// const localStorageKey = 'netflix-clone-users'
 
 const loadUsersFromLocalStorage = async () => {
-    // const users  = JSON.parse(localStorage.getItem(localStorageKey) || "false")
-    let users  = localStorage.getItem(localStorageKey)
+    let users = localStorage.getItem(localStorageKey)
 
     if (typeof users === 'string') {
-        // const parse = JSON.parse(value) // ok
         console.log('users STRING in loadUserFromLocalStorage', users)
-        // users = JSON.parse(users)
-        return users = JSON.parse(users)
-    
+        return (users = JSON.parse(users))
     }
-
     console.log('users in loadUserFromLocalStorage', users)
 
-    // return users ?? 12
     return users
-    // return users || []
 }
 
 const saveUserInlocalStorage = async (user: {
@@ -29,19 +22,17 @@ const saveUserInlocalStorage = async (user: {
     userName: string
     password: string
 }) => {
-    const users = await loadUsersFromLocalStorage()
+    let users = await loadUsersFromLocalStorage()
+    console.log('users in saveUserInlocalStorage', users)
 
-    console.log('users in saveUserInlocalStorage', users);
-    
-
-    if(users) {
+    if (users) {
         users.push(user)
-        // console.log('user', user);
-        localStorage.setItem(localStorageKey, JSON.stringify(users))
-        
+    } else {
+        users = [user]
+        console.log('else users === ', users)
     }
 
-    // localStorage.setItem(localStorageKey, JSON.stringify(user))
+    localStorage.setItem(localStorageKey, JSON.stringify(users))
 }
 
 const createUser = async ({
