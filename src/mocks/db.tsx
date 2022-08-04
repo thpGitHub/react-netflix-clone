@@ -6,6 +6,7 @@ import bcryptjs from 'bcryptjs'
 import {nanoid} from 'nanoid'
 
 const localStorageKey = 'netflixTEST-clone-users'
+const localStorageTokenKey = 'netflixTEST_auth_token'
 // const localStorageKey = 'netflix-clone-users'
 
 const getUsersFromLocalStorage = async () => {
@@ -23,7 +24,7 @@ const getUsersFromLocalStorage = async () => {
 const saveUserInlocalStorage = async (user: {
     id: string
     userName: string
-    hash: string
+    passwordHash: string
 }) => {
     let users = await getUsersFromLocalStorage()
     console.log('users in saveUserInlocalStorage', users)
@@ -38,6 +39,18 @@ const saveUserInlocalStorage = async (user: {
     localStorage.setItem(localStorageKey, JSON.stringify(users))
 }
 
+const getUserNameInLocalStorage = async (userName: string) => {
+    const users = await getUsersFromLocalStorage()
+    
+    return users.find((item: {userName: string}) => item.userName === userName)
+}
+
+const createTokenInLocalStorage = () => {
+    const token = bcryptjs.genSaltSync(10)
+    localStorage.setItem(localStorageTokenKey, token)
+    // localStorage.setItem(localStorageTokenKey, JSON.stringify(token))
+}
+
 const createUser = async ({
     userName,
     password,
@@ -45,24 +58,25 @@ const createUser = async ({
     userName: string
     password: string
 }) => {
-    // const hash = bcryptjs.hashSync(password);
+    const userNameExistInLocalStorage = await getUserNameInLocalStorage(
+        userName,
+    )
 
-    // const nonce = "tokenToString"
-    // const message = "titi"
-    // const hashDigest = sha256(nonce + message);
-    // const hashDigest = sha256("toto");
-    // console.log('hashDigest', hashDigest);
-    // console.log('hash', hash);
-    console.log('nanoID === ', nanoid(6))
-    //=> "V1StGXR8_Z5jdHi6B-myT"
+    if (userNameExistInLocalStorage !== undefined) {
+        const error = new Error(
+            `Impossible de créer un utilisateur car  "${userName}" existe déjà `,
+        )
+        //   error.status = 400
+        throw error
+    }
 
     const id = nanoid()
     const salt = bcryptjs.genSaltSync(10)
-    const hash = bcryptjs.hashSync(password, salt)
+    const passwordHash = bcryptjs.hashSync(password, salt)
 
-    const user = {id, userName, hash}
-    saveUserInlocalStorage(user)
-    // getUsersFromLocalStorage()
+    const user = {id, userName, passwordHash}
+    await saveUserInlocalStorage(user)
+    createTokenInLocalStorage()
 }
 
 export {createUser}
