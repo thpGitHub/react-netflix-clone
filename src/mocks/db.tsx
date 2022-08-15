@@ -9,6 +9,14 @@ const localStorageKey = 'netflixTEST-clone-users'
 const localStorageTokenKey = 'netflixTEST_auth_token'
 // const localStorageKey = 'netflix-clone-users'
 
+interface Error {
+    name: string
+    message: string
+    stack?: string
+    status?: number
+    // code?: number;
+}
+
 const getUsersFromLocalStorage = async () => {
     let users = localStorage.getItem(localStorageKey)
 
@@ -41,7 +49,7 @@ const saveUserInlocalStorage = async (user: {
 
 const getUserNameInLocalStorage = async (userName: string) => {
     const users = await getUsersFromLocalStorage()
-    
+
     return users.find((item: {userName: string}) => item.userName === userName)
 }
 
@@ -59,14 +67,15 @@ const createUser = async ({
     password: string
 }) => {
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
-        userName,
+        userName
     )
 
     if (userNameExistInLocalStorage !== undefined) {
-        const error = new Error(
+        const error: Error = new Error(
             `Impossible de créer un utilisateur car  "${userName}" existe déjà `,
         )
-        //   error.status = 400
+        console.log('error ', error)
+        error.status = 400
         throw error
     }
 
