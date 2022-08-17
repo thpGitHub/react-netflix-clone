@@ -53,7 +53,7 @@ const getUserNameInLocalStorage = async (userName: string) => {
     return users.find((item: {userName: string}) => item.userName === userName)
 }
 
-const createTokenInLocalStorage = () => {
+const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
     localStorage.setItem(localStorageTokenKey, token)
     // localStorage.setItem(localStorageTokenKey, JSON.stringify(token))
@@ -85,7 +85,9 @@ const createUser = async ({
 
     const user = {id, userName, passwordHash}
     await saveUserInlocalStorage(user)
-    createTokenInLocalStorage()
+    await createTokenInLocalStorage()
+
+    return user
 }
 
 export {createUser}

@@ -7,12 +7,14 @@ export const handlers = [
         const {userName, password} = req.body
         const userFields = {userName, password}
 
-        await usersDB.createUser(userFields)
+        const user = await usersDB.createUser(userFields)
+        // await usersDB.createUser(userFields)
 
         return res(
-            ctx.json({
-                user: userFields
-            })
+            // ctx.json({
+            //     user: userFields
+            // })
+            ctx.json(user)
         )
     }),
 
