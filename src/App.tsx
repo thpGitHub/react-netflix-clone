@@ -32,11 +32,13 @@ function App() {
         console.log(userName, password)
     }
 
-    const register = (data: {userName: string; password: string}) => {
-        console.log('in register in App.tsx')
+    const register = async (data: {userName: string; password: string}) => {
+        // console.log('in register in App.tsx')
+        await authNetflix.register(data).then((user) => setAuthUser(user))
+    }
 
-        authNetflix.register(data)
-        
+    const logout = () => {
+        setAuthUser(null)
     }
 
     return (

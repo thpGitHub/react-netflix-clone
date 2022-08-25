@@ -6,14 +6,9 @@ export const handlers = [
     rest.post('https://auth.service.mock.com/register', async (req, res, ctx) => {
         const {userName, password} = req.body
         const userFields = {userName, password}
-
         const user = await usersDB.createUser(userFields)
-        // await usersDB.createUser(userFields)
 
         return res(
-            // ctx.json({
-            //     user: userFields
-            // })
             ctx.json(user)
         )
     }),

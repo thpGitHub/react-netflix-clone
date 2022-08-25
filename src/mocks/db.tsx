@@ -90,4 +90,15 @@ const createUser = async ({
     return user
 }
 
+const authenticateUserForLogin = ({userName, password}: {userName: string, password: string}) => {
+    
+    if(!userName) {
+        const error = new Error("Le nom d'utilisateur est obligatoire !")
+    }
+
+    if(!password) {
+    const error = new Error('Le mot de passe est obligatoire')
+    }
+}
+
 export {createUser}
