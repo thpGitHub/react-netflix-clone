@@ -22,7 +22,7 @@ const theme = createTheme({
 function App() {
     const [authUser, setAuthUser] = useState(null)
 
-    const login = ({
+    const login = async ({
         userName,
         password,
     }: {
@@ -30,6 +30,9 @@ function App() {
         password: string
     }) => {
         console.log(userName, password)
+        const essai =await authNetflix.login({userName, password})
+        console.log("essai", essai);
+        
     }
 
     const register = async (data: {userName: string; password: string}) => {

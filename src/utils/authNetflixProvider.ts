@@ -45,4 +45,4 @@ const login = async ({
     return await clientApiNetflix('login', {userName, password})
 }
 
-export {register}
+export {register, login}

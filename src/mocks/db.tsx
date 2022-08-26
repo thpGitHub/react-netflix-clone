@@ -67,7 +67,7 @@ const createUser = async ({
     password: string
 }) => {
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
-        userName
+        userName,
     )
 
     if (userNameExistInLocalStorage !== undefined) {
@@ -90,15 +90,25 @@ const createUser = async ({
     return user
 }
 
-const authenticateUserForLogin = ({userName, password}: {userName: string, password: string}) => {
-    
-    if(!userName) {
+const authenticateUserForLogin = ({
+    userName,
+    password,
+}: {
+    userName: string
+    password: string
+}) => {
+    if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
     }
 
-    if(!password) {
-    const error = new Error('Le mot de passe est obligatoire')
+    if (!password) {
+        const error = new Error('Le mot de passe est obligatoire')
     }
+
+    const getUserWithUserNameInLocalStorage = getUserNameInLocalStorage(userName)
+
+    console.log('getUserWithUserNameInLocalStorage', getUserWithUserNameInLocalStorage);
+    
 }
 
-export {createUser}
+export {createUser, authenticateUserForLogin}

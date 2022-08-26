@@ -44,7 +44,8 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     }
 
     return (
-        <form autoComplete="off" onSubmit={handleSubmit}>
+        // <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off">
             <TextField
                 id="filled-basic-username"
                 type="email"
@@ -80,7 +81,7 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        type="submit"
+                        // type="submit"
                         onClick={() => login({userName, password})}
                     >
                         {labelButton}
