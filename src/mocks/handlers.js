@@ -15,7 +15,8 @@ export const handlers = [
     ),
 
     // Handles a GET /user request
-    rest.get('https://example.com/api/login', async (req, res, ctx) => {
+    // rest.get('https://example.com/api/login', async (req, res, ctx) => {
+    rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
         const {userName, password} = req.body
         const userFields = {userName, password}
         const userLogin = await usersDB.authenticateUserForLogin(userFields)
@@ -23,9 +24,9 @@ export const handlers = [
         return res(
             // ctx.delay(1500),
             ctx.status(202, 'Mocked status'),
-            ctx.json({
+            ctx.json(
                 userLogin,
-            }),
+            ),
         )
     }),
 ]

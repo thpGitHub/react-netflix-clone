@@ -99,13 +99,19 @@ const authenticateUserForLogin = ({
 }) => {
     if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
+        // error.status = 400
+        throw error
     }
 
     if (!password) {
         const error = new Error('Le mot de passe est obligatoire')
+        // error.status = 400
+        throw error
     }
 
     const getUserWithUserNameInLocalStorage = getUserNameInLocalStorage(userName)
+
+    return getUserWithUserNameInLocalStorage
 
     console.log('getUserWithUserNameInLocalStorage', getUserWithUserNameInLocalStorage);
     
