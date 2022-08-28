@@ -113,11 +113,22 @@ const authenticateUserForLogin = async ({
     const getUserWithUserNameInLocalStorage = await getUserNameInLocalStorage(userName)//.then(user => console.log("getUserNameInLocalStorage",user)
     //)
 
+    if(!bcryptjs.compareSync("caro2",getUserWithUserNameInLocalStorage.passwordHash)) {
+        const error = new ErrorEvent("Nom d' utilisateur ou mot de passe incorrect")
+
+        throw error
+
+
+    }
+
+
     console.log('getUserWithUserNameInLocalStorage', typeof getUserWithUserNameInLocalStorage.passwordHash)
 
     console.log(bcryptjs.compareSync("caro2",getUserWithUserNameInLocalStorage.passwordHash))
     
     console.log(bcryptjs.compareSync(password,getUserWithUserNameInLocalStorage.passwordHash)) 
+
+    //"Nom d' utilisateur ou mot de passe incorrect"
 
     return getUserWithUserNameInLocalStorage
 
