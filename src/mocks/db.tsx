@@ -80,6 +80,7 @@ const createUser = async ({
     }
 
     const id = nanoid()
+    // const salt = bcryptjs.genSaltSync(10)
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
 
@@ -90,7 +91,7 @@ const createUser = async ({
     return user
 }
 
-const authenticateUserForLogin = ({
+const authenticateUserForLogin = async ({
     userName,
     password,
 }: {
@@ -109,11 +110,17 @@ const authenticateUserForLogin = ({
         throw error
     }
 
-    const getUserWithUserNameInLocalStorage = getUserNameInLocalStorage(userName)
+    const getUserWithUserNameInLocalStorage = await getUserNameInLocalStorage(userName)//.then(user => console.log("getUserNameInLocalStorage",user)
+    //)
+
+    console.log('getUserWithUserNameInLocalStorage', typeof getUserWithUserNameInLocalStorage.passwordHash)
+
+    console.log(bcryptjs.compareSync("caro2",getUserWithUserNameInLocalStorage.passwordHash))
+    
+    console.log(bcryptjs.compareSync(password,getUserWithUserNameInLocalStorage.passwordHash)) 
 
     return getUserWithUserNameInLocalStorage
 
-    console.log('getUserWithUserNameInLocalStorage', getUserWithUserNameInLocalStorage);
     
 }
 
