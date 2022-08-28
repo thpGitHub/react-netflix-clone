@@ -30,9 +30,7 @@ function App() {
         password: string
     }) => {
         console.log(userName, password)
-        const essai =await authNetflix.login({userName, password})
-        console.log("essai", essai);
-        
+        await authNetflix.login({userName, password}).then((user)=> setAuthUser(user))
     }
 
     const register = async (data: {userName: string; password: string}) => {
