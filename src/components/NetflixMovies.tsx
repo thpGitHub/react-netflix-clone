@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
 })) as any
 
-const NetflixMovies = () => {
+interface IProps {
+    logout: () => void
+    }
+
+const NetflixMovies = ({logout}: IProps) => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(TYPE_MOVIE)
@@ -37,7 +41,7 @@ const NetflixMovies = () => {
 
     return (
         <div>
-            <NetflixAppBar />
+            <NetflixAppBar logout={logout}/>
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
             <NetFlixRow

@@ -39,13 +39,14 @@ function App() {
     }
 
     const logout = () => {
+        authNetflix.logout()
         setAuthUser(null)
     }
 
     return (
         <ThemeProvider theme={theme}>
             {authUser ? (
-                <AuthApp />
+                <AuthApp logout={logout}/>
             ) : (
                 <UnauthApp login={login} register={register} />
             )}

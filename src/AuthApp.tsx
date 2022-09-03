@@ -8,17 +8,21 @@ import NetflixMovies from './components/NetflixMovies'
 import NetflixNews from './components/NetflixNews'
 import NetflixById from './components/NetflixById'
 
-const AuthApp = () => {
+interface IProps {
+logout: () => void
+}
+
+const AuthApp = ({logout}: IProps) => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<NetflixApp />} />
-                <Route path="/tv/:tvId" element={<NetflixById />}></Route>
-                <Route path="/movie/:movieId" element={<NetflixById />}></Route>
-                <Route path="/series" element={<NetflixSeries />} />
-                <Route path="/movies" element={<NetflixMovies />} />
-                <Route path="/news" element={<NetflixNews />} />
-                <Route path="*" element={<Page404 />} />
+                <Route path="/" element={<NetflixApp logout={logout} />} />
+                <Route path="/tv/:tvId" element={<NetflixById logout={logout}/>}></Route>
+                <Route path="/movie/:movieId" element={<NetflixById logout={logout}/>}></Route>
+                <Route path="/series" element={<NetflixSeries logout={logout}/>} />
+                <Route path="/movies" element={<NetflixMovies logout={logout}/>} />
+                <Route path="/news" element={<NetflixNews logout={logout}/>} />
+                <Route path="*" element={<Page404 logout={logout}/>} />
             </Routes>
         </Router>
     )

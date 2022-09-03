@@ -45,4 +45,8 @@ const login = async ({
     return await clientApiNetflix('login', {userName, password})
 }
 
-export {register, login}
+const logout = () => {
+    localStorage.removeItem('netflixTEST_auth_token')
+}
+
+export {register, login, logout}

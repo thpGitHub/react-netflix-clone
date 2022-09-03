@@ -2,7 +2,11 @@ import React from 'react'
 import NetflixAppBar from './NetflixAppBar'
 import {Link} from 'react-router-dom'
 
-function Error404() {
+interface IProps {
+  logout: () => void
+  }
+
+function Error404({logout}: IProps) {
   const imageUrl = '/images/bg-lost-in-space.png'
   return (
     <div style={{
@@ -16,7 +20,7 @@ function Error404() {
       right: 0,
       overflow: 'auto',
     }}>
-      <NetflixAppBar />
+      <NetflixAppBar logout={logout}/>
       <div
         role="alert"
         style={{

@@ -5,7 +5,11 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 
-const NetflixAppBar = (): JSX.Element => {
+interface IProps {
+    logout: () => void
+    }
+
+const NetflixAppBar = ({logout}: IProps): JSX.Element => {
     const [appBarStyle, setAppBarStyle] = useState({
         background: 'transparent',
         boxShadow: 'none',
@@ -73,7 +77,8 @@ const NetflixAppBar = (): JSX.Element => {
                     style={{marginLeft: 'auto'}}
                     className="nav__avatar"
                     src="/images/netflix-avatar.png"
-                    alt=""
+                    alt="netflix avatar"
+                    onClick={logout}
                 />
             </Toolbar>
         </AppBar>
