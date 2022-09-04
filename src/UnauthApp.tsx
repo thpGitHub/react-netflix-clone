@@ -18,7 +18,24 @@ interface IProps {
 }
 
 const UnauthApp = ({login, register}: IProps) => {
-    return <LoginRegister login={login} register={register} />
+    const imageURL = 'images/posters.jpg'
+
+    return (
+        <div
+            style={{
+                backgroundImage: `url('${imageURL}')`,
+                backgroundSize: 'cover',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                overflow: 'auto',
+            }}
+        >
+            <LoginRegister login={login} register={register} />
+        </div>
+    )
 }
 
 export default UnauthApp
