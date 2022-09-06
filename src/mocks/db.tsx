@@ -1,7 +1,6 @@
 /* fichier simulant un backend qui stock des données
    dans le localStorage
 */
-// import sha256 from 'crypto-js/sha256';
 import bcryptjs from 'bcryptjs'
 import {nanoid} from 'nanoid'
 
@@ -33,6 +32,7 @@ const saveUserInlocalStorage = async (user: {
     id: string
     userName: string
     passwordHash: string
+    token: string
 }) => {
     let users = await getUsersFromLocalStorage()
     console.log('users in saveUserInlocalStorage', users)
@@ -57,6 +57,7 @@ const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
     localStorage.setItem(localStorageTokenKey, token)
     // localStorage.setItem(localStorageTokenKey, JSON.stringify(token))
+    return token
 }
 
 const createUser = async ({
@@ -80,13 +81,13 @@ const createUser = async ({
     }
 
     const id = nanoid()
-    // const salt = bcryptjs.genSaltSync(10)
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
+    const token = await createTokenInLocalStorage()
 
-    const user = {id, userName, passwordHash}
+    const user = {id, userName, passwordHash, token}
     await saveUserInlocalStorage(user)
-    await createTokenInLocalStorage()
+    // await createTokenInLocalStorage()
 
     return user
 }
