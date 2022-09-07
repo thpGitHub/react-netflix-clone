@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './mocks'
 import * as authNetflix from './utils/authNetflixProvider'
 // **Components **
@@ -19,10 +19,46 @@ const theme = createTheme({
     },
 })
 
+const getUserByToken = async () => {
+    let user = 'totototootott'
+    const token = await authNetflix.getTokenInLocalStorage()
+
+    if(token) {
+        
+    }
+
+    return user
+}
+
+const funcTest = async () => {
+    
+    let test = await getUserByToken()
+    console.log('test ====',test);
+    
+    let test3
+    let test2 = await getUserByToken().then(data=> test3 = data)
+    // console.log('test2 ====',test2.then(data=> console.log(data)))
+    console.log('test3 ====',test3)
+    
+    
+}
+
 function App() {
     const [authUser, setAuthUser] = useState(null)
 
-    const login = async ({
+    useEffect(() => {
+      console.log('**** getTokenInLocalStorage ****', getUserByToken().then(data => data))
+      let result
+      let toto: any = getUserByToken().then((data)=> result = data)
+      console.log('toto promise', toto.resolve)
+      console.log('result promise', result)
+      
+      funcTest()
+      
+    }, [])
+    
+
+    const login = ({
         userName,
         password,
     }: {
@@ -30,12 +66,13 @@ function App() {
         password: string
     }) => {
         console.log(userName, password)
-        await authNetflix.login({userName, password}).then((user)=> setAuthUser(user))
+        authNetflix.login({userName, password}).then((user)=> setAuthUser(user))
     }
 
-    const register = async (data: {userName: string; password: string}) => {
-        // console.log('in register in App.tsx')
-        await authNetflix.register(data).then((user) => setAuthUser(user))
+    const register = (data: {userName: string; password: string}) => {
+        authNetflix.register(data).then((user) => setAuthUser(user))
+        // const user = await authNetflix.register(data)
+        // setAuthUser(user)
     }
 
     const logout = () => {

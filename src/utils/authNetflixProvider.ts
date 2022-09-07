@@ -1,3 +1,5 @@
+import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
+
 const clientApiNetflix = async (
     endPoint: string,
     data: {userName: string; password: string},
@@ -49,4 +51,8 @@ const logout = () => {
     localStorage.removeItem('netflixTEST_auth_token')
 }
 
-export {register, login, logout}
+const getTokenInLocalStorage = async () => {
+    return localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
+}
+
+export {register, login, logout, getTokenInLocalStorage}

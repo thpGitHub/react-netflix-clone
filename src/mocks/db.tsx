@@ -1,11 +1,12 @@
 /* fichier simulant un backend qui stock des données
    dans le localStorage
 */
+import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 import bcryptjs from 'bcryptjs'
 import {nanoid} from 'nanoid'
 
 const localStorageKey = 'netflixTEST-clone-users'
-const localStorageTokenKey = 'netflixTEST_auth_token'
+// const localStorageTokenKey = 'netflixTEST_auth_token'
 // const localStorageKey = 'netflix-clone-users'
 
 interface Error {
@@ -55,7 +56,7 @@ const getUserNameInLocalStorage = async (userName: string) => {
 
 const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
-    localStorage.setItem(localStorageTokenKey, token)
+    localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, token)
     // localStorage.setItem(localStorageTokenKey, JSON.stringify(token))
     return token
 }
