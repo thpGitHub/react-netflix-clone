@@ -51,7 +51,7 @@ function useFetchData() {
     )
 
     // return {data, error, status, execute, setData}
-    return {data, error, status, execute}
+    return {data, error, status, execute, setData}
 }
 
 export {useFetchData}

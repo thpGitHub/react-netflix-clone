@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react'
 // ** MSW **
 import './mocks'
 // ** utils **
-import * as authNetflix from './utils/authNetflixProvider'
 import {clientAuth} from './utils/clientAPI'
+import {useFetchData} from './utils/hooks'
+import * as authNetflix from './utils/authNetflixProvider'
 // ** Components **
 import AuthApp from './AuthApp'
 import UnauthApp from './UnauthApp'
@@ -39,15 +40,18 @@ const getUserByToken = async () => {
 }
 
 function App() {
-    const [authUser, setAuthUser] = useState(null)
+    // const [authUser, setAuthUser] = useState(null)
+    const {data: authUser, execute, setData} = useFetchData()
 
     useEffect(() => {
-        const fetchData = async () => {
-            const user = await getUserByToken()
-            setAuthUser(user)
-        }
-        fetchData()
-    }, [])
+        execute(getUserByToken())
+        // const fetchData = async () => {
+        //     const user = await getUserByToken()
+        //     // setAuthUser(user)
+        //     setData(user)
+        // }
+        // fetchData()
+    }, [execute])
 
     const login = ({
         userName,
@@ -57,18 +61,22 @@ function App() {
         password: string
     }) => {
         console.log(userName, password)
-        authNetflix.login({userName, password}).then(user => setAuthUser(user))
+        // authNetflix.login({userName, password}).then(user => setAuthUser(user))
+        authNetflix.login({userName, password}).then(user => setData(user))
+        
     }
 
     const register = (data: {userName: string; password: string}) => {
-        authNetflix.register(data).then(user => setAuthUser(user))
+        // authNetflix.register(data).then(user => setAuthUser(user))
+        authNetflix.register(data).then(user => setData(user))
         // const user = await authNetflix.register(data)
         // setAuthUser(user)
     }
 
     const logout = () => {
         authNetflix.logout()
-        setAuthUser(null)
+        // setAuthUser(null)
+        setData(null)
     }
 
     return (
