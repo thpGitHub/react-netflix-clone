@@ -24,9 +24,25 @@ export const handlers = [
         return res(
             // ctx.delay(1500),
             ctx.status(202, 'Mocked status'),
-            ctx.json(
-                userLogin,
-            ),
+            ctx.json(userLogin),
         )
     }),
+
+    rest.get(
+        'https://auth.service.mock.com/getUserAuth',
+        async (req, res, ctx) => {
+            const token = req?.headers
+                .get('Authorization')
+                .replace('Bearer ', '')
+
+            const user = await usersDB.getUserWithTokenInLocalStorage(token)
+            // usersDB.getUserWithTokenInLocalStorage(token)
+
+            return res(
+                // ctx.delay(1500),
+                ctx.status(202, 'Mocked status'),
+                ctx.json({user: user}),
+            )
+        },
+    ),
 ]

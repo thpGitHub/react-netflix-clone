@@ -54,6 +54,13 @@ const getUserNameInLocalStorage = async (userName: string) => {
     return users.find((item: {userName: string}) => item.userName === userName)
 }
 
+const getUserWithTokenInLocalStorage = async (token: string) => {
+    const users = await getUsersFromLocalStorage()
+    console.log('users.find((item: {token: string}) => item.token === token' ,users.find((item: {token: string}) => item.token === token))
+    
+    return users.find((item: {token: string}) => item.token === token)
+}
+
 const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
     localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, token)
@@ -158,4 +165,4 @@ const authenticateUserForLogin = async ({
 //     localStorage.removeItem('netflixTEST_auth_token')
 // }
 
-export {createUser, authenticateUserForLogin}
+export {createUser, authenticateUserForLogin, getUserWithTokenInLocalStorage}
