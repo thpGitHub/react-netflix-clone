@@ -11,12 +11,13 @@ const clientApi = async (endpoint: string) => {
     return axios.get(`${API_URL}/${endpoint}${keyLang}`)
 }
 
-const clientAuth = (endPoint: string, token: string) => {
+const clientAuth = async (endPoint: string, token: string) => {
+    // await sleep(4000)
     const config: any = {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : undefined,
-        // Authorization: `Bearer ${token}`
-      }
+        headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+            // Authorization: `Bearer ${token}`
+        },
     }
     return axios.get(`https://auth.service.mock.com/${endPoint}`, config)
     // https://auth.service.mock.com/getUserAuth

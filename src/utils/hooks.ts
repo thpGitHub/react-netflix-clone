@@ -1,4 +1,5 @@
 import React, {useReducer, useCallback} from 'react'
+import {sleep} from './helper'
 
 type ACTIONTYPE =
     | {type: 'fetching'}
@@ -40,6 +41,7 @@ function useFetchData() {
 
     const execute = useCallback((promise: Promise<any>) => {
         dispatch({type: 'fetching'})
+        // sleep(4000)
         promise
             .then(marvel => dispatch({type: 'done', payload: marvel}))
             .catch(error => dispatch({type: 'fail', error}))

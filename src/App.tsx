@@ -10,10 +10,12 @@ import AuthApp from './AuthApp'
 import UnauthApp from './UnauthApp'
 // ** MUI **
 import {ThemeProvider, createTheme} from '@mui/material/styles'
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const theme = createTheme({
     palette: {
-        // type: 'dark',
+        // mode: 'dark',
         primary: {
             main: '#E50914',
         },
@@ -41,7 +43,7 @@ const getUserByToken = async () => {
 
 function App() {
     // const [authUser, setAuthUser] = useState(null)
-    const {data: authUser, execute, setData} = useFetchData()
+    const {data: authUser, status, execute, setData} = useFetchData()
 
     useEffect(() => {
         execute(getUserByToken())
@@ -74,7 +76,11 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            {authUser ? (
+            {status === 'fetching' ? (
+                <Backdrop open={true}>
+                    <CircularProgress color="primary" />
+                </Backdrop>
+            ) : authUser ? (
                 <AuthApp logout={logout} />
             ) : (
                 <UnauthApp login={login} register={register} />
