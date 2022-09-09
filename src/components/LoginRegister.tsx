@@ -71,7 +71,7 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        type="submit"
+                        // type="submit"
                         onClick={() => register({userName, password})}
                     >
                         {labelButton}

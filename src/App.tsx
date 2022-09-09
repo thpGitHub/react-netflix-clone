@@ -44,6 +44,7 @@ const getUserByToken = async () => {
 function App() {
     // const [authUser, setAuthUser] = useState(null)
     const {data: authUser, status, execute, setData} = useFetchData()
+    const [authError, setAuthError] = useState()
 
     useEffect(() => {
         execute(getUserByToken())
@@ -58,12 +59,12 @@ function App() {
     }) => {
         console.log(userName, password)
         // authNetflix.login({userName, password}).then(user => setAuthUser(user))
-        authNetflix.login({userName, password}).then(user => setData(user))
+        authNetflix.login({userName, password}).then(user => setData(user)).catch(error => setAuthError(error))
     }
 
     const register = (data: {userName: string; password: string}) => {
         // authNetflix.register(data).then(user => setAuthUser(user))
-        authNetflix.register(data).then(user => setData(user))
+        authNetflix.register(data).then(user => setData(user)).catch(error => setAuthError(error))
         // const user = await authNetflix.register(data)
         // setAuthUser(user)
     }

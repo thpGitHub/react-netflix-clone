@@ -5,6 +5,8 @@ import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 import bcryptjs from 'bcryptjs'
 import {nanoid} from 'nanoid'
 
+import {sleep} from '../utils/helper'
+
 const localStorageKey = 'netflixTEST-clone-users'
 // const localStorageTokenKey = 'netflixTEST_auth_token'
 // const localStorageKey = 'netflix-clone-users'
@@ -56,8 +58,11 @@ const getUserNameInLocalStorage = async (userName: string) => {
 
 const getUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
-    console.log('users.find((item: {token: string}) => item.token === token' ,users.find((item: {token: string}) => item.token === token))
-    
+    console.log(
+        'users.find((item: {token: string}) => item.token === token',
+        users.find((item: {token: string}) => item.token === token),
+    )
+
     return users.find((item: {token: string}) => item.token === token)
 }
 
@@ -75,13 +80,28 @@ const createUser = async ({
     userName: string
     password: string
 }) => {
+    if (!userName) {
+        const error = new Error("Le nom d'utilisateur est obligatoire !")
+        // error.status = 400
+        throw error
+    }
+
+    if (!password) {
+        const error = new Error('Le mot de passe est obligatoire')
+        // error.status = 400
+        throw error
+    }
+
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
         userName,
     )
 
+    console.log('userNameExistInLocalStorage', userNameExistInLocalStorage)
+    // sleep(4000)
+
     if (userNameExistInLocalStorage !== undefined) {
         const error: Error = new Error(
-            `Impossible de créer un utilisateur car  "${userName}" existe déjà `,
+            `Impossible de créer un utilisateur car ${userName} existe déjà `,
         )
         console.log('error ', error)
         error.status = 400
@@ -123,46 +143,24 @@ const authenticateUserForLogin = async ({
         userName,
     ) //.then(user => console.log("getUserNameInLocalStorage",user)
     //)
+    console.log(
+        'getUserWithUserNameInLocalStorage',
+        getUserWithUserNameInLocalStorage,
+    )
 
     if (
+        getUserWithUserNameInLocalStorage === undefined ||
         !bcryptjs.compareSync(
             password,
-            getUserWithUserNameInLocalStorage.passwordHash,
+            getUserWithUserNameInLocalStorage?.passwordHash,
         )
     ) {
-        const error = new ErrorEvent(
-            "Nom d' utilisateur ou mot de passe incorrect",
-        )
+        const error = new Error("Nom d' utilisateur ou mot de passe incorrect")
 
         throw error
     }
 
-    console.log(
-        'getUserWithUserNameInLocalStorage',
-        typeof getUserWithUserNameInLocalStorage.passwordHash,
-    )
-
-    console.log(
-        bcryptjs.compareSync(
-            'caro2',
-            getUserWithUserNameInLocalStorage.passwordHash,
-        ),
-    )
-
-    console.log(
-        bcryptjs.compareSync(
-            password,
-            getUserWithUserNameInLocalStorage.passwordHash,
-        ),
-    )
-
-    //"Nom d' utilisateur ou mot de passe incorrect"
-
     return getUserWithUserNameInLocalStorage
 }
-
-// const deleteTokenKeyInLocalStorage = () => {
-//     localStorage.removeItem('netflixTEST_auth_token')
-// }
 
 export {createUser, authenticateUserForLogin, getUserWithTokenInLocalStorage}
