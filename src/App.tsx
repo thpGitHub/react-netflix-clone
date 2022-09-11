@@ -25,6 +25,14 @@ const theme = createTheme({
     },
 })
 
+interface Error {
+    name: string
+    message: string
+    stack?: string
+    status?: number
+    // code?: number;
+}
+
 const getUserByToken = async () => {
     let user = null
     const token = await authNetflix.getTokenInLocalStorage()
