@@ -15,9 +15,12 @@ interface IProps {
         userName: string
         password: string
     }) => void
+    // error: {name: string , message: string , stack: string }
+    // error: {name: string | undefined, message: string | undefined, stack: string | undefined}
+    error: any
 }
 
-const UnauthApp = ({login, register}: IProps) => {
+const UnauthApp = ({login, register, error}: IProps) => {
     const imageURL = '/images/posters.jpg'
 
     return (
@@ -40,7 +43,7 @@ const UnauthApp = ({login, register}: IProps) => {
                 height={50}
             />
 
-            <LoginRegister login={login} register={register} />
+            <LoginRegister login={login} register={register} error={error} />
         </div>
     )
 }

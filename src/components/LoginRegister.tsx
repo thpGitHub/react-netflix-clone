@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
+import Alert from '@mui/material/Alert'
 
 // import {browser} from '../mocks/browser'
 
@@ -25,6 +26,7 @@ interface IProps {
         userName: string
         password: string
     }) => void
+    error?: any
 }
 
 const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
@@ -105,7 +107,7 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     )
 }
 
-const PopupLogin = ({signUp = false, login, register}: IProps) => {
+const PopupLogin = ({signUp = false, login, register, error}: IProps) => {
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open, setOpen] = React.useState(true)
 
@@ -128,6 +130,9 @@ const PopupLogin = ({signUp = false, login, register}: IProps) => {
                         login={login}
                         register={register}
                     />
+                    {error ? (
+                        <Alert severity="error">Erreur : {error.message}</Alert>
+                    ) : null}
                 </DialogContent>
                 <DialogActions
                     style={{

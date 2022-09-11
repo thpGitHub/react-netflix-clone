@@ -25,13 +25,13 @@ const theme = createTheme({
     },
 })
 
-interface Error {
-    name: string
-    message: string
-    stack?: string
-    status?: number
-    // code?: number;
-}
+// interface Error {
+//     name?: string
+//     message?: string
+//     stack?: string
+//     status?: number
+//     // code?: number;
+// }
 
 const getUserByToken = async () => {
     let user = null
@@ -92,7 +92,7 @@ function App() {
             ) : authUser ? (
                 <AuthApp logout={logout} />
             ) : (
-                <UnauthApp login={login} register={register} />
+                <UnauthApp login={login} register={register} error={authError}/>
             )}
         </ThemeProvider>
     )
