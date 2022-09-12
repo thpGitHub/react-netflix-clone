@@ -103,8 +103,8 @@ const createUser = async ({
         const error: Error = new Error(
             `Impossible de créer un utilisateur car ${userName} existe déjà `,
         )
-        console.log('error ', error)
         error.status = 400
+        console.log('error ', error)
         throw error
     }
 

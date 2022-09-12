@@ -19,7 +19,11 @@ const clientApiNetflix = async (
 
             return data
         } else {
+            console.log('**** IN Promise.reject ****', data)
+
             return Promise.reject(data)
+            // or same result
+            // throw new Error(data.message)
         }
     })
 }

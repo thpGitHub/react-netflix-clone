@@ -9,6 +9,7 @@ export const handlers = [
             const {userName, password} = req.body
             const userFields = {userName, password}
             const user = await usersDB.createUser(userFields)
+            console.log('user in handlers/register ===', user);
 
             return res(ctx.json(user))
         },
