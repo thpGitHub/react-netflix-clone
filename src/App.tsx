@@ -67,12 +67,18 @@ function App() {
     }) => {
         console.log(userName, password)
         // authNetflix.login({userName, password}).then(user => setAuthUser(user))
-        authNetflix.login({userName, password}).then(user => setData(user)).catch(error => setAuthError(error))
+        authNetflix
+            .login({userName, password})
+            .then(user => setData(user))
+            .catch(error => setAuthError(error))
     }
 
     const register = (data: {userName: string; password: string}) => {
         // authNetflix.register(data).then(user => setAuthUser(user))
-        authNetflix.register(data).then(user => setData(user)).catch(error => setAuthError(error))
+        authNetflix
+            .register(data)
+            .then(user => setData(user))
+            .catch(error => setAuthError(error))
         // const user = await authNetflix.register(data)
         // setAuthUser(user)
     }
@@ -92,7 +98,11 @@ function App() {
             ) : authUser ? (
                 <AuthApp logout={logout} />
             ) : (
-                <UnauthApp login={login} register={register} error={authError}/>
+                <UnauthApp
+                    login={login}
+                    register={register}
+                    error={authError}
+                />
             )}
         </ThemeProvider>
     )
