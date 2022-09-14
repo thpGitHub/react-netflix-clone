@@ -12,7 +12,6 @@ import {Alert, AlertTitle, CircularProgress, Theme} from '@mui/material'
 // ** Utils **
 import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
-import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -28,14 +27,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IProps {
     logout: () => void
+    authUser: any
     }
 
-const NetflixById = ({logout}: IProps) => {
+const NetflixById = ({logout, authUser}: IProps) => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
 
     let {tvId, movieId} = useParams()
     const location = useLocation()
+    
 
     console.log('location', location)
     console.log('params tvID', tvId)
@@ -65,7 +66,7 @@ const NetflixById = ({logout}: IProps) => {
     return (
         <div>
             <NetflixAppBar logout={logout}/>
-            <NetflixHeader movie={headerMovie?.data} type={type} />
+            <NetflixHeader movie={headerMovie?.data} type={type} authUser={authUser}/>
 
             <NetFlixRow
                 type={TYPE_MOVIE}

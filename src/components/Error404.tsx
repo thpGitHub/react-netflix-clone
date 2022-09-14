@@ -4,9 +4,10 @@ import {Link} from 'react-router-dom'
 
 interface IProps {
   logout: () => void
+  authUser: any
   }
 
-function Error404({logout}: IProps) {
+function Error404({logout, authUser}: IProps) {
   const imageUrl = '/images/bg-lost-in-space.png'
   return (
     <div style={{

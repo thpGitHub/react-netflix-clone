@@ -5,21 +5,21 @@ import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 
 interface IProps {
-    movie: AxiosData | undefined,
+    movie: AxiosData | undefined
     // movie: any,
-    type: string,
+    type: string
+    authUser: any
 }
 
-const NetflixHeader = ({movie, type= TYPE_MOVIE}: IProps) => {
+const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
     const title = type === TYPE_MOVIE ? movie?.title : movie?.name
-    
+
     let imageWidth = 1280
 
-    const browserWidth: number | undefined = useDimension() 
+    const browserWidth: number | undefined = useDimension()
     console.log('browserWidth', browserWidth)
 
-
-    if (browserWidth && (browserWidth >= 780) && (browserWidth < 1280)) {
+    if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
         console.log('780 - 1280')
         imageWidth = 780
     }
