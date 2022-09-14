@@ -112,8 +112,9 @@ const createUser = async ({
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
     const token = await createTokenInLocalStorage()
+    const bookmark = {movies: [], series: []}
 
-    const user = {id, userName, passwordHash, token}
+    const user = {id, userName, passwordHash, token, bookmark}
     await saveUserInlocalStorage(user)
     // await createTokenInLocalStorage()
 

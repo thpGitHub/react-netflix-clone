@@ -10,9 +10,10 @@ import NetflixById from './components/NetflixById'
 
 interface IProps {
 logout: () => void
+authUser: any
 }
 
-const AuthApp = ({logout}: IProps) => {
+const AuthApp = ({logout, authUser}: IProps) => {
     return (
         <Router>
             <Routes>

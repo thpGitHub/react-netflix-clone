@@ -96,7 +96,7 @@ function App() {
                     <CircularProgress color="primary" />
                 </Backdrop>
             ) : authUser ? (
-                <AuthApp logout={logout} />
+                <AuthApp logout={logout} authUser={authUser}/>
             ) : (
                 <UnauthApp
                     login={login}
