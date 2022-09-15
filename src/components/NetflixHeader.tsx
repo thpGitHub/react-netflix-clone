@@ -44,6 +44,18 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
         backgroundPosition: 'center center',
     } //as const
 
+    const handleAddToBookmark = () => {}
+    const handleDeleteToBookmark = () => {}
+
+    /*
+     * props type = movie or tv
+     * authUser.bookmark = {movies: [], series: []}
+     */
+    const isInBookmark = authUser.bookmark[
+        type === TYPE_MOVIE ? 'movies' : 'series'
+    ].includes(movie?.id)
+    console.log('isInBookmark', isInBookmark)
+
     if (!movie) {
         return <HeaderSkeleton />
     }
@@ -56,9 +68,21 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
                     <button className="banner__button banner__buttonplay">
                         Lecture
                     </button>
-                    <button className="banner__button banner__buttonInfo">
-                        Ajouter à ma liste
-                    </button>
+                    {isInBookmark ? (
+                        <button
+                            className="banner__button banner__buttonInfo"
+                            onClick={handleDeleteToBookmark}
+                        >
+                            Supprimer à ma liste
+                        </button>
+                    ) : (
+                        <button
+                            className="banner__button banner__buttonInfo"
+                            onClick={handleAddToBookmark}
+                        >
+                            Ajouter à ma liste
+                        </button>
+                    )}
                 </div>
                 <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
             </div>
