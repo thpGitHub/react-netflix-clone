@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
+import {clientNetflix} from '../utils/clientAPI'
+import {useFetchData} from '../utils/hooks'
 
 interface IProps {
     movie: AxiosData | undefined
@@ -12,6 +14,12 @@ interface IProps {
 }
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
+    const {data, execute, setData} = useFetchData()
+
+    useEffect(() => {
+        setData(authUser)
+    }, [authUser, setData])
+
     const title = type === TYPE_MOVIE ? movie?.title : movie?.name
 
     let imageWidth = 1280
@@ -44,16 +52,19 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
         backgroundPosition: 'center center',
     } //as const
 
-    const handleAddToBookmark = () => {}
+    const handleAddToBookmark = async () => {
+        execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data: data}))
+    }
     const handleDeleteToBookmark = () => {}
 
     /*
      * props type = movie or tv
      * authUser.bookmark = {movies: [], series: []}
      */
-    const isInBookmark = authUser.bookmark[
+    // const isInBookmark = false/*data?.bookmark[
+    const isInBookmark = data?.bookmark[
         type === TYPE_MOVIE ? 'movies' : 'series'
-    ].includes(movie?.id)
+    ]?.includes(movie?.id)
     console.log('isInBookmark', isInBookmark)
 
     if (!movie) {

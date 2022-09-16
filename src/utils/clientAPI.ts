@@ -2,15 +2,21 @@ import axios from 'axios'
 import {API_KEY, LANG, API_URL} from '../const'
 import {sleep} from './helper'
 
+/*
+* fetch on : https://api.themoviedb.org/3
+*/
 const clientApi = async (endpoint: string) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     // await sleep(4000)
     const keyLang = `${startChar}api_key=${API_KEY}&language=${LANG}&page=${page}`
-    //https://api.themoviedb.org/3
+    //API_URL = https://api.themoviedb.org/3
     return axios.get(`${API_URL}/${endpoint}${keyLang}`)
 }
 
+/*
+* Catch by MSW
+*/
 const clientAuth = async (endPoint: string, token: string) => {
     // await sleep(4000)
     const config: any = {
@@ -23,4 +29,30 @@ const clientAuth = async (endPoint: string, token: string) => {
     // https://auth.service.mock.com/getUserAuth
 }
 
-export {clientApi, clientAuth}
+/*
+* Catch by MSW
+*/
+const clientNetflix = (endpoint: string, {data, method = 'get'}: any) => {
+    const config: any = {
+        method,
+        url: `https://auth.service.mock.com/${endpoint}`,
+        data: JSON.stringify(data),
+        headers: {
+            Authorization: data.token
+                ? `Bearer ${data.token}`
+                : undefined,
+        },
+    }
+    return axios(config)
+        .then(response => {
+            console.log('response data ', response.data)
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                return Promise.reject(error.response.data)
+            }
+        })
+}
+
+export {clientApi, clientAuth, clientNetflix}

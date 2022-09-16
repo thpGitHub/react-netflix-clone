@@ -46,4 +46,17 @@ export const handlers = [
             )
         },
     ),
+    rest.post('https://auth.service.mock.com/bookmark/movie', async (req, res, ctx) => {
+        // const {userName, password} = req.body
+        // const userFields = {userName, password}
+        // const userLogin = await usersDB.authenticateUserForLogin(userFields)
+console.log('bookmark/movie req.body === ', req.body);
+
+        return res(
+            // ctx.delay(1500),
+            ctx.status(202, 'Mocked status'),
+            ctx.json(req.body),
+        )
+    }),
 ]
+// bookmark/movie req.body ===  {"id":"t0tQr7qYTUYuMB69IVD6o","userName":"titi2@hot.com","passwordHash":"$2a$10$4uxGGzx0/ET0KpkJXCcBx.QI5Y4GHlx5228cqudIEzpR7Kzl1abXW","token":"$2a$10$N8oo/LOueS.m1RjtRkIpCO","bookmark":{"movies":[],"series":[]}}
