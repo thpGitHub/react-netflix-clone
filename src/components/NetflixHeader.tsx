@@ -53,7 +53,8 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
     } //as const
 
     const handleAddToBookmark = async () => {
-        execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data: data}))
+        // execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data: data}))
+        execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}))
     }
     const handleDeleteToBookmark = () => {}
 
@@ -64,8 +65,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
     // const isInBookmark = false/*data?.bookmark[
     const isInBookmark = data?.bookmark[
         type === TYPE_MOVIE ? 'movies' : 'series'
-    ]?.includes(movie?.id)
+    ]?.includes(movie?.id) //?? false
+
     console.log('isInBookmark', isInBookmark)
+    console.log('data.bookmark',  data?.bookmark ?? 'totot')
+    console.log('data.data.bookmark',  data?.data?.bookmark ?? 'totot')
 
     if (!movie) {
         return <HeaderSkeleton />

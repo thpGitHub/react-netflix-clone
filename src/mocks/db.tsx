@@ -164,4 +164,8 @@ const authenticateUserForLogin = async ({
     return getUserWithUserNameInLocalStorage
 }
 
+const addBookmarkMovieInLocalStorage = () => {
+    
+}
+
 export {createUser, authenticateUserForLogin, getUserWithTokenInLocalStorage}

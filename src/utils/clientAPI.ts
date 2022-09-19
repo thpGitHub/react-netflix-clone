@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { moveEmitHelpers } from 'typescript'
 import {API_KEY, LANG, API_URL} from '../const'
 import {sleep} from './helper'
 
@@ -32,11 +33,14 @@ const clientAuth = async (endPoint: string, token: string) => {
 /*
 * Catch by MSW
 */
-const clientNetflix = (endpoint: string, {data, method = 'get'}: any) => {
+const clientNetflix = (endpoint: string, {data, method = 'get', movie}: any) => {
     const config: any = {
         method,
         url: `https://auth.service.mock.com/${endpoint}`,
-        data: JSON.stringify(data),
+        // data: JSON.stringify(data),
+        data: data,
+        // data: {data, movie},
+        // movie: movie,
         headers: {
             Authorization: data.token
                 ? `Bearer ${data.token}`
@@ -45,7 +49,8 @@ const clientNetflix = (endpoint: string, {data, method = 'get'}: any) => {
     }
     return axios(config)
         .then(response => {
-            console.log('response data ', response.data)
+            console.log('response data ', response?.data)
+            console.log('movie ', movie)
             return response.data
         })
         .catch(error => {
