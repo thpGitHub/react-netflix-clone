@@ -78,6 +78,7 @@ const deleteUserWithTokenInLocalStorage = async (token: string) => {
     await users.splice(indexForDelete, 1)
     console.log('splice = ', users);
     
+    localStorage.setItem(localStorageKey, JSON.stringify(users))
     
     // users.findIndex((element: any) => element.token === token )
 }
@@ -186,23 +187,35 @@ const addBookmarkMovieInLocalStorage = async (
     movieID: number,
     authUser: any,
 ) => {
-    const newAuthUser = authUser.bookmark.movies
-    newAuthUser.push(movieID)
-    console.log(
-        'newAuthUser in addBookmarkMovieInLocalStorage === ',
-        newAuthUser,
-    )
 
-    const newAuthUser2 = authUser
-    authUser.bookmark.movies = newAuthUser
-    console.log(
-        'newAuthUser2 in addBookmarkMovieInLocalStorage === ',
-        newAuthUser2,
-    )
+    const addBookmarkMovie = authUser.bookmark.movies
+    addBookmarkMovie.push(movieID)
+
+    /**
+     * Real copy authUser
+     * with structuredClone
+     */
+    const newAuthUser = structuredClone(authUser)
+    newAuthUser.bookmark.movies = addBookmarkMovie
+
+    // const newAuthUser = authUser.bookmark.movies
+    // newAuthUser.push(movieID)
+    // console.log(
+    //     'newAuthUser in addBookmarkMovieInLocalStorage === ',
+    //     newAuthUser,
+    // )
+
+    // const newAuthUser2 = authUser
+    // authUser.bookmark.movies = newAuthUser
+    // console.log(
+    //     'newAuthUser2 in addBookmarkMovieInLocalStorage === ',
+    //     newAuthUser2,
+    // )
     await deleteUserWithTokenInLocalStorage(authUser.token)
-    await saveUserInlocalStorage(newAuthUser2)
+    // await saveUserInlocalStorage(newAuthUser2)
+    await saveUserInlocalStorage(newAuthUser)
 
-    return newAuthUser2
+    return newAuthUser
 }
 
 export {
