@@ -7,7 +7,9 @@ export const handlers = [
         'https://auth.service.mock.com/register',
         async (req, res, ctx) => {
             const {userName, password} = req.body
+            console.log('req.body === ', req.body)
             const userFields = {userName, password}
+            console.log('userFields === ', userFields)
             const user = await usersDB.createUser(userFields)
             console.log('user in handlers/register ===', user)
 
@@ -52,14 +54,24 @@ export const handlers = [
             // const {userName, password} = req.body
             // const userFields = {userName, password}
             // const userLogin = await usersDB.authenticateUserForLogin(userFields)
-            const {bookmark} = req.body
-            console.log('{bookmark} = req.body ===', bookmark);
-            console.log('bookmark/movie req.body === ', req.body)
+            const authUser = req.body.data
+            const {bookmark} = req.body.data
+            // const movieID = req.body.movie.id
+            const {id: movieID} = req.body.movie
+            const {token} = req.body.data
+
+            console.log('{bookmark} = req.body.data ===', bookmark);
+            console.log('movieID = req.body.movie.id ===', movieID);
+            console.log('req.body === ', req.body)
+
+            const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(movieID, authUser)
 
             return res(
                 // ctx.delay(1500),
                 ctx.status(202, 'Mocked status'),
-                ctx.json(req.body),
+                // ctx.json(req.body),
+                // ctx.json(req.body.data),
+                ctx.json(newAuthUser),
             )
         },
     ),

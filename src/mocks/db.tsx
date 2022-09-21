@@ -21,6 +21,8 @@ interface Error {
 
 const getUsersFromLocalStorage = async () => {
     let users = localStorage.getItem(localStorageKey)
+    console.log('users === ', users);
+    
 
     if (typeof users === 'string') {
         console.log('users STRING in loadUserFromLocalStorage', users)
@@ -36,6 +38,7 @@ const saveUserInlocalStorage = async (user: {
     userName: string
     passwordHash: string
     token: string
+    bookmark: any
 }) => {
     let users = await getUsersFromLocalStorage()
     console.log('users in saveUserInlocalStorage', users)
@@ -53,7 +56,7 @@ const saveUserInlocalStorage = async (user: {
 const getUserNameInLocalStorage = async (userName: string) => {
     const users = await getUsersFromLocalStorage()
 
-    return users.find((item: {userName: string}) => item.userName === userName)
+    return users?.find((item: {userName: string}) => item.userName === userName)
 }
 
 const getUserWithTokenInLocalStorage = async (token: string) => {
@@ -64,6 +67,19 @@ const getUserWithTokenInLocalStorage = async (token: string) => {
     )
 
     return users.find((item: {token: string}) => item.token === token)
+}
+
+const deleteUserWithTokenInLocalStorage = async (token: string) => {
+    const users = await getUsersFromLocalStorage()
+    console.log('users before slice', users);
+    
+    console.log('findIndex === ', users.findIndex((element: any) => element.token === token ))
+    const indexForDelete = users.findIndex((element: any) => element.token === token )
+    await users.splice(indexForDelete, 1)
+    console.log('splice = ', users);
+    
+    
+    // users.findIndex((element: any) => element.token === token )
 }
 
 const createTokenInLocalStorage = async () => {
@@ -92,6 +108,8 @@ const createUser = async ({
         throw error
     }
 
+    console.log('userName === ', userName);
+    
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
         userName,
     )
@@ -164,8 +182,32 @@ const authenticateUserForLogin = async ({
     return getUserWithUserNameInLocalStorage
 }
 
-const addBookmarkMovieInLocalStorage = () => {
-    
+const addBookmarkMovieInLocalStorage = async (
+    movieID: number,
+    authUser: any,
+) => {
+    const newAuthUser = authUser.bookmark.movies
+    newAuthUser.push(movieID)
+    console.log(
+        'newAuthUser in addBookmarkMovieInLocalStorage === ',
+        newAuthUser,
+    )
+
+    const newAuthUser2 = authUser
+    authUser.bookmark.movies = newAuthUser
+    console.log(
+        'newAuthUser2 in addBookmarkMovieInLocalStorage === ',
+        newAuthUser2,
+    )
+    await deleteUserWithTokenInLocalStorage(authUser.token)
+    await saveUserInlocalStorage(newAuthUser2)
+
+    return newAuthUser2
 }
 
-export {createUser, authenticateUserForLogin, getUserWithTokenInLocalStorage}
+export {
+    createUser,
+    authenticateUserForLogin,
+    getUserWithTokenInLocalStorage,
+    addBookmarkMovieInLocalStorage,
+}

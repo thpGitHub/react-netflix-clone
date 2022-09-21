@@ -38,8 +38,8 @@ const clientNetflix = (endpoint: string, {data, method = 'get', movie}: any) => 
         method,
         url: `https://auth.service.mock.com/${endpoint}`,
         // data: JSON.stringify(data),
-        data: data,
-        // data: {data, movie},
+        // data: data,
+        data: {data, movie},
         // movie: movie,
         headers: {
             Authorization: data.token
