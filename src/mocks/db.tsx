@@ -240,10 +240,52 @@ const addBookmarkMovieInLocalStorage = async (
     return newAuthUser
 }
 
+const deleteBookmarkSerieInLocalStorage = async (
+    serieID: number,
+    authUser: any,
+) => {
+    const deleteBookmarkSerie = authUser.bookmark.series
+    const indexForDeleteSerie = deleteBookmarkSerie.findIndex(
+        (element: any) => element === serieID,
+    )
+    await deleteBookmarkSerie.splice(indexForDeleteSerie, 1)
+
+    const newAuthUser = structuredClone(authUser)
+    newAuthUser.bookmark.series = deleteBookmarkSerie
+    // console.log('newAuthUser in deleteBookmarkSerieInLocalStorage', newAuthUser);
+
+    await deleteUserWithTokenInLocalStorage(authUser.token)
+    await saveUserInlocalStorage(newAuthUser)
+
+    return newAuthUser
+}
+
+const deleteBookmarkMovieInLocalStorage = async (
+    movieID: number,
+    authUser: any,
+) => {
+    const deleteBookmarkMovie = authUser.bookmark.movies
+    const indexForDeleteSerie = deleteBookmarkMovie.findIndex(
+        (element: any) => element === movieID,
+    )
+    await deleteBookmarkMovie.splice(indexForDeleteSerie, 1)
+
+    const newAuthUser = structuredClone(authUser)
+    newAuthUser.bookmark.series = deleteBookmarkMovie
+    // console.log('newAuthUser in deleteBookmarkSerieInLocalStorage', newAuthUser);
+
+    await deleteUserWithTokenInLocalStorage(authUser.token)
+    await saveUserInlocalStorage(newAuthUser)
+
+    return newAuthUser
+}
+
 export {
     createUser,
     authenticateUserForLogin,
     getUserWithTokenInLocalStorage,
     addBookmarkMovieInLocalStorage,
     addBookmarkSerieInLocalStorage,
+    deleteBookmarkSerieInLocalStorage,
+    deleteBookmarkMovieInLocalStorage,
 }

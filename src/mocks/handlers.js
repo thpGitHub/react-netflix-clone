@@ -30,7 +30,6 @@ export const handlers = [
             ctx.json(userLogin),
         )
     }),
-
     rest.get(
         'https://auth.service.mock.com/getUserAuth',
         async (req, res, ctx) => {
@@ -71,6 +70,45 @@ export const handlers = [
                 ctx.status(202, 'Mocked status'),
                 // ctx.json(req.body),
                 // ctx.json(req.body.data),
+                ctx.json(newAuthUser),
+            )
+        },
+    ),
+    rest.post(
+        'https://auth.service.mock.com/bookmark/tv',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: serieID} = req.body.movie
+            const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(serieID, authUser)
+
+            return res(
+                ctx.status(202, 'Mocked status'),
+                ctx.json(newAuthUser),
+            )
+        },
+    ),
+    rest.delete(
+        'https://auth.service.mock.com/bookmark/tv',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: serieID} = req.body.movie
+            const newAuthUser = await usersDB.deleteBookmarkSerieInLocalStorage(serieID, authUser)
+
+            return res(
+                ctx.status(202, 'Mocked status'),
+                ctx.json(newAuthUser),
+            )
+        },
+    ),
+    rest.delete(
+        'https://auth.service.mock.com/bookmark/movie',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: movieID} = req.body.movie
+            const newAuthUser = await usersDB.deleteBookmarkMovieInLocalStorage(movieID, authUser)
+
+            return res(
+                ctx.status(202, 'Mocked status'),
                 ctx.json(newAuthUser),
             )
         },

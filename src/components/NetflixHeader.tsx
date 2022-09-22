@@ -56,13 +56,14 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
         // execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data: data}))
         execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}))
     }
-    const handleDeleteToBookmark = () => {}
+    const handleDeleteToBookmark = () => {
+        execute(clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}))
+    }
 
     /*
      * props type = movie or tv
      * authUser.bookmark = {movies: [], series: []}
      */
-    // const isInBookmark = false/*data?.bookmark[
     const isInBookmark = data?.bookmark[
         type === TYPE_MOVIE ? 'movies' : 'series'
     ]?.includes(movie?.id) //?? false
