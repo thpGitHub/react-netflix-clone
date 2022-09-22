@@ -1,10 +1,21 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 import {clientNetflix} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
+// *** MUI ***
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert, {AlertProps} from '@mui/material/Alert'
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+})
 
 interface IProps {
     movie: AxiosData | undefined
@@ -14,11 +25,17 @@ interface IProps {
 }
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
-    const {data, execute, setData} = useFetchData()
+    const {data, execute, status, error, setData} = useFetchData()
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+    const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
 
     useEffect(() => {
         setData(authUser)
     }, [authUser, setData])
+
+    useEffect(() => {
+        setSnackbarOpen(true)
+    }, [status])
 
     const title = type === TYPE_MOVIE ? movie?.title : movie?.name
 
@@ -53,11 +70,16 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
     } //as const
 
     const handleAddToBookmark = async () => {
-        // execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data: data}))
-        execute(clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}))
+        setIsBookmarkFetchOneTime(true)
+        execute(
+            clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
+        )
     }
     const handleDeleteToBookmark = () => {
-        execute(clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}))
+        setIsBookmarkFetchOneTime(true)
+        execute(
+            clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
+        )
     }
 
     /*
@@ -69,8 +91,8 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
     ]?.includes(movie?.id) //?? false
 
     console.log('isInBookmark', isInBookmark)
-    console.log('data.bookmark',  data?.bookmark ?? 'totot')
-    console.log('data.data.bookmark',  data?.data?.bookmark ?? 'totot')
+    console.log('data.bookmark', data?.bookmark ?? 'totot')
+    console.log('data.data.bookmark', data?.data?.bookmark ?? 'totot')
 
     if (!movie) {
         return <HeaderSkeleton />
@@ -89,6 +111,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
                             className="banner__button banner__buttonInfo"
                             onClick={handleDeleteToBookmark}
                         >
+                            <DeleteForeverRoundedIcon
+                                color="secondary"
+                                fontSize="small"
+                                style={{marginRight: '5px'}}
+                            />
                             Supprimer à ma liste
                         </button>
                     ) : (
@@ -103,6 +130,28 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
                 <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
             </div>
             <div className="banner--fadeBottom"></div>
+            {status === 'done' && isBookmarkFetchOneTime ? (
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={4000}
+                    onClose={() => setSnackbarOpen(false)}
+                >
+                    <Alert severity="success" sx={{width: '100%'}}>
+                        Liste modifiée avec succès
+                    </Alert>
+                </Snackbar>
+            ) : null}
+            {status === 'error' && isBookmarkFetchOneTime ? (
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={4000}
+                    onClose={() => setSnackbarOpen(false)}
+                >
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        Problème lors de l'ajout : {error.message}
+                    </Alert>
+                </Snackbar>
+            ) : null}
         </header>
     )
 }
