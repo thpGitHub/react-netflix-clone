@@ -184,6 +184,8 @@ const authenticateUserForLogin = async ({
         throw error
     }
 
+    localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, getUserWithUserNameInLocalStorage.token)
+
     return getUserWithUserNameInLocalStorage
 }
 
