@@ -7,6 +7,7 @@ import NetflixSeries from './components/NetflixSeries'
 import NetflixMovies from './components/NetflixMovies'
 import NetflixNews from './components/NetflixNews'
 import NetflixById from './components/NetflixById'
+import NetflixBookmark from './components/NetflixBookmark'
 
 interface IProps {
     logout: () => void
@@ -49,6 +50,12 @@ const AuthApp = ({logout, authUser}: IProps) => {
                     path="/news"
                     element={
                         <NetflixNews logout={logout} authUser={authUser} />
+                    }
+                />
+                <Route
+                    path="/list"
+                    element={
+                        <NetflixBookmark logout={logout} authUser={authUser} />
                     }
                 />
                 <Route
