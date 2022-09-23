@@ -48,6 +48,20 @@ export const handlers = [
         },
     ),
     rest.post(
+        'https://auth.service.mock.com/bookmark',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            // const {id: serieID} = req.body.movie
+            // const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(serieID, authUser)
+
+            return res(
+                ctx.status(202, 'Mocked status'),
+                // ctx.json(newAuthUser),
+                ctx.json(authUser),
+            )
+        },
+    ),
+    rest.post(
         'https://auth.service.mock.com/bookmark/movie',
         async (req, res, ctx) => {
             // const {userName, password} = req.body
