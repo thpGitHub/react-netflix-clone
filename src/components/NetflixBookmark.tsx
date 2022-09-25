@@ -9,9 +9,10 @@ import {TYPE_MOVIE} from '../const'
 interface IProps {
     logout: () => void
     authUser: any
+    setAuthUser: any
 }
 
-const NetflixBookmark = ({logout, authUser}: IProps) => {
+const NetflixBookmark = ({logout, authUser, setAuthUser}: IProps) => {
     const {data, execute, setData} = useFetchData()
     const {data: headerMovie, execute: executeHeader} = useFetchData()
     const idDefault = 749274
@@ -41,6 +42,7 @@ const NetflixBookmark = ({logout, authUser}: IProps) => {
                 type={TYPE_MOVIE}
                 // authUser={authUser}
                 authUser={data}
+                setAuthUser={setAuthUser}
             />
             {/* <div className="row">
                 <h2>Films favoris</h2>
@@ -74,11 +76,11 @@ const NetflixBookmark = ({logout, authUser}: IProps) => {
 // const Card = ({id, type, watermark, wideImage}: any) => {
 //     const {data, execute} = useFetchData()
 //     const [image, setImage] = React.useState<any>('')
-  
+
 //     React.useEffect(() => {
 //       execute(clientApi(`${type}/${id}`))
 //     }, [execute, id, type])
-  
+
 //     React.useEffect(() => {
 //       const buildImagePath = (data: any) => {
 //         const image = wideImage ? data?.backdrop_path : data?.poster_path
@@ -86,7 +88,7 @@ const NetflixBookmark = ({logout, authUser}: IProps) => {
 //       }
 //       setImage(buildImagePath(data?.data))
 //     }, [data, wideImage])
-  
+
 //     const watermarkClass = watermark ? 'watermarked' : ''
 //     return (
 //       <Link key={id} to={`/${type}/${id}`}>

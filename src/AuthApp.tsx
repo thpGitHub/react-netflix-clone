@@ -12,50 +12,81 @@ import NetflixBookmark from './components/NetflixBookmark'
 interface IProps {
     logout: () => void
     authUser: any
+    setAuthUser: any
 }
 
-const AuthApp = ({logout, authUser}: IProps) => {
+const AuthApp = ({logout, authUser, setAuthUser}: IProps) => {
     return (
         <Router>
             <Routes>
                 <Route
                     path="/"
-                    element={<NetflixApp logout={logout} authUser={authUser} />}
+                    element={
+                        <NetflixApp
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
+                    }
                 />
                 <Route
                     path="/tv/:tvId"
                     element={
-                        <NetflixById logout={logout} authUser={authUser} />
+                        <NetflixById
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 ></Route>
                 <Route
                     path="/movie/:movieId"
                     element={
-                        <NetflixById logout={logout} authUser={authUser} />
+                        <NetflixById
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 ></Route>
                 <Route
                     path="/series"
                     element={
-                        <NetflixSeries logout={logout} authUser={authUser} />
+                        <NetflixSeries
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 />
                 <Route
                     path="/movies"
                     element={
-                        <NetflixMovies logout={logout} authUser={authUser} />
+                        <NetflixMovies
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 />
                 <Route
                     path="/news"
                     element={
-                        <NetflixNews logout={logout} authUser={authUser} />
+                        <NetflixNews
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 />
                 <Route
                     path="/list"
                     element={
-                        <NetflixBookmark logout={logout} authUser={authUser} />
+                        <NetflixBookmark
+                            logout={logout}
+                            authUser={authUser}
+                            setAuthUser={setAuthUser}
+                        />
                     }
                 />
                 <Route

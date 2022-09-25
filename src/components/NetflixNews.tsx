@@ -13,6 +13,7 @@ import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
+import {AnySrvRecord} from 'dns'
 
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
@@ -28,9 +29,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface IProps {
     logout: () => void
     authUser: any
+    setAuthUser: AnySrvRecord
 }
 
-const NetflixNews = ({logout, authUser}: IProps) => {
+const NetflixNews = ({logout, authUser, setAuthUser}: IProps) => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(getRandomType())
@@ -52,6 +54,7 @@ const NetflixNews = ({logout, authUser}: IProps) => {
                 movie={headerMovie?.data}
                 type={type}
                 authUser={authUser}
+                setAuthUser={setAuthUser}
             />
 
             <NetFlixRow

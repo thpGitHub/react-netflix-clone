@@ -5,6 +5,8 @@ import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 import {clientNetflix} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
+import * as authNetflix from '../utils/authNetflixProvider'
+import {clientAuth} from '../utils/clientAPI'
 // *** MUI ***
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 import Snackbar from '@mui/material/Snackbar'
@@ -22,9 +24,34 @@ interface IProps {
     // movie: any,
     type: string
     authUser: any
+    setAuthUser: any
 }
 
-const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
+/**
+ * This function is two fold in App.tsx
+ */
+const getUserByToken = async () => {
+    let user = null
+    const token = await authNetflix.getTokenInLocalStorage()
+
+    if (token) {
+        console.log('Token exist :)')
+        const data = await clientAuth('getUserAuth', token)
+        // AxiosResponse
+        user = data.data.user
+        console.log('data ====', data)
+        console.log('user ====', user)
+    }
+
+    return user
+}
+
+const NetflixHeader = ({
+    movie,
+    type = TYPE_MOVIE,
+    authUser,
+    setAuthUser,
+}: IProps) => {
     const {data, execute, status, error, setData} = useFetchData()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
@@ -74,12 +101,20 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE, authUser}: IProps) => {
         execute(
             clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
         )
+        const user = await getUserByToken()
+        console.log('**** user in handleAddToBookmark === ', user);
+        
+        setAuthUser(user)
     }
-    const handleDeleteToBookmark = () => {
+    const handleDeleteToBookmark = async () => {
         setIsBookmarkFetchOneTime(true)
         execute(
             clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
         )
+        const user = await getUserByToken()
+        console.log('**** user in handleDeleteToBookmark === ', user);
+        
+        setAuthUser(user)
     }
 
     /*

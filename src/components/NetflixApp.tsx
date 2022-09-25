@@ -28,9 +28,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface IProps {
     logout: () => void
     authUser: any
-    }
+    setAuthUser: any
+}
 
-const NetflixApp = ({logout, authUser}: IProps) => {
+const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(getRandomType())
@@ -38,7 +39,7 @@ const NetflixApp = ({logout, authUser}: IProps) => {
     const [isFetchOneTime, setIsFetchOneTime] = useState(false)
 
     useEffect(() => {
-        if(isFetchOneTime) {
+        if (isFetchOneTime) {
             return
         }
         console.log('crypto === ', crypto)
@@ -50,7 +51,12 @@ const NetflixApp = ({logout, authUser}: IProps) => {
     return (
         <div>
             <NetflixAppBar logout={logout} />
-            <NetflixHeader movie={headerMovie?.data} type={type}authUser={authUser}/>
+            <NetflixHeader
+                movie={headerMovie?.data}
+                type={type}
+                authUser={authUser}
+                setAuthUser={setAuthUser}
+            />
 
             <NetFlixRow
                 type={TYPE_MOVIE}

@@ -33,6 +33,9 @@ const theme = createTheme({
 //     // code?: number;
 // }
 
+/**
+ * This function is two fold in NetflixHeader.tsx
+ */
 const getUserByToken = async () => {
     let user = null
     const token = await authNetflix.getTokenInLocalStorage()
@@ -96,7 +99,11 @@ function App() {
                     <CircularProgress color="primary" />
                 </Backdrop>
             ) : authUser ? (
-                <AuthApp logout={logout} authUser={authUser}/>
+                <AuthApp
+                    logout={logout}
+                    authUser={authUser}
+                    setAuthUser={setData}
+                />
             ) : (
                 <UnauthApp
                     login={login}

@@ -28,15 +28,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface IProps {
     logout: () => void
     authUser: any
-    }
+    setAuthUser: any
+}
 
-const NetflixById = ({logout, authUser}: IProps) => {
+const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
     const classes = useStyles()
     const {data: headerMovie, error, status, execute} = useFetchData() as any
 
     let {tvId, movieId} = useParams()
     const location = useLocation()
-    
 
     console.log('location', location)
     console.log('params tvID', tvId)
@@ -60,13 +60,17 @@ const NetflixById = ({logout, authUser}: IProps) => {
             top: 0,
             behavior: 'smooth',
         })
-
     }, [location.pathname, movieId, tvId])
 
     return (
         <div>
-            <NetflixAppBar logout={logout}/>
-            <NetflixHeader movie={headerMovie?.data} type={type} authUser={authUser}/>
+            <NetflixAppBar logout={logout} />
+            <NetflixHeader
+                movie={headerMovie?.data}
+                type={type}
+                authUser={authUser}
+                setAuthUser={setAuthUser}
+            />
 
             <NetFlixRow
                 type={TYPE_MOVIE}
