@@ -12,6 +12,10 @@ import UnauthApp from './UnauthApp'
 import {ThemeProvider, createTheme} from '@mui/material/styles'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
+// ** REACT Query
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const theme = createTheme({
     palette: {
@@ -93,25 +97,27 @@ function App() {
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            {status === 'fetching' ? (
-                <Backdrop open={true}>
-                    <CircularProgress color="primary" />
-                </Backdrop>
-            ) : authUser ? (
-                <AuthApp
-                    logout={logout}
-                    authUser={authUser}
-                    setAuthUser={setData}
-                />
-            ) : (
-                <UnauthApp
-                    login={login}
-                    register={register}
-                    error={authError}
-                />
-            )}
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={theme}>
+                {status === 'fetching' ? (
+                    <Backdrop open={true}>
+                        <CircularProgress color="primary" />
+                    </Backdrop>
+                ) : authUser ? (
+                    <AuthApp
+                        logout={logout}
+                        authUser={authUser}
+                        setAuthUser={setData}
+                    />
+                ) : (
+                    <UnauthApp
+                        login={login}
+                        register={register}
+                        error={authError}
+                    />
+                )}
+            </ThemeProvider>
+        </QueryClientProvider>
     )
 }
 
