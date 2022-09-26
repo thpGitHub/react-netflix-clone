@@ -13,6 +13,7 @@ import {ThemeProvider, createTheme} from '@mui/material/styles'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 // ** REACT Query
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
@@ -117,6 +118,7 @@ function App() {
                     />
                 )}
             </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     )
 }
