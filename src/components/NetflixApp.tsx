@@ -1,31 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
 import NetFlixRow from './NetFlixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
-// ** MUI **
-import {makeStyles} from '@mui/styles'
-import {Alert, AlertTitle, CircularProgress, Theme} from '@mui/material'
 // ** Utils **
 import {clientApi} from '../utils/clientAPI'
-import {useFetchData} from '../utils/hooks'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
-
-const useStyles = makeStyles((theme: Theme) => ({
-    alert: {
-        width: '50%',
-        margin: 'auto',
-        marginBotton: '50px',
-    },
-    progress: {
-        marginLeft: '300px',
-    },
-})) as any
 
 interface IProps {
     logout: () => void
@@ -34,22 +19,12 @@ interface IProps {
 }
 
 const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
-    const classes = useStyles()
-    // const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(getRandomType())
-    const defaultMovieId = getRandomId(type)
-    const [isFetchOneTime, setIsFetchOneTime] = useState(false)
-    
-    const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], ()=> clientApi(`${type}/${defaultMovieId}`)) 
-    // useEffect(() => {
-    //     if (isFetchOneTime) {
-    //         return
-    //     }
-    //     console.log('crypto === ', crypto)
+    const [defaultMovieId] = useState(getRandomId(type))
 
-    //     execute(clientApi(`${type}/${defaultMovieId}`))
-    //     setIsFetchOneTime(true)
-    // }, [execute, defaultMovieId, type, isFetchOneTime])
+    const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
+        clientApi(`${type}/${defaultMovieId}`),
+    )
 
     return (
         <div>
@@ -104,21 +79,6 @@ const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
             />
 
             <NetflixFooter />
-
-            {/* {status === 'error' ? (
-                <div className={classes.alert}>
-                    <Alert severity="error">
-                        <AlertTitle>Une erreur est survenue</AlertTitle>
-                        détail : {error.message}
-                    </Alert>
-                </div>
-            ) : null}
-
-            {status === 'fetching' ? (
-                <div className={classes.progress}>
-                    <CircularProgress />
-                </div>
-            ) : null} */}
         </div>
     )
 }

@@ -6,26 +6,12 @@ import NetFlixRow from './NetFlixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
-// ** MUI **
-import {makeStyles} from '@mui/styles'
-import {Alert, AlertTitle, CircularProgress, Theme} from '@mui/material'
 // ** Utils **
 import {clientApi} from '../utils/clientAPI'
-import {useFetchData} from '../utils/hooks'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
 
-const useStyles = makeStyles((theme: Theme) => ({
-    alert: {
-        width: '50%',
-        margin: 'auto',
-        marginBotton: '50px',
-    },
-    progress: {
-        marginLeft: '300px',
-    },
-})) as any
 
 interface IProps {
     logout: () => void
@@ -34,8 +20,6 @@ interface IProps {
 }
 
 const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
-    const classes = useStyles()
-    // const {data: headerMovie, error, status, execute} = useFetchData() as any
 
     let {tvId, movieId} = useParams()
     const location = useLocation()
@@ -49,12 +33,9 @@ const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
     )
     const [id, setId] = useState(type === TYPE_TV ? tvId : movieId)
 
-    const {data: headerMovie} = useQuery([`${type}/${id}`], ()=>clientApi(`${type}/${id}`))
-    // const {data: headerMovie} = useQuery([`**** toto ****`], ()=>clientApi(`${type}/${id}`))
-
-    // useEffect(() => {
-    //     execute(clientApi(`${type}/${id}`))
-    // }, [execute, type, id])
+    const {data: headerMovie} = useQuery([`${type}/${id}`], () =>
+        clientApi(`${type}/${id}`),
+    )
 
     useEffect(() => {
         const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
@@ -120,21 +101,6 @@ const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
             />
 
             <NetflixFooter />
-
-            {/* {status === 'error' ? (
-                <div className={classes.alert}>
-                    <Alert severity="error">
-                        <AlertTitle>Une erreur est survenue</AlertTitle>
-                        détail : {error.message}
-                    </Alert>
-                </div>
-            ) : null}
-
-            {status === 'fetching' ? (
-                <div className={classes.progress}>
-                    <CircularProgress />
-                </div>
-            ) : null} */}
         </div>
     )
 }
