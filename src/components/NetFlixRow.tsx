@@ -10,6 +10,8 @@ import {Alert, AlertTitle, CircularProgress} from '@mui/material'
 // ** Utils **
 import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
+// ** REACT Query
+import {useQuery} from '@tanstack/react-query'
 
 interface IProps {
     type: string
@@ -47,7 +49,7 @@ const NetFlixRow = ({
     watermark = false,
     wideImage = true,
 }: IProps) => {
-    const {data, error, status, execute} = useFetchData()
+    // const {data, error, status, execute} = useFetchData()
 
     const endpointLatest = `${type}/upcoming`
     const endpointPopular = `${type}/popular`
@@ -78,11 +80,14 @@ const NetFlixRow = ({
             throw new Error('Type non supporté')
     }
 
-    useEffect(() => {
-        execute(clientApi(endpoint))
-        // console.log('endpoint', endpoint);
-        // console.log('data', data);
-    }, [endpoint, execute])
+    const {data, error, status} = useQuery([`${endpoint}`], () =>
+        clientApi(endpoint),
+    )
+    // useEffect(() => {
+    //     execute(clientApi(endpoint))
+    //     // console.log('endpoint', endpoint);
+    //     // console.log('data', data);
+    // }, [endpoint, execute])
 
     // const image = wideImage ? 'images/sample-poster.jpg' : 'images/sample.jpg'
 
@@ -93,15 +98,21 @@ const NetFlixRow = ({
 
     const watermarkClass: string = watermark ? 'watermarked' : ''
 
-    if (status === 'fetching' || status === 'idle') {
+    // if (status === 'loading' || status === 'idle') {
+    if (status === 'loading') {
         return <RowSkeleton title={title} wideImage={true} />
     }
 
+    // if (err instanceof Error)
     if (status === 'error') {
         return (
             <Alert severity="error">
                 <AlertTitle>Une erreur est survenue</AlertTitle>
-                Détail : {error.message}
+                {/* Détail : {`${error.message}`} */}
+                {/*
+                 * err instanceof Error => for typescript
+                 */}
+                Détail : {`${error instanceof Error && error.message}`}
             </Alert>
         )
     }
@@ -110,7 +121,8 @@ const NetFlixRow = ({
         <div className="row">
             <h2>{title}</h2>
             <div className="row__posters">
-                {data.data.results.map((movie: IMovie) => {
+                {/* {data.data.results.map((movie: IMovie) => { */}
+                {data?.data?.results.map((movie: IMovie) => {
                     return (
                         <Link key={movie.id} to={`/${type}/${movie.id}`}>
                             <div

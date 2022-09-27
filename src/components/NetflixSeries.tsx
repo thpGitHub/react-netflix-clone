@@ -13,6 +13,8 @@ import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
+// ** REACT Query
+import {useQuery} from '@tanstack/react-query'
 
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
@@ -33,13 +35,14 @@ interface IProps {
 
 const NetflixSeries = ({logout, authUser, setAuthUser}: IProps) => {
     const classes = useStyles()
-    const {data: headerMovie, error, status, execute} = useFetchData() as any
+    // const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(TYPE_TV)
     const defaultMovieId = getRandomId(type)
-
-    useEffect(() => {
-        execute(clientApi(`${type}/${defaultMovieId}`))
-    }, [])
+    
+    const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], ()=> clientApi(`${type}/${defaultMovieId}`))
+    // useEffect(() => {
+    //     execute(clientApi(`${type}/${defaultMovieId}`))
+    // }, [])
 
     return (
         <div>
@@ -95,7 +98,7 @@ const NetflixSeries = ({logout, authUser, setAuthUser}: IProps) => {
 
             <NetflixFooter />
 
-            {status === 'error' ? (
+            {/* {status === 'error' ? (
                 <div className={classes.alert}>
                     <Alert severity="error">
                         <AlertTitle>Une erreur est survenue</AlertTitle>
@@ -108,7 +111,7 @@ const NetflixSeries = ({logout, authUser, setAuthUser}: IProps) => {
                 <div className={classes.progress}>
                     <CircularProgress />
                 </div>
-            ) : null}
+            ) : null} */}
         </div>
     )
 }

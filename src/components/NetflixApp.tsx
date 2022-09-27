@@ -13,6 +13,8 @@ import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
+// ** REACT Query
+import {useQuery} from '@tanstack/react-query'
 
 const useStyles = makeStyles((theme: Theme) => ({
     alert: {
@@ -33,20 +35,21 @@ interface IProps {
 
 const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
     const classes = useStyles()
-    const {data: headerMovie, error, status, execute} = useFetchData() as any
+    // const {data: headerMovie, error, status, execute} = useFetchData() as any
     const [type] = useState(getRandomType())
     const defaultMovieId = getRandomId(type)
     const [isFetchOneTime, setIsFetchOneTime] = useState(false)
+    
+    const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], ()=> clientApi(`${type}/${defaultMovieId}`)) 
+    // useEffect(() => {
+    //     if (isFetchOneTime) {
+    //         return
+    //     }
+    //     console.log('crypto === ', crypto)
 
-    useEffect(() => {
-        if (isFetchOneTime) {
-            return
-        }
-        console.log('crypto === ', crypto)
-
-        execute(clientApi(`${type}/${defaultMovieId}`))
-        setIsFetchOneTime(true)
-    }, [execute, defaultMovieId, type, isFetchOneTime])
+    //     execute(clientApi(`${type}/${defaultMovieId}`))
+    //     setIsFetchOneTime(true)
+    // }, [execute, defaultMovieId, type, isFetchOneTime])
 
     return (
         <div>
@@ -102,7 +105,7 @@ const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
 
             <NetflixFooter />
 
-            {status === 'error' ? (
+            {/* {status === 'error' ? (
                 <div className={classes.alert}>
                     <Alert severity="error">
                         <AlertTitle>Une erreur est survenue</AlertTitle>
@@ -115,7 +118,7 @@ const NetflixApp = ({logout, authUser, setAuthUser}: IProps) => {
                 <div className={classes.progress}>
                     <CircularProgress />
                 </div>
-            ) : null}
+            ) : null} */}
         </div>
     )
 }
