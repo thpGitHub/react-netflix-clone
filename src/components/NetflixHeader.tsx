@@ -126,6 +126,7 @@ const NetflixHeader = ({
     ]?.includes(movie?.id) //?? false
 
     console.log('isInBookmark', isInBookmark)
+    console.log('isInBookmark type ===', type)
     console.log('data.bookmark', data?.bookmark ?? 'totot')
     console.log('data.data.bookmark', data?.data?.bookmark ?? 'totot')
 
