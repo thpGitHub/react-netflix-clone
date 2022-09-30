@@ -68,6 +68,14 @@ const getUserWithTokenInLocalStorage = async (token: string) => {
     return users.find((item: {token: string}) => item.token === token)
 }
 
+// const getTokenInLocalStorage = async () => {
+//     return localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
+// }
+
+// const getUserWithPresentTokenInLocalStorage = () => {
+
+// }
+
 const deleteUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
     console.log('users before slice', users)

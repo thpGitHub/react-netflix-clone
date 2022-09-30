@@ -56,9 +56,13 @@ const NetflixHeader = ({
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
 
+    // useEffect(() => {
+    //     setData(authUser)
+    // }, [authUser, setData])
+
     useEffect(() => {
-        setData(authUser)
-    }, [authUser, setData])
+        execute(getUserByToken())
+    }, [execute])
 
     useEffect(() => {
         setSnackbarOpen(true)
@@ -101,20 +105,20 @@ const NetflixHeader = ({
         execute(
             clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
         )
-        const user = await getUserByToken()
-        console.log('**** user in handleAddToBookmark === ', user);
+        // const user = await getUserByToken()
+        // console.log('**** user in handleAddToBookmark === ', user);
         
-        setAuthUser(user)
+        // setData(user)
     }
     const handleDeleteToBookmark = async () => {
         setIsBookmarkFetchOneTime(true)
         execute(
             clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
         )
-        const user = await getUserByToken()
-        console.log('**** user in handleDeleteToBookmark === ', user);
+        // const user = await getUserByToken()
+        // console.log('**** user in handleDeleteToBookmark === ', user);
         
-        setAuthUser(user)
+        // setData(user)
     }
 
     /*
