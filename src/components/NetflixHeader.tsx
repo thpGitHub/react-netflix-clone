@@ -11,6 +11,9 @@ import {clientAuth} from '../utils/clientAPI'
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
+// ** REACT Query
+import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -52,21 +55,64 @@ const NetflixHeader = ({
     authUser,
     setAuthUser,
 }: IProps) => {
-    const {data, execute, status, error, setData} = useFetchData()
+    const queryClient = useQueryClient()
+    // const {data, execute, status, error, setData} = useFetchData()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
-    const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
+    // const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
+    const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
+
+    const {data} = useQuery(['bookmark'], ()=> {
+        return getUserByToken()
+    })
+    
+    // clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
+    const addMutation = useMutation(
+        async () => {
+        //   const token = await authNetflix.getToken()
+          return clientNetflix(`bookmark/${type}`, {
+            method: 'POST', data, movie
+          })
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries(['bookmark'])
+            setSnackbarOpen(true)
+            setMutateBookmarkError(null)
+          },
+          onError: error => {
+            setSnackbarOpen(true)
+            setMutateBookmarkError(error)
+          },
+        },
+      )
+
+      const deleteMutation = useMutation(
+        async () => {
+        //   const token = await authNetflix.getToken()
+          return clientNetflix(`bookmark/${type}`, {
+            method: 'DELETE', data, movie
+          })
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries(['bookmark'])
+            setSnackbarOpen(true)
+            setMutateBookmarkError(null)
+          },
+          onError: error => {
+            setSnackbarOpen(true)
+            setMutateBookmarkError(error)
+          },
+        },
+      )
 
     // useEffect(() => {
-    //     setData(authUser)
-    // }, [authUser, setData])
+    //     execute(getUserByToken())
+    // }, [execute])
 
-    useEffect(() => {
-        execute(getUserByToken())
-    }, [execute])
-
-    useEffect(() => {
-        setSnackbarOpen(true)
-    }, [status])
+    // useEffect(() => {
+    //     setSnackbarOpen(true)
+    // }, [status])
 
     const title = type === TYPE_MOVIE ? movie?.title : movie?.name
 
@@ -101,20 +147,18 @@ const NetflixHeader = ({
     } //as const
 
     const handleAddToBookmark = async () => {
-        setIsBookmarkFetchOneTime(true)
-        execute(
-            clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
-        )
-        // const user = await getUserByToken()
-        // console.log('**** user in handleAddToBookmark === ', user);
-        
-        // setData(user)
+        // setIsBookmarkFetchOneTime(true)
+        // execute(
+        //     clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
+        // )
+        addMutation.mutate()
     }
     const handleDeleteToBookmark = async () => {
-        setIsBookmarkFetchOneTime(true)
-        execute(
-            clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
-        )
+        // setIsBookmarkFetchOneTime(true)
+        deleteMutation.mutate()
+        // execute(
+        //     clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
+        // )
         // const user = await getUserByToken()
         // console.log('**** user in handleDeleteToBookmark === ', user);
         
@@ -170,7 +214,8 @@ const NetflixHeader = ({
                 <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
             </div>
             <div className="banner--fadeBottom"></div>
-            {status === 'done' && isBookmarkFetchOneTime ? (
+            {/* {status === 'done' && isBookmarkFetchOneTime ? ( */}
+            {!mutateBookmarkError ? (
                 <Snackbar
                     open={snackbarOpen}
                     autoHideDuration={4000}
@@ -181,14 +226,15 @@ const NetflixHeader = ({
                     </Alert>
                 </Snackbar>
             ) : null}
-            {status === 'error' && isBookmarkFetchOneTime ? (
+            {/* {status === 'error' && isBookmarkFetchOneTime ? ( */}
+            {mutateBookmarkError ? (
                 <Snackbar
                     open={snackbarOpen}
                     autoHideDuration={4000}
                     onClose={() => setSnackbarOpen(false)}
                 >
                     <Alert severity="error" sx={{width: '100%'}}>
-                        Problème lors de l'ajout : {error.message}
+                        Problème lors de l'ajout : {mutateBookmarkError.message}
                     </Alert>
                 </Snackbar>
             ) : null}
