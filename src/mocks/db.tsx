@@ -192,7 +192,10 @@ const authenticateUserForLogin = async ({
         throw error
     }
 
-    localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, getUserWithUserNameInLocalStorage.token)
+    localStorage.setItem(
+        TOKEN_KEY_IN_LOCAL_STORAGE,
+        getUserWithUserNameInLocalStorage.token,
+    )
 
     return getUserWithUserNameInLocalStorage
 }
@@ -202,6 +205,12 @@ const addBookmarkSerieInLocalStorage = async (
     authUser: any,
 ) => {
     const addBookmarkSerie = authUser.bookmark.series
+    if (addBookmarkSerie.includes(serieID)) {
+        const error = new Error('Serie déjà dans la liste')
+        // error.status = 400
+        throw error
+    }
+
     addBookmarkSerie.push(serieID)
     /**
      * Real copy authUser
@@ -221,6 +230,12 @@ const addBookmarkMovieInLocalStorage = async (
     authUser: any,
 ) => {
     const addBookmarkMovie = authUser.bookmark.movies
+    if (addBookmarkMovie.includes(movieID)) {
+        const error = new Error('Serie déjà dans la liste')
+        // error.status = 400
+        throw error
+    }
+
     addBookmarkMovie.push(movieID)
 
     /**
