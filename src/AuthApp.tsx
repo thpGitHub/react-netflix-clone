@@ -1,6 +1,9 @@
 import React from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {ErrorBoundary} from 'react-error-boundary'
+
 // **Components **
+import ErrorFallback from './components/ErrorFallback'
 import NetflixApp from './components/NetflixApp'
 import Page404 from './components/Error404'
 import NetflixSeries from './components/NetflixSeries'
@@ -18,6 +21,7 @@ interface IProps {
 const AuthApp = ({logout, authUser, setAuthUser}: IProps) => {
     return (
         <Router>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
             <Routes>
                 <Route
                     path="/"
@@ -94,6 +98,7 @@ const AuthApp = ({logout, authUser, setAuthUser}: IProps) => {
                     element={<Page404 logout={logout} authUser={authUser} />}
                 />
             </Routes>
+            </ErrorBoundary>
         </Router>
     )
 }

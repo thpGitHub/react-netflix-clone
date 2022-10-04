@@ -1,7 +1,8 @@
-import {NetflixAppBar} from 'components/NetflixAppBar'
+import React from 'react'
+import NetflixAppBar from './NetflixAppBar'
 import { useNavigate  } from "react-router-dom"
 
-function ErrorFallback({error, resetErrorBoundary}) {
+function ErrorFallback({error, resetErrorBoundary}: any) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -10,7 +11,7 @@ function ErrorFallback({error, resetErrorBoundary}) {
   }
   return (
     <div>
-      <NetflixAppBar />
+      <NetflixAppBar logout={()=>{}}/>
       <div
         role="alert"
         style={{
