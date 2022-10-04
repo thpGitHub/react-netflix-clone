@@ -1,23 +1,40 @@
 import axios from 'axios'
-import { moveEmitHelpers } from 'typescript'
+import {moveEmitHelpers} from 'typescript'
 import {API_KEY, LANG, API_URL} from '../const'
 import {sleep} from './helper'
 
 /*
-* fetch on : https://api.themoviedb.org/3
-*/
+ * fetch on : https://api.themoviedb.org/3
+ */
 const clientApi = async (endpoint: string) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     // await sleep(4000)
     const keyLang = `${startChar}api_key=${API_KEY}&language=${LANG}&page=${page}`
     //API_URL = https://api.themoviedb.org/3
-    return axios.get(`${API_URL}/${endpoint}${keyLang}`)
+
+    // on catch ici l'erreur retourné par tmdb afin de personaliser le 
+    // message dans errorBoundary
+    // retour tmdb quand mauvais id :
+    // status_code:34
+    // status_message: "The resource you requested could not be found."
+    // success: false
+    return axios.get(`${API_URL}/${endpoint}${keyLang}`).catch(error => {
+        if (error.response) {
+            const err = {
+                ...error.response,
+                message: error.response?.data?.status_message,
+            }
+            return Promise.reject(err)
+        } else {
+            return Promise.reject(error)
+        }
+    })
 }
 
 /*
-* Catch by MSW
-*/
+ * Catch by MSW
+ */
 const clientAuth = async (endPoint: string, token: string) => {
     // await sleep(4000)
     const config: any = {
@@ -31,9 +48,12 @@ const clientAuth = async (endPoint: string, token: string) => {
 }
 
 /*
-* Catch by MSW
-*/
-const clientNetflix = (endpoint: string, {data, method = 'get', movie}: any) => {
+ * Catch by MSW
+ */
+const clientNetflix = (
+    endpoint: string,
+    {data, method = 'get', movie}: any,
+) => {
     const config: any = {
         method,
         url: `https://auth.service.mock.com/${endpoint}`,
@@ -42,9 +62,7 @@ const clientNetflix = (endpoint: string, {data, method = 'get', movie}: any) => 
         data: {data, movie},
         // movie: movie,
         headers: {
-            Authorization: data.token
-                ? `Bearer ${data.token}`
-                : undefined,
+            Authorization: data.token ? `Bearer ${data.token}` : undefined,
         },
     }
     return axios(config)

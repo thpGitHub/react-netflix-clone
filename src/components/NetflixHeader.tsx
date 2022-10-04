@@ -169,10 +169,10 @@ const NetflixHeader = ({
      * props type = movie or tv
      * authUser.bookmark = {movies: [], series: []}
      */
-    const isInBookmark = false
-    // const isInBookmark = data?.bookmark[
-    //     type === TYPE_MOVIE ? 'movies' : 'series'
-    // ]?.includes(movie?.id) 
+    // const isInBookmark = false
+    const isInBookmark = data?.bookmark[
+        type === TYPE_MOVIE ? 'movies' : 'series'
+    ]?.includes(movie?.id) 
 
     console.log('isInBookmark', isInBookmark)
     console.log('isInBookmark type ===', type)
