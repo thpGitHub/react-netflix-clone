@@ -12,15 +12,13 @@ import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
 
-
 interface IProps {
     logout: () => void
-    authUser: any
-    setAuthUser: any
+    // authUser: any
+    // setAuthUser: any
 }
 
-const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
-
+const NetflixById = ({logout}: IProps) => {
     let {tvId, movieId} = useParams()
     const location = useLocation()
 
@@ -51,12 +49,7 @@ const NetflixById = ({logout, authUser, setAuthUser}: IProps) => {
     return (
         <div>
             <NetflixAppBar logout={logout} />
-            <NetflixHeader
-                movie={headerMovie?.data}
-                type={type}
-                authUser={authUser}
-                setAuthUser={setAuthUser}
-            />
+            <NetflixHeader movie={headerMovie?.data} type={type} />
 
             <NetFlixRow
                 type={TYPE_MOVIE}

@@ -14,90 +14,42 @@ import NetflixBookmark from './components/NetflixBookmark'
 
 interface IProps {
     logout: () => void
-    authUser: any
-    setAuthUser: any
+    // authUser: any
+    // setAuthUser: any
 }
 
-const AuthApp = ({logout, authUser, setAuthUser}: IProps) => {
+const AuthApp = ({logout}: IProps) => {
     return (
         <Router>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <NetflixApp
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                />
-                <Route
-                    path="/tv/:tvId"
-                    element={
-                        <NetflixById
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                ></Route>
-                <Route
-                    path="/movie/:movieId"
-                    element={
-                        <NetflixById
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                ></Route>
-                <Route
-                    path="/series"
-                    element={
-                        <NetflixSeries
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                />
-                <Route
-                    path="/movies"
-                    element={
-                        <NetflixMovies
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                />
-                <Route
-                    path="/news"
-                    element={
-                        <NetflixNews
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                />
-                <Route
-                    path="/list"
-                    element={
-                        <NetflixBookmark
-                            logout={logout}
-                            authUser={authUser}
-                            setAuthUser={setAuthUser}
-                        />
-                    }
-                />
-                <Route
-                    path="*"
-                    element={<Page404 logout={logout} authUser={authUser} />}
-                />
-            </Routes>
+                <Routes>
+                    <Route path="/" element={<NetflixApp logout={logout} />} />
+                    <Route
+                        path="/tv/:tvId"
+                        element={<NetflixById logout={logout} />}
+                    ></Route>
+                    <Route
+                        path="/movie/:movieId"
+                        element={<NetflixById logout={logout} />}
+                    ></Route>
+                    <Route
+                        path="/series"
+                        element={<NetflixSeries logout={logout} />}
+                    />
+                    <Route
+                        path="/movies"
+                        element={<NetflixMovies logout={logout} />}
+                    />
+                    <Route
+                        path="/news"
+                        element={<NetflixNews logout={logout} />}
+                    />
+                    <Route
+                        path="/list"
+                        element={<NetflixBookmark logout={logout} />}
+                    />
+                    <Route path="*" element={<Page404 logout={logout} />} />
+                </Routes>
             </ErrorBoundary>
         </Router>
     )

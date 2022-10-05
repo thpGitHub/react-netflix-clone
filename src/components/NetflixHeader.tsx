@@ -1,10 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 import {clientNetflix} from '../utils/clientAPI'
-import {useFetchData} from '../utils/hooks'
 import * as authNetflix from '../utils/authNetflixProvider'
 import {clientAuth} from '../utils/clientAPI'
 // *** MUI ***
@@ -13,7 +12,6 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
 // ** REACT Query
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
-
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -26,8 +24,8 @@ interface IProps {
     movie: AxiosData | undefined
     // movie: any,
     type: string
-    authUser: any
-    setAuthUser: any
+    // authUser?: any
+    // setAuthUser?: any
 }
 
 /**
@@ -49,70 +47,56 @@ const getUserByToken = async () => {
     return user
 }
 
-const NetflixHeader = ({
-    movie,
-    type = TYPE_MOVIE,
-    authUser,
-    setAuthUser,
-}: IProps) => {
+const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
     const queryClient = useQueryClient()
-    // const {data, execute, status, error, setData} = useFetchData()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
-    // const [isBookmarkFetchOneTime, setIsBookmarkFetchOneTime] = useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
 
-    const {data} = useQuery(['bookmark'], ()=> {
+    const {data} = useQuery(['bookmark'], () => {
         return getUserByToken()
     })
-    
-    // clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
+
     const addMutation = useMutation(
         async () => {
-        //   const token = await authNetflix.getToken()
-          return clientNetflix(`bookmark/${type}`, {
-            method: 'POST', data, movie
-          })
+            return clientNetflix(`bookmark/${type}`, {
+                method: 'POST',
+                data,
+                movie,
+            })
         },
         {
-          onSuccess: () => {
-            queryClient.invalidateQueries(['bookmark'])
-            setSnackbarOpen(true)
-            setMutateBookmarkError(null)
-          },
-          onError: error => {
-            setSnackbarOpen(true)
-            setMutateBookmarkError(error)
-          },
+            onSuccess: () => {
+                queryClient.invalidateQueries(['bookmark'])
+                setSnackbarOpen(true)
+                setMutateBookmarkError(null)
+            },
+            onError: error => {
+                setSnackbarOpen(true)
+                setMutateBookmarkError(error)
+            },
         },
-      )
+    )
 
-      const deleteMutation = useMutation(
+    const deleteMutation = useMutation(
         async () => {
-        //   const token = await authNetflix.getToken()
-          return clientNetflix(`bookmark/${type}`, {
-            method: 'DELETE', data, movie
-          })
+            return clientNetflix(`bookmark/${type}`, {
+                method: 'DELETE',
+                data,
+                movie,
+            })
         },
         {
-          onSuccess: () => {
-            queryClient.invalidateQueries(['bookmark'])
-            setSnackbarOpen(true)
-            setMutateBookmarkError(null)
-          },
-          onError: error => {
-            setSnackbarOpen(true)
-            setMutateBookmarkError(error)
-          },
+            onSuccess: () => {
+                queryClient.invalidateQueries(['bookmark'])
+                setSnackbarOpen(true)
+                setMutateBookmarkError(null)
+            },
+            onError: error => {
+                setSnackbarOpen(true)
+                setMutateBookmarkError(error)
+            },
         },
-      )
-
-    // useEffect(() => {
-    //     execute(getUserByToken())
-    // }, [execute])
-
-    // useEffect(() => {
-    //     setSnackbarOpen(true)
-    // }, [status])
+    )
 
     const title = type === TYPE_MOVIE ? movie?.title : movie?.name
 
@@ -147,22 +131,10 @@ const NetflixHeader = ({
     } //as const
 
     const handleAddToBookmark = async () => {
-        // setIsBookmarkFetchOneTime(true)
-        // execute(
-        //     clientNetflix(`bookmark/${type}`, {method: 'POST', data, movie}),
-        // )
         addMutation.mutate()
     }
     const handleDeleteToBookmark = async () => {
-        // setIsBookmarkFetchOneTime(true)
         deleteMutation.mutate()
-        // execute(
-        //     clientNetflix(`bookmark/${type}`, {method: 'DELETE', data, movie}),
-        // )
-        // const user = await getUserByToken()
-        // console.log('**** user in handleDeleteToBookmark === ', user);
-        
-        // setData(user)
     }
 
     /*
@@ -172,7 +144,7 @@ const NetflixHeader = ({
     // const isInBookmark = false
     const isInBookmark = data?.bookmark[
         type === TYPE_MOVIE ? 'movies' : 'series'
-    ]?.includes(movie?.id) 
+    ]?.includes(movie?.id)
 
     console.log('isInBookmark', isInBookmark)
     console.log('isInBookmark type ===', type)

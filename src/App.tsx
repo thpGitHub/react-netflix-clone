@@ -16,8 +16,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
-// const queryClient = new QueryClient()
-
 const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -52,14 +50,6 @@ const theme = createTheme({
         },
     },
 })
-
-// interface Error {
-//     name?: string
-//     message?: string
-//     stack?: string
-//     status?: number
-//     // code?: number;
-// }
 
 /**
  * This function is two fold in NetflixHeader.tsx
@@ -130,8 +120,8 @@ function App() {
                 ) : authUser ? (
                     <AuthApp
                         logout={logout}
-                        authUser={authUser}
-                        setAuthUser={setData}
+                        // authUser={authUser}
+                        // setAuthUser={setData}
                     />
                 ) : (
                     <UnauthApp
