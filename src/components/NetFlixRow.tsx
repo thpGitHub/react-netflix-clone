@@ -12,6 +12,7 @@ import {clientApi} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
+import { useMovieEndpoint } from '../utils/hooksMovies'
 
 interface IProps {
     type: string
@@ -43,7 +44,7 @@ interface IMovie {
 
 const NetFlixRow = ({
     type = TYPE_MOVIE,
-    param,
+    param = '',
     title = '',
     filter = 'populaire',
     watermark = false,
@@ -51,38 +52,41 @@ const NetFlixRow = ({
 }: IProps) => {
     // const {data, error, status, execute} = useFetchData()
 
-    const endpointLatest = `${type}/upcoming`
-    const endpointPopular = `${type}/popular`
-    const endpointTopRated = `${type}/top_rated`
-    const endpointGenre = `discover/${type}?with_genres=${param}`
-    const endpointTrending = `trending/${type}/day`
+    // const endpointLatest = `${type}/upcoming`
+    // const endpointPopular = `${type}/popular`
+    // const endpointTopRated = `${type}/top_rated`
+    // const endpointGenre = `discover/${type}?with_genres=${param}`
+    // const endpointTrending = `trending/${type}/day`
 
-    let endpoint: string = ''
+    // let endpoint: string = ''
 
-    switch (filter) {
-        case 'populaire':
-            endpoint = endpointPopular
-            break
-        case 'latest':
-            endpoint = endpointLatest
-            break
-        case 'toprated':
-            endpoint = endpointTopRated
-            break
-        case 'genre':
-            endpoint = endpointGenre
-            break
-        case 'trending':
-            endpoint = endpointTrending
-            break
+    // switch (filter) {
+    //     case 'populaire':
+    //         endpoint = endpointPopular
+    //         break
+    //     case 'latest':
+    //         endpoint = endpointLatest
+    //         break
+    //     case 'toprated':
+    //         endpoint = endpointTopRated
+    //         break
+    //     case 'genre':
+    //         endpoint = endpointGenre
+    //         break
+    //     case 'trending':
+    //         endpoint = endpointTrending
+    //         break
 
-        default:
-            throw new Error('Type non supporté')
-    }
+    //     default:
+    //         throw new Error('Type non supporté')
+    // }
 
-    const {data, error, status} = useQuery([`${endpoint}`], () =>
-        clientApi(endpoint),
-    )
+    // const {data, error, status} = useQuery([`${endpoint}`], () =>
+    //     clientApi(endpoint),
+    // )
+
+    const data = useMovieEndpoint(type, filter, param)
+
     // useEffect(() => {
     //     execute(clientApi(endpoint))
     //     // console.log('endpoint', endpoint);
@@ -99,23 +103,27 @@ const NetFlixRow = ({
     const watermarkClass: string = watermark ? 'watermarked' : ''
 
     // if (status === 'loading' || status === 'idle') {
-    if (status === 'loading') {
+    // if (status === 'loading') {
+    //     return <RowSkeleton title={title} wideImage={true} />
+    // }
+    if (!data) {
         return <RowSkeleton title={title} wideImage={true} />
     }
 
     // if (err instanceof Error)
-    if (status === 'error') {
-        return (
-            <Alert severity="error">
-                <AlertTitle>Une erreur est survenue</AlertTitle>
-                {/* Détail : {`${error.message}`} */}
-                {/*
-                 * err instanceof Error => for typescript
-                 */}
-                Détail : {`${error instanceof Error && error.message}`}
-            </Alert>
-        )
-    }
+
+    // if (status === 'error') {
+    //     return (
+    //         <Alert severity="error">
+    //             <AlertTitle>Une erreur est survenue</AlertTitle>
+    //             {/* Détail : {`${error.message}`} */}
+    //             {/*
+    //              * err instanceof Error => for typescript
+    //              */}
+    //             Détail : {`${error instanceof Error && error.message}`}
+    //         </Alert>
+    //     )
+    // }
 
     return (
         <div className="row">

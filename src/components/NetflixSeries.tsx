@@ -11,6 +11,7 @@ import {getRandomId} from '../utils/helper'
 import {TYPE_TV} from '../const'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
+import { useMovie } from '../utils/hooksMovies'
 
 interface IProps {
     logout: () => void
@@ -22,9 +23,10 @@ const NetflixSeries = ({logout}: IProps) => {
     const [type] = useState(TYPE_TV)
     const [defaultMovieId] = useState(getRandomId(type))
 
-    const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
-        clientApi(`${type}/${defaultMovieId}`),
-    )
+    // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
+    //     clientApi(`${type}/${defaultMovieId}`),
+    // )
+    const headerMovie = useMovie(type, defaultMovieId)
 
     return (
         <div>

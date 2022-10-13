@@ -12,6 +12,7 @@ import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
 // ** REACT Query
 import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+import {useBookmark} from '../utils/hooksMovies'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -52,9 +53,10 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
 
-    const {data} = useQuery(['bookmark'], () => {
-        return getUserByToken()
-    })
+    // const {data} = useQuery(['bookmark'], () => {
+    //     return getUserByToken()
+    // })
+    const data = useBookmark()
 
     const addMutation = useMutation(
         async () => {
@@ -141,10 +143,10 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
      * props type = movie or tv
      * authUser.bookmark = {movies: [], series: []}
      */
-    // const isInBookmark = false
-    const isInBookmark = data?.bookmark[
-        type === TYPE_MOVIE ? 'movies' : 'series'
-    ]?.includes(movie?.id)
+    const isInBookmark = false
+    // const isInBookmark = data?.bookmark[
+    //     type === TYPE_MOVIE ? 'movies' : 'series'
+    // ]?.includes(movie?.id)
 
     console.log('isInBookmark', isInBookmark)
     console.log('isInBookmark type ===', type)
