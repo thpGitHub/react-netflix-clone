@@ -5,7 +5,7 @@ import {clientApi} from '../utils/clientAPI'
 import * as authNetflix from '../utils/authNetflixProvider'
 import {clientAuth} from '../utils/clientAPI'
 import {TYPE_MOVIE} from '../const'
-import {useMovie} from '../utils/hooksMovies'
+import {useMovie, useBookmark} from '../utils/hooksMovies'
 // ** REACT Query
 import {useQuery} from '@tanstack/react-query'
 
@@ -37,16 +37,16 @@ const getUserByToken = async () => {
 const NetflixBookmark = ({logout}: IProps) => {
     const idDefault = 749274
 
-    const {data} = useQuery(['bookmark'], () => {
-        return getUserByToken()
-    })
+    // const {data} = useQuery(['bookmark'], () => {
+    //     return getUserByToken()
+    // })
+    const data = useBookmark()
 
     const id = data?.bookmark?.movies[0] ?? idDefault
 
     // const {data: headerMovie} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
     //     clientApi(`${TYPE_MOVIE}/${id}`),
     // )
-
     const headerMovie = useMovie(TYPE_MOVIE, id)
 
     return (

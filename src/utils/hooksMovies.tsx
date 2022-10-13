@@ -1,5 +1,7 @@
 import {useQuery} from '@tanstack/react-query'
 import {clientApi} from './clientAPI'
+import * as authNetflix from './authNetflixProvider'
+import { clientAuth } from './clientAPI'
 
 const useMovie = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
@@ -46,26 +48,27 @@ const useMovieEndpoint = (type: string, filter: string, param: string) => {
 /**
  * This function is two fold in App.tsx
  */
-//  const getUserByToken = async () => {
-//     let user = null
-//     const token = await authNetflix.getTokenInLocalStorage()
+ const getUserByToken = async () => {
+    let user = null
+    const token = await authNetflix.getTokenInLocalStorage()
 
-//     if (token) {
-//         console.log('Token exist :)')
-//         const data = await clientAuth('getUserAuth', token)
-//         // AxiosResponse
-//         user = data.data.user
-//         console.log('data ====', data)
-//         console.log('user ====', user)
-//     }
+    if (token) {
+        console.log('Token exist :)')
+        const data = await clientAuth('getUserAuth', token)
+        // AxiosResponse
+        user = data.data.user
+        console.log('data ====', data)
+        console.log('user ====', user)
+    }
 
-//     return user
-// }
+    return user
+}
 
-// const useBookmark = () => {
-//     const {data} = useQuery(['bookmark'], () => {
-//         return getUserByToken()
-//     })
-// }
+const useBookmark = () => {
+    const {data} = useQuery(['bookmark'], () => {
+        return getUserByToken()
+    })
+    return data
+}
 
-export {useMovie, useMovieEndpoint}
+export {useMovie, useMovieEndpoint, useBookmark}
