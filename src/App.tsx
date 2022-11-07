@@ -15,6 +15,8 @@ import CircularProgress from '@mui/material/CircularProgress'
 // ** REACT Query
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
+// ** Contexts
+import authContext from './contexts/authContext'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -111,26 +113,27 @@ function App() {
         setData(null)
     }
 
+    const props = {authUser, authError, login, register, logout}
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
+                <authContext.Provider value={props}>
                 {status === 'fetching' ? (
                     <Backdrop open={true}>
                         <CircularProgress color="primary" />
                     </Backdrop>
                 ) : authUser ? (
                     <AuthApp
-                        logout={logout}
-                        // authUser={authUser}
-                        // setAuthUser={setData}
+                        // logout={logout}
                     />
                 ) : (
                     <UnauthApp
-                        login={login}
-                        register={register}
-                        error={authError}
+                        // login={login}
+                        // register={register}
+                        // error={authError}
                     />
                 )}
+                </authContext.Provider>
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

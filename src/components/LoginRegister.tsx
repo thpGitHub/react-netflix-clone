@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 // *** MUI ***
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
@@ -11,6 +11,8 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Alert from '@mui/material/Alert'
+// ** Contexts
+import authContext from '../contexts/authContext'
 
 // import {browser} from '../mocks/browser'
 
@@ -107,7 +109,9 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     )
 }
 
-const PopupLogin = ({signUp = false, login, register, error}: IProps) => {
+// const PopupLogin = ({signUp = false, login, register, error}: IProps) => {
+const PopupLogin = ({signUp = false}) => {
+    const {login, register, authError: error}: any = useContext(authContext)
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open, setOpen] = React.useState(true)
 
