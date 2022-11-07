@@ -106,6 +106,7 @@ function App() {
 
     const logout = () => {
         authNetflix.logout()
+        queryClient.clear()
         // setAuthUser(null)
         setData(null)
     }
