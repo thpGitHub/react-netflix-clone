@@ -8,6 +8,6 @@ interface IContext {
     logout: () => void
 }
 
-const authContext = React.createContext<IContext | null>(null)
+const authContext = createContext<IContext | null>(null)
 
 export default authContext
