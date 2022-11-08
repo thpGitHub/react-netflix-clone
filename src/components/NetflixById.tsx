@@ -19,7 +19,8 @@ interface IProps {
     // setAuthUser: any
 }
 
-const NetflixById = ({logout}: IProps) => {
+// const NetflixById = ({logout}: IProps) => {
+const NetflixById = () => {
     let {tvId, movieId} = useParams()
     const location = useLocation()
 
@@ -50,7 +51,8 @@ const NetflixById = ({logout}: IProps) => {
 
     return (
         <div>
-            <NetflixAppBar logout={logout} />
+            {/* <NetflixAppBar logout={logout} /> */}
+            <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
             <NetFlixRow

@@ -19,7 +19,7 @@ interface IProps {
     // setAuthUser: any
 }
 
-const NetflixNews = ({logout}: IProps) => {
+const NetflixNews = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
 
@@ -30,7 +30,7 @@ const NetflixNews = ({logout}: IProps) => {
 
     return (
         <div>
-            <NetflixAppBar logout={logout} />
+            <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
             <NetFlixRow

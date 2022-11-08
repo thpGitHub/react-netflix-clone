@@ -1,4 +1,4 @@
-import React, {createContext} from 'react'
+import React, {createContext, useContext} from 'react'
 
 interface IContext {
     authUser: any
@@ -10,4 +10,14 @@ interface IContext {
 
 const authContext = createContext<IContext | null>(null)
 
-export default authContext
+const useAuthContext = () => {
+    const context = useContext(authContext)
+    if(!context) {
+        throw new Error('useAuthContext doit être wrapper dans <AuthContext.provider>')
+    }
+
+    return context
+}
+
+
+export {authContext, useAuthContext}

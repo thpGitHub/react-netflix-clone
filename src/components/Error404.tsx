@@ -7,7 +7,7 @@ interface IProps {
     // authUser: any
 }
 
-function Error404({logout}: IProps) {
+function Error404() {
     const imageUrl = '/images/bg-lost-in-space.png'
     return (
         <div
@@ -23,7 +23,7 @@ function Error404({logout}: IProps) {
                 overflow: 'auto',
             }}
         >
-            <NetflixAppBar logout={logout} />
+            <NetflixAppBar />
             <div
                 role="alert"
                 style={{

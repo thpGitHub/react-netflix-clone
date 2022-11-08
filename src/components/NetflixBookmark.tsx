@@ -34,7 +34,7 @@ const getUserByToken = async () => {
     return user
 }
 
-const NetflixBookmark = ({logout}: IProps) => {
+const NetflixBookmark = () => {
     const idDefault = 749274
 
     // const {data} = useQuery(['bookmark'], () => {
@@ -51,7 +51,7 @@ const NetflixBookmark = ({logout}: IProps) => {
 
     return (
         <>
-            <NetflixAppBar logout={logout} />
+            <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={TYPE_MOVIE} />
         </>
     )

@@ -11,7 +11,7 @@ function ErrorFallback({error, resetErrorBoundary}: any) {
   }
   return (
     <div>
-      <NetflixAppBar logout={()=>{}}/>
+      <NetflixAppBar />
       <div
         role="alert"
         style={{

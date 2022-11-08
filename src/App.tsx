@@ -16,7 +16,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 // ** Contexts
-import authContext from './contexts/authContext'
+import {authContext} from './contexts/authContext'
 
 const queryClient = new QueryClient({
     defaultOptions: {
