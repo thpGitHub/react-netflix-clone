@@ -75,8 +75,10 @@ const useSearchMovie = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
       clientApi(`search/multi?query=${query}`),
     )
+    console.log('data in useSearchMovie === ', data);
+    
     // return data?.data.results ?? []
-    return data
+    return data?.data?.results ?? []
   }
 
 export {useMovie, useMovieEndpoint, useBookmark, useSearchMovie}

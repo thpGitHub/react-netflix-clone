@@ -1,7 +1,6 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import {ErrorBoundary} from 'react-error-boundary'
-
 // **Components **
 import ErrorFallback from './components/ErrorFallback'
 import NetflixApp from './components/NetflixApp'
@@ -11,9 +10,7 @@ import NetflixMovies from './components/NetflixMovies'
 import NetflixNews from './components/NetflixNews'
 import NetflixById from './components/NetflixById'
 import NetflixBookmark from './components/NetflixBookmark'
-// ** Contexts
-// import authContext from './contexts/authContext'
-import {useAuthContext} from './contexts/authContext'
+import NetflixSearch from './components/NetflixSearch'
 
 interface IProps {
     logout: () => void
@@ -21,10 +18,7 @@ interface IProps {
     // setAuthUser: any
 }
 
-// const AuthApp = ({logout}: IProps) => {
 const AuthApp = () => {
-    // const {logout}: any = useContext(authContext)
-    // const {logout}: any = useAuthContext
     return (
         <Router>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -54,6 +48,10 @@ const AuthApp = () => {
                     <Route
                         path="/list"
                         element={<NetflixBookmark />}
+                    />
+                    <Route
+                        path="/search/:query"
+                        element={<NetflixSearch />}
                     />
                     <Route path="*" element={<Page404 />} />
                 </Routes>

@@ -3,7 +3,7 @@ import React from 'react'
 const NetflixFooter = (): JSX.Element => {
     return (
         <>
-            <footer className="footer">2021 - Netflix Clone</footer>
+            <footer className="footer">2022 - Netflix Clone</footer>
         </>
     )
 }
