@@ -1,17 +1,18 @@
-import React, {useState} from 'react'
+import React from 'react'
+import {Link, useParams} from 'react-router-dom'
+// ** Utils
 import {useMovie, useSearchMovie} from '../utils/hooksMovies'
-import {useParams} from 'react-router-dom'
 import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
-
+// ** Components
 import NetflixAppBar from './NetflixAppBar'
 import NetFlixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
-import {Link} from 'react-router-dom'
 import RowSkeleton from './skeletons/RowSkeleton'
 
 const NetflixSearch = () => {
     /*
      * {query: 'batman'}
+     * {query: slug} destructuring and rename at the same time :)
      */
     const {query: slug}: any = useParams()
     console.log('slug', slug)
@@ -27,12 +28,13 @@ const NetflixSearch = () => {
     const headerMovie = data?.[0] ?? defaultMovie
     console.log('headerMovie === ', headerMovie)
 
-    const type = ''
-    const movies: any = []
-    const series: any = []
-    // return (
-    //   <div style={{color: "white"}}>NetflixSearch</div>
-    // )
+    const type = headerMovie?.media_type
+    const movies: any = data.filter((result: any) => result.media_type === TYPE_MOVIE)
+    const series: any = data.filter((result: any) => result.media_type === TYPE_TV)
+  console.log('movies === ', movies);
+  
+
+
     return (
         <div>
             <NetflixAppBar />
@@ -135,7 +137,8 @@ vote_count: 6690
  */
 
 /**
- * exemple defaultMovie
+ * exemple defaultMovie:
+ * 
 config: {transitional: {…}, transformRequest: Array(1), transformResponse: Array(1), timeout: 0, adapter: ƒ, …}
 data:
     adult: false
