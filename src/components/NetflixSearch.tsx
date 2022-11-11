@@ -1,32 +1,116 @@
 import React, {useState} from 'react'
-import { useMovie, useSearchMovie } from '../utils/hooksMovies'
-import { useParams } from 'react-router-dom'
-import { TYPE_MOVIE } from '../const'
+import {useMovie, useSearchMovie} from '../utils/hooksMovies'
+import {useParams} from 'react-router-dom'
+import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
+
+import NetflixAppBar from './NetflixAppBar'
+import NetFlixFooter from './NetflixFooter'
+import NetflixHeader from './NetflixHeader'
+import {Link} from 'react-router-dom'
+import RowSkeleton from './skeletons/RowSkeleton'
 
 const NetflixSearch = () => {
-  /*
-  * {query: 'batman'}
-  */
-  const {query:slug}: any = useParams()
-  console.log('slug', slug);
-  /*
-  *  https://api.themoviedb.org/3/search/multi?api_key=<SECRET KEY>&language=en-US&page=1&include_adult=false&query=batman
-  * data === [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-  */
-  const data = useSearchMovie(slug)
-  console.log('data === ', data);
-  
-  const defaultMovie = useMovie(TYPE_MOVIE, 785752)
-  console.log('defaultMovie === ', defaultMovie)
-  const headerMovie = data?.[0] ?? defaultMovie
-  console.log('headerMovie === ', headerMovie);
-  
-  
+    /*
+     * {query: 'batman'}
+     */
+    const {query: slug}: any = useParams()
+    console.log('slug', slug)
+    /*
+     *  https://api.themoviedb.org/3/search/multi?api_key=<SECRET KEY>&language=en-US&page=1&include_adult=false&query=batman
+     * data === [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+     */
+    const data = useSearchMovie(slug)
+    console.log('data === ', data)
 
-  return (
-    <div style={{color: "white"}}>NetflixSearch</div>
-  )
+    const defaultMovie = useMovie(TYPE_MOVIE, 785752)
+    console.log('defaultMovie === ', defaultMovie)
+    const headerMovie = data?.[0] ?? defaultMovie
+    console.log('headerMovie === ', headerMovie)
+
+    const type = ''
+    const movies: any = []
+    const series: any = []
+    // return (
+    //   <div style={{color: "white"}}>NetflixSearch</div>
+    // )
+    return (
+        <div>
+            <NetflixAppBar />
+            <NetflixHeader movie={headerMovie} type={type} />
+            {data?.length === 0 ? (
+                <div className="row">
+                    <h2>Pas de résultat</h2>
+                </div>
+            ) : (
+                <>
+                    <NetflixRowView
+                        data={movies}
+                        wideImage={true}
+                        watermark={true}
+                        type={TYPE_MOVIE}
+                        filter="trending"
+                        title="Films correspondants"
+                    />
+                    <NetflixRowView
+                        data={series}
+                        wideImage={false}
+                        watermark={true}
+                        type={TYPE_TV}
+                        filter="trending"
+                        title="Série correspondantes"
+                    />
+                </>
+            )}
+
+            {/* <NetFlixFooter color="secondary" si /> */}
+            <NetFlixFooter />
+        </div>
+    )
 }
+// 🐶'NetflixRowView' est le meme composant que 'NetflixRow' sauf qu'on
+// peut lui passer un 'array'(data) de films/series
+const NetflixRowView = ({
+    data = [],
+    title = '',
+    filter = '',
+    wideImage = true,
+    type = TYPE_MOVIE,
+    watermark = false,
+}) => {
+    const buildImagePath = (data: any) => {
+        const image = wideImage ? data?.backdrop_path : data?.poster_path
+        // return image ? `${imagePath400}${image}` : null
+        return `${IMAGE_URL_ORIGINAL}${image}`
+    }
+    const watermarkClass = watermark ? 'watermarked' : ''
+
+    if (!data) {
+        return <RowSkeleton title={title} wideImage={wideImage} />
+    }
+    return (
+        <div className="row">
+            <h2>{title}</h2>
+            <div className="row__posters">
+                {data.map((movie: any) => {
+                    return (
+                        <Link key={movie.id} to={`/${type}/${movie.id}`}>
+                            <div
+                                className={`row__poster row__posterLarge ${watermarkClass}`}
+                            >
+                                <img
+                                    src={buildImagePath(movie)}
+                                    alt={movie.name}
+                                />
+                            </div>
+                        </Link>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+// }
 
 export default NetflixSearch
 
