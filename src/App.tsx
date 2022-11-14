@@ -8,7 +8,7 @@ import './mocks'
 import {useAuthContext} from './contexts/authContext'
 import AppProviders from './contexts'
 // ** Dynamic imports
-const AuthApp = lazy(() => import('./AuthApp'))
+const AuthApp = lazy(() => import(/* webpackPrefetch: true */'./AuthApp'))
 const UnauthApp = lazy(() => import('./UnauthApp'))
 
 function App() {
