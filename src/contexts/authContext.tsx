@@ -1,4 +1,11 @@
-import React, {useEffect, useState, createContext, useContext} from 'react'
+import React, {
+    useEffect,
+    useState,
+    createContext,
+    useContext,
+    useMemo,
+    useCallback,
+} from 'react'
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
@@ -45,11 +52,9 @@ const useAuthContext = () => {
             'useAuthContext doit être wrapper dans <AuthContext.provider>',
         )
     }
-
     return context
 }
 
-// const AuthContextProvider = (props: any) => {
 const AuthContextProvider = (props: any) => {
     const queryClient = useQueryClient()
     const {data: authUser, status, execute, setData} = useFetchData()
@@ -67,7 +72,6 @@ const AuthContextProvider = (props: any) => {
         password: string
     }) => {
         console.log(userName, password)
-        // authNetflix.login({userName, password}).then(user => setAuthUser(user))
         authNetflix
             .login({userName, password})
             .then(user => setData(user))
@@ -75,22 +79,51 @@ const AuthContextProvider = (props: any) => {
     }
 
     const register = (data: {userName: string; password: string}) => {
-        // authNetflix.register(data).then(user => setAuthUser(user))
         authNetflix
             .register(data)
             .then(user => setData(user))
             .catch(error => setAuthError(error))
-        // const user = await authNetflix.register(data)
-        // setAuthUser(user)
     }
 
     const logout = () => {
         authNetflix.logout()
         queryClient.clear()
-        // setAuthUser(null)
         setData(null)
     }
+
+    // const login = useCallback(
+    //     ({userName, password}: {userName: string; password: string}) => {
+    //         console.log(userName, password)
+    //         authNetflix
+    //             .login({userName, password})
+    //             .then(user => setData(user))
+    //             .catch(error => setAuthError(error))
+    //     },
+    //     [setData],
+    // )
+
+    // const register = useCallback(
+    //     (data: {userName: string; password: string}) => {
+    //         authNetflix
+    //             .register(data)
+    //             .then(user => setData(user))
+    //             .catch(error => setAuthError(error))
+    //     },
+    //     [setData],
+    // )
+
+    // const logout = useCallback(() => {
+    //     authNetflix.logout()
+    //     queryClient.clear()
+    //     setData(null)
+    // }, [queryClient, setData])
+
     console.log('status === ', status)
+
+    // const value = useMemo(
+    //     () => ({authUser, authError, login, register, logout}),
+    //     [authError, authUser, login, logout, register],
+    // )
 
     if (status === 'fetching' || status === 'idle') {
         return (
@@ -99,6 +132,7 @@ const AuthContextProvider = (props: any) => {
             </Backdrop>
         )
     }
+
     if (status === 'done') {
         const value = {authUser, authError, login, register, logout}
         return <AuthContext.Provider value={value} {...props} />
