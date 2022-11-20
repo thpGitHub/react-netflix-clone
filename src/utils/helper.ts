@@ -9,11 +9,11 @@ export function getRandomIntInclusive(min: number, max: number) {
 export function getRandomType() {
   return [TYPE_TV, TYPE_MOVIE][getRandomIntInclusive(0, 1)]
 }
-function getRandomMovie() {
+export function getRandomMovie() {
   const moviesIds = [399566, 602734, 579047, 385128, 615658]
   return moviesIds[getRandomIntInclusive(0, moviesIds.length - 1)]
 }
-function getRandomSerie() {
+export function getRandomSerie() {
   const tvIds = [71446, 60574, 1399, 66732]
   return tvIds[getRandomIntInclusive(0, tvIds.length - 1)]
 }
