@@ -11,7 +11,7 @@ afterAll(() => server.close())
 test('send a request to a endPoint', async () => {
     const endPoint = 'fake-endpoint'
     const resultRequest = {mockResult: 'TEST'}
-    const resultRequestFalse = {mockResult: 'TEST2'}
+    // const resultRequestFalse = {mockResult: 'TEST2'}
 
     server.use(
         rest.get(
@@ -45,7 +45,7 @@ test('check the token passed as parameter', async () => {
         ),
     )
 
-    const result = await clientAuth(endPoint, token)
+    await clientAuth(endPoint, token)
     expect(request.headers.get('authorization')).toBe(`Bearer ${token}`)
 })
 test('check when no token passed as parameter', async () => {
@@ -66,6 +66,6 @@ test('check when no token passed as parameter', async () => {
         ),
     )
 
-    const result = await clientAuth(endPoint)
+    await clientAuth(endPoint)
     expect(request.headers.get('authorization')).toBe(`${token}`)
 })
