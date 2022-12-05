@@ -2,6 +2,7 @@ import axios from 'axios'
 import {moveEmitHelpers} from 'typescript'
 import {API_KEY, LANG, API_URL} from '../const'
 import {sleep} from './helper'
+import * as authNetflix from '../../src/utils/authNetflixProvider'
 
 /*
  * fetch on : https://api.themoviedb.org/3
@@ -13,7 +14,7 @@ const clientApi = async (endpoint: string) => {
     const keyLang = `${startChar}api_key=${API_KEY}&language=${LANG}&page=${page}`
     //API_URL = https://api.themoviedb.org/3
 
-    // on catch ici l'erreur retourné par tmdb afin de personaliser le 
+    // on catch ici l'erreur retourné par tmdb afin de personaliser le
     // message dans errorBoundary
     // retour tmdb quand mauvais id :
     // status_code:34
@@ -65,17 +66,32 @@ const clientNetflix = (
             Authorization: data.token ? `Bearer ${data.token}` : undefined,
         },
     }
-    return axios(config)
-        .then(response => {
-            console.log('response data ', response?.data)
-            console.log('movie ', movie)
-            return response.data
-        })
-        .catch(error => {
-            if (error.response) {
-                return Promise.reject(error.response.data)
-            }
-        })
+    return (
+        axios(config)
+            .then(response => {
+                console.log('response data ', response?.data)
+                console.log('movie ', movie)
+                return response.data
+            })
+            // .catch(error => {
+            //     if (error.response) {
+            //         return Promise.reject(error.response.data)
+            //     }
+            // })
+            .catch(error => {
+                if (error?.response?.status === 401) {
+                    authNetflix.logout()
+                    return Promise.reject({
+                        message: 'Authentification incorrecte',
+                    })
+                }
+                if (error.response) {
+                    return Promise.reject(error.response.data)
+                } else {
+                    return Promise.reject(error)
+                }
+            })
+    )
 }
 
 export {clientApi, clientAuth, clientNetflix}

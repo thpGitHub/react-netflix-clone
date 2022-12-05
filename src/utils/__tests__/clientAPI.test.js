@@ -1,6 +1,7 @@
-import {clientAuth} from '../clientAPI'
+import {clientAuth, clientNetflix} from '../clientAPI'
 import {server, rest} from '../../mocks'
-// import {nanoid} from 'nanoid'
+import * as authNetflix from '../../utils/authNetflixProvider'
+jest.mock('../../utils/authNetflixProvider')
 
 beforeAll(() => server.listen())
 
@@ -68,4 +69,27 @@ test('check when no token passed as parameter', async () => {
 
     await clientAuth(endPoint)
     expect(request.headers.get('authorization')).toBe(`${token}`)
+})
+test('check error mesage on 401', async () => {
+    const endPoint = 'fake-endpoint'
+    const resultRequest = {mockResult: 'TEST'}
+    const data = {fake: 'fake data'}
+    const token = 'undefined'
+
+    server.use(
+        rest.get(
+            // `https://auth.service.mock.com/${endPoint}${token}`,
+            `https://auth.service.mock.com/${endPoint}`,
+            async (req, res, ctx) => {
+                // console.log('req request === ', request)
+                return res(ctx.status(401), ctx.json(resultRequest))
+            },
+        ),
+    )
+
+    const error = await clientNetflix(endPoint, {data}).catch(
+        error => error,
+    )
+    expect(error.message).toMatchInlineSnapshot(`"Authentification incorrecte"`) 
+    expect(authNetflix.logout).toHaveBeenCalledTimes(1) 
 })
