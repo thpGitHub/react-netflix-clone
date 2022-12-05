@@ -22,7 +22,7 @@ function App() {
 const AppConsumer = () => {
     const {authUser} = useAuthContext()
     return (
-        <Suspense fallback={<div>Chargement...</div>} >
+        <Suspense fallback={<div role='alert'>Chargement...</div>} >
             {authUser ? <AuthApp /> : <UnauthApp />}
         </Suspense>
     )
