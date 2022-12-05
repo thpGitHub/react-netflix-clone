@@ -35,7 +35,7 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     const [userName, setUserName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
-    const labelButton = createLoginCount ? 'Inscrivez vous' : 'Connexion'
+    const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -117,7 +117,7 @@ const PopupLogin = ({signUp = false}) => {
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open, setOpen] = React.useState(true)
 
-    const labelTitle = createLogin ? 'Inscrivez vous' : 'Connexion'
+    const labelTitle = createLogin ? 'Inscrivez-vous' : 'Connexion'
 
     const handleSignUp = () => {
         setCreateLogin(true)

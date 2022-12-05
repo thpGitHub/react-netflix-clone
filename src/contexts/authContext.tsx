@@ -127,9 +127,11 @@ const AuthContextProvider = (props: any) => {
 
     if (status === 'fetching' || status === 'idle') {
         return (
-            <Backdrop open={true}>
-                <CircularProgress color="primary" />
-            </Backdrop>
+            <div role="alert">
+                <Backdrop open={true}>
+                    <CircularProgress color="primary" />
+                </Backdrop>
+            </div>
         )
     }
 
