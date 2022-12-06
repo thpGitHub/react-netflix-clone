@@ -39,7 +39,7 @@ export const handlers = [
 
             const user = await usersDB.getUserWithTokenInLocalStorage(token)
             // usersDB.getUserWithTokenInLocalStorage(token)
-
+            console.log('****https://auth.service.mock.com/getUserAuth ****');
             return res(
                 // ctx.delay(1500),
                 ctx.status(202, 'Mocked status'),
