@@ -52,6 +52,7 @@ const saveUserInlocalStorage = async (user: {
     }
 
     localStorage.setItem(localStorageKey, JSON.stringify(users))
+    console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
 }
 
 const getUserNameInLocalStorage = async (userName: string) => {
@@ -93,7 +94,7 @@ const deleteUserWithTokenInLocalStorage = async (token: string) => {
     console.log('splice = ', users)
 
     localStorage.setItem(localStorageKey, JSON.stringify(users))
-
+    
     // users.findIndex((element: any) => element.token === token )
 }
 

@@ -32,7 +32,7 @@ const getUserByToken = async () => {
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
-        console.log('Token exist :)')
+        console.log('Token exist :) === ', token)
         const data = await clientAuth('getUserAuth', token)
         // AxiosResponse
         user = data.data.user
