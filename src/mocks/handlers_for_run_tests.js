@@ -1,7 +1,7 @@
 import {rest} from 'msw'
 import * as usersDB from './db'
 
-export const handlers = [
+export const handlers_for_run_tests = [
     // Handles a POST /login request
     rest.post(
         'https://auth.service.mock.com/register',
@@ -130,15 +130,57 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
-    // rest.get(
-    //     `https://api.themoviedb.org/3/trending/movie/day`,
-    //     async (req, res, ctx) => {
-    //         console.log(
-    //             '////// in https://api.themoviedb.org/3/trending/movie/day',
-    //         )
 
-    //         return res(ctx.json('sampleMovie'))
-    //     },
-    // ),
+    /**
+     * use by 'NetflixApp.test'
+     * API calls in this component when mounted :
+     *
+     * GET https://api.themoviedb.org/3/trending/movie/day
+     * GET https://api.themoviedb.org/3/trending/tv/day
+     * GET https://api.themoviedb.org/3/movie/top_rated
+     * GET https://api.themoviedb.org/3/discover/tv
+     * GET https://api.themoviedb.org/3/discover/movie
+     * GET https://api.themoviedb.org/3/tv/66732    --->  random tv/:id or movie/:id
+     *
+     */
+    rest.get(
+        `https://api.themoviedb.org/3/trending/movie/day`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
+    rest.get(
+        `https://api.themoviedb.org/3/trending/tv/day`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
+    rest.get(
+        `https://api.themoviedb.org/3/movie/top_rated`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
+    rest.get(
+        `https://api.themoviedb.org/3/discover/tv`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
+    rest.get(
+        `https://api.themoviedb.org/3/discover/movie`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
+    rest.get(`https://api.themoviedb.org/3/tv/:id`, async (req, res, ctx) => {
+        return res(ctx.json('sampleMovie'))
+    }),
+    rest.get(
+        `https://api.themoviedb.org/3/movie/:id`,
+        async (req, res, ctx) => {
+            return res(ctx.json('sampleMovie'))
+        },
+    ),
 ]
 // bookmark/movie req.body ===  {"id":"t0tQr7qYTUYuMB69IVD6o","userName":"titi2@hot.com","passwordHash":"$2a$10$4uxGGzx0/ET0KpkJXCcBx.QI5Y4GHlx5228cqudIEzpR7Kzl1abXW","token":"$2a$10$N8oo/LOueS.m1RjtRkIpCO","bookmark":{"movies":[],"series":[]}}

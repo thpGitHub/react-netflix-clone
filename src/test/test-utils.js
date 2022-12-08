@@ -18,6 +18,7 @@ function render(ui, {lang = 'fr', ...options} = {}) {
     return renderReactTestingLib(ui, {wrapper, ...options})
 }
 
+export * from './data'
 // exporte tout testing library y compris son render
 export * from '@testing-library/react'
 // surcharge de render pour exporter notre render :)
