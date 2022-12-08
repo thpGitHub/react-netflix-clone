@@ -12,6 +12,7 @@ import {server, rest} from '../../mocks'
 
 /**
  * API calls in this component when mounted :
+ * handle in handlers_for_run_tests.js
  *
  * GET https://api.themoviedb.org/3/trending/movie/day
  * GET https://api.themoviedb.org/3/trending/tv/day
@@ -22,6 +23,14 @@ import {server, rest} from '../../mocks'
  *
  */
 
+/**
+ * Here :
+ * <Router>
+ *    <NetflixApp></NetflixApp>
+ * </Router>,
+ * because :
+ * Error: Uncaught [Error: useNavigate() may be used only in the context of a <Router> component.]
+ */
 test('should render componant', async () => {
     render(
         <Router>
@@ -33,4 +42,3 @@ test('should render componant', async () => {
     // screen.logTestingPlaygroundURL()
     expect(screen.getByRole('heading', {name: /accueil/i})).toBeInTheDocument()
 })
-
