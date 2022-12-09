@@ -1,5 +1,6 @@
 import {rest} from 'msw'
 import * as usersDB from './db'
+import { sampleMovie } from '../test/data'
 
 export const handlers_for_run_tests = [
     // Handles a POST /login request
@@ -179,7 +180,7 @@ export const handlers_for_run_tests = [
     rest.get(
         `https://api.themoviedb.org/3/movie/:id`,
         async (req, res, ctx) => {
-            return res(ctx.json('sampleMovie'))
+            return res(ctx.json(sampleMovie))
         },
     ),
 ]
