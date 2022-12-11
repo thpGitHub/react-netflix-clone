@@ -130,7 +130,7 @@ const NetFlixRow = ({
             <h2>{title}</h2>
             <div className="row__posters">
                 {/* {data.data.results.map((movie: IMovie) => { */}
-                {data?.data?.results.map((movie: IMovie) => {
+                {data?.data?.results?.map((movie: IMovie) => {
                     return (
                         <Link key={movie.id} to={`/${type}/${movie.id}`}>
                             <div

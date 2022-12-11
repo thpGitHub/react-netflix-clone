@@ -46,9 +46,41 @@ test('should render componant', async () => {
     expect(screen.getByRole('heading', {name: /news/i})).toBeInTheDocument()
     expect(screen.getByRole('heading', {name: /list/i})).toBeInTheDocument()
     expect(screen.getByRole('textbox', {name: /search/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /Films Netflix/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /Séries Netflix/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /Les mieux notés/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /Action & aventure/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /Les meilleurs thrillers/i})).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Films Netflix/i}),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Séries Netflix/i}),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Les mieux notés/i}),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Action & aventure/i}),
+    ).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Les meilleurs thrillers/i}),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument()
+})
+
+/**
+ * skip this test because i can't change route /serie
+ * todo : test with userEvent
+ */
+test.skip('shoould render /series route', async () => {
+    const route = '/series'
+    // window.history.pushState({}, 'Page series Netflix', route)
+    window.history.pushState({}, 'Page series Netflix', route)
+    render(
+        <Router>
+            <NetflixApp></NetflixApp>
+        </Router>,
+    )
+    await waitForElementToBeRemoved(() => screen.queryByRole('alert'))
+    // screen.debug()
+    expect(screen.getByRole('heading', {name: /accueil/i})).toBeInTheDocument()
+    expect(
+        screen.getByRole('heading', {name: /Films Netflix/i}),
+    ).toBeInTheDocument()
 })
