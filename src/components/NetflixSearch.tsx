@@ -92,7 +92,7 @@ const NetflixRowView = ({
     return (
         <div className="row">
             <h2>{title}</h2>
-            <div className="row__posters">
+            <div className="row__posters" role="listitem" aria-label={type}>
                 {data.map((movie: any) => {
                     return (
                         <Link key={movie.id} to={`/${type}/${movie.id}`}>

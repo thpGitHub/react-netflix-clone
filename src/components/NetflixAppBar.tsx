@@ -144,6 +144,8 @@ const NetflixAppBar = () => {
                     />
                 </Search>
                 <img
+                    role="button"
+                    aria-label="logout"
                     style={{marginLeft: 'auto'}}
                     className="nav__avatar"
                     src="/images/netflix-avatar.png"
