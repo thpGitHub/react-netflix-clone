@@ -1,17 +1,11 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import './Netflix.css'
 import {Link} from 'react-router-dom'
 // ** Component **
 import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
-// ** MUI **
-import {Alert, AlertTitle, CircularProgress} from '@mui/material'
-// ** Utils **
-import {clientApi} from '../utils/clientAPI'
-import {useFetchData} from '../utils/hooks'
 // ** REACT Query
-import {useQuery} from '@tanstack/react-query'
 import { useMovieEndpoint } from '../utils/hooksMovies'
 
 interface IProps {

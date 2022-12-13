@@ -11,9 +11,9 @@ import SearchIcon from '@mui/icons-material/Search'
 // ** Contexts
 import {useAuthContext} from '../contexts/authContext'
 
-interface IProps {
-    logout: () => void
-}
+// interface IProps {
+//     logout: () => void
+// }
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',

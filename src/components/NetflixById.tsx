@@ -7,17 +7,15 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
-import {clientApi} from '../utils/clientAPI'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
-import {useQuery} from '@tanstack/react-query'
 import { useMovie } from '../utils/hooksMovies'
 
-interface IProps {
-    logout: () => void
-    // authUser: any
-    // setAuthUser: any
-}
+// interface IProps {
+//     logout: () => void
+//     // authUser: any
+//     // setAuthUser: any
+// }
 
 // const NetflixById = ({logout}: IProps) => {
 const NetflixById = () => {

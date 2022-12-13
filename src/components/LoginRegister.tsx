@@ -37,16 +37,16 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
 
     const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        console.log('on handleSubmit')
+    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault()
+    //     console.log('on handleSubmit')
 
-        fetch('https://example.com/api/login')
-            .then(response => response.json())
-            .then(data => {
-                console.log('data :)', data)
-            })
-    }
+    //     fetch('https://example.com/api/login')
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log('data :)', data)
+    //         })
+    // }
 
     return (
         // <form autoComplete="off" onSubmit={handleSubmit}>
@@ -115,7 +115,7 @@ const PopupLogin = ({signUp = false}) => {
     // const {login, register, authError: error}: any = useAuthContext
     const {login, register, authError: error}: any = useContext(AuthContext)
     const [createLogin, setCreateLogin] = useState(signUp)
-    const [open, setOpen] = React.useState(true)
+    const [open] = React.useState(true)
 
     const labelTitle = createLogin ? 'Inscrivez-vous' : 'Connexion'
 

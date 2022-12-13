@@ -1,5 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, {useReducer, useCallback} from 'react'
-import {sleep} from './helper'
+// import {sleep} from './helper'
 
 type ACTIONTYPE =
     | {type: 'fetching'}

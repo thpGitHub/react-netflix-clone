@@ -4,14 +4,12 @@ import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 import {clientNetflix} from '../utils/clientAPI'
-import * as authNetflix from '../utils/authNetflixProvider'
-import {clientAuth} from '../utils/clientAPI'
 // *** MUI ***
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
 // ** REACT Query
-import {useQuery, useMutation, useQueryClient} from '@tanstack/react-query'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
 import {useBookmark} from '../utils/hooksMovies'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -32,21 +30,21 @@ interface IProps {
 /**
  * This function is two fold in App.tsx
  */
-const getUserByToken = async () => {
-    let user = null
-    const token = await authNetflix.getTokenInLocalStorage()
+// const getUserByToken = async () => {
+//     let user = null
+//     const token = await authNetflix.getTokenInLocalStorage()
 
-    if (token) {
-        console.log('Token exist :)')
-        const data = await clientAuth('getUserAuth', token)
-        // AxiosResponse
-        user = data.data.user
-        console.log('data ====', data)
-        console.log('user ====', user)
-    }
+//     if (token) {
+//         console.log('Token exist :)')
+//         const data = await clientAuth('getUserAuth', token)
+//         // AxiosResponse
+//         user = data.data.user
+//         console.log('data ====', data)
+//         console.log('user ====', user)
+//     }
 
-    return user
-}
+//     return user
+// }
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
     const queryClient = useQueryClient()
