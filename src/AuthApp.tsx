@@ -12,11 +12,11 @@ import NetflixById from './components/NetflixById'
 import NetflixBookmark from './components/NetflixBookmark'
 import NetflixSearch from './components/NetflixSearch'
 
-interface IProps {
-    logout: () => void
-    // authUser: any
-    // setAuthUser: any
-}
+// interface IProps {
+//     logout: () => void
+//     // authUser: any
+//     // setAuthUser: any
+// }
 
 const AuthApp = () => {
     return (

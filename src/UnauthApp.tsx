@@ -5,17 +5,17 @@ import LoginRegister from './components/LoginRegister'
 //   login: () => void
 //   register: () => void
 // }
-interface IProps {
-    login: ({userName, password}: {userName: string; password: string}) => void
-    register: ({
-        userName,
-        password,
-    }: {
-        userName: string
-        password: string
-    }) => void
-    error: any
-}
+// interface IProps {
+//     login: ({userName, password}: {userName: string; password: string}) => void
+//     register: ({
+//         userName,
+//         password,
+//     }: {
+//         userName: string
+//         password: string
+//     }) => void
+//     error: any
+// }
 
 // const UnauthApp = ({login, register, error}: IProps) => {
 const UnauthApp = () => {

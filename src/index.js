@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import PopupLogin from './components/LoginRegister'
+// import PopupLogin from './components/LoginRegister'
 
 // if (process.env.NODE_ENV === 'development') {
 //   console.log("process.env.NODE_ENV === 'development'");
