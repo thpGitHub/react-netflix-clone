@@ -61,7 +61,7 @@
     "@testing-library/cypress": "^8.0.7",
     "@types/bcryptjs": "^2.4.2",
     "@types/crypto-js": "^4.1.1",
-    "cypress": "^12.0.2",
+    "cypress": "^11.0.0",
     "msw": "^0.44.2"
   },
   "msw": {
