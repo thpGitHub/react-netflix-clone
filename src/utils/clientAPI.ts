@@ -1,8 +1,7 @@
 import axios from 'axios'
-import {moveEmitHelpers} from 'typescript'
 import {API_KEY, LANG, API_URL} from '../const'
-import {sleep} from './helper'
 import * as authNetflix from '../../src/utils/authNetflixProvider'
+// import {sleep} from './helper'
 
 /*
  * fetch on : https://api.themoviedb.org/3

@@ -1,38 +1,33 @@
 import React from 'react'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixHeader from './NetflixHeader'
-import {clientApi} from '../utils/clientAPI'
-import * as authNetflix from '../utils/authNetflixProvider'
-import {clientAuth} from '../utils/clientAPI'
 import {TYPE_MOVIE} from '../const'
 import {useMovie, useBookmark} from '../utils/hooksMovies'
-// ** REACT Query
-import {useQuery} from '@tanstack/react-query'
 
-interface IProps {
-    logout: () => void
-    // authUser: any
-    // setAuthUser: any
-}
+// interface IProps {
+//     logout: () => void
+//     // authUser: any
+//     // setAuthUser: any
+// }
 
 /**
  * This function is two fold in App.tsx
  */
-const getUserByToken = async () => {
-    let user = null
-    const token = await authNetflix.getTokenInLocalStorage()
+// const getUserByToken = async () => {
+//     let user = null
+//     const token = await authNetflix.getTokenInLocalStorage()
 
-    if (token) {
-        console.log('Token exist :)')
-        const data = await clientAuth('getUserAuth', token)
-        // AxiosResponse
-        user = data.data.user
-        console.log('data ====', data)
-        console.log('user ====', user)
-    }
+//     if (token) {
+//         console.log('Token exist :)')
+//         const data = await clientAuth('getUserAuth', token)
+//         // AxiosResponse
+//         user = data.data.user
+//         console.log('data ====', data)
+//         console.log('user ====', user)
+//     }
 
-    return user
-}
+//     return user
+// }
 
 const NetflixBookmark = () => {
     const idDefault = 749274
