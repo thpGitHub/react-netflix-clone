@@ -1,7 +1,7 @@
 /* fichier simulant un backend qui stock des données
    dans le localStorage
 */
-import {sleep} from '../utils/helper'
+// import {sleep} from '../utils/helper'
 import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 import bcryptjs from 'bcryptjs'
 // import {nanoid} from 'nanoid'

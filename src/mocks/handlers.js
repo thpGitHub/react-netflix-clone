@@ -71,7 +71,7 @@ export const handlers = [
             const {bookmark} = req.body.data
             // const movieID = req.body.movie.id
             const {id: movieID} = req.body.movie
-            const {token} = req.body.data
+            // const {token} = req.body.data
 
             console.log('{bookmark} = req.body.data ===', bookmark)
             console.log('movieID = req.body.movie.id ===', movieID)

@@ -2,10 +2,10 @@ import React from 'react'
 import NetflixAppBar from './NetflixAppBar'
 import {Link} from 'react-router-dom'
 
-interface IProps {
-    logout: () => void
-    // authUser: any
-}
+// interface IProps {
+//     logout: () => void
+//     // authUser: any
+// }
 
 function Error404() {
     const imageUrl = '/images/bg-lost-in-space.png'

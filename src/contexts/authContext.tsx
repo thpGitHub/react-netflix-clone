@@ -3,8 +3,6 @@ import React, {
     useState,
     createContext,
     useContext,
-    useMemo,
-    useCallback,
 } from 'react'
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
