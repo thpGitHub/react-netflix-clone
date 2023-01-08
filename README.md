@@ -72,6 +72,26 @@ import {useAuthContext} from './contexts/authContext'
 
 [détails : `./contexts/authContext.tsx`](#authContext)
 
+### découpage dynamique de code avec les imports dynamiques
+
+Cela va nous permettre de fractionner notre bundle et de gagner en performence.
+On est authentifié (AuthApp) ou pas (UnauthApp).
+
+````typescript
+const AuthApp = lazy(() => import(/* webpackPrefetch: true */'./AuthApp'))
+const UnauthApp = lazy(() => import('./UnauthApp'))
+````
+
+La fonction `lazy()` permet d’afficher un composant importé dynamiquement et chargera automatiquement le bundle contenant le composant.
+
+````JSX
+<Suspense fallback={<div role="alert">Chargement...</div>} >
+    {authUser ? <AuthApp /> : <UnauthApp />}
+</Suspense>
+````
+
+Un composant importé dynamiquement doit être wrapper dans un composant `Suspense`, qui  permet d’afficher un contenu de repli en attendant que ce module soit chargé.
+
 ---
 
 ## Annexes <a name="annexes"></a>
