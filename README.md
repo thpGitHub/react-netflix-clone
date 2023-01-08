@@ -82,6 +82,30 @@ interface IContext {
 
 [détails : `./contexts/authContext.tsx`](#authContext)
 
+````typescript
+const {authUser} = useAuthContext()
+````
+
+`authUser` est soit `null` si aucun token dans localstorage ou :
+
+````typescript
+{
+    "id": "5fC5YseaHL_BH3-M9r0FZ",
+    "userName": "caro@hot.com",
+    "passwordHash": "$2a$10$63mndiqEmgiN0yLHJVRRHOsL7h/63wm0M940Yw0JXJF6M2jZmGKbK",
+    "token": "$2a$10$jQ4ZhJXZemoB4Cgx76eq3e",
+    "bookmark": {
+        "movies": [
+            414906
+        ],
+        "series": [
+            414906,
+            60574
+        ]
+    }
+}
+````
+
 - ### Découpage dynamique de code avec les imports dynamiques
 
 Cela va nous permettre de fractionner notre bundle et de gagner en performence.  
