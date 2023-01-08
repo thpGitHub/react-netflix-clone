@@ -46,7 +46,7 @@ const AppConsumer = () => {
 export default App
 ````
 
-### Intercepte les requêtes réseau avec `MSW` en fonction de l'environement
+- ### Intercepte les requêtes réseau avec `MSW` en fonction de l'environement
 
 ````typescript
 import './mocks'
@@ -54,7 +54,7 @@ import './mocks'
 
 [détails : `./mocks/index.js`](#mocks)
 
-### Import de tous les providers de l'application : `QueryClientProvider`, `ThemeProvider`, `AuthContextProvider`
+- ### Import de tous les providers de l'application : `QueryClientProvider`, `ThemeProvider`, `AuthContextProvider`
 
 ````typescript
 import AppProviders from './contexts'
@@ -62,19 +62,29 @@ import AppProviders from './contexts'
 
 [détails : `./contexts/index.tsx`](#contexts)
 
-### Import du hook personnalisé `useAuthContext`
-
- Export `authUser, authError, login, register, logout` pour gérer le context d'authentification
+- ### Import du hook personnalisé `useAuthContext`
 
 ````typescript
 import {useAuthContext} from './contexts/authContext'
 ````
 
+Ce hook exporte : `authUser, authError, login, register, logout` pour gérer le context d'authentification.
+
+````typescript
+interface IContext {
+    authUser: any
+    authError: any
+    login: ({userName, password}: {userName: string; password: string}) => void
+    register: (data: {userName: string; password: string}) => void
+    logout: () => void
+}
+````
+
 [détails : `./contexts/authContext.tsx`](#authContext)
 
-### découpage dynamique de code avec les imports dynamiques
+- ### Découpage dynamique de code avec les imports dynamiques
 
-Cela va nous permettre de fractionner notre bundle et de gagner en performence.
+Cela va nous permettre de fractionner notre bundle et de gagner en performence.  
 On est authentifié (AuthApp) ou pas (UnauthApp).
 
 ````typescript
@@ -84,11 +94,11 @@ const UnauthApp = lazy(() => import('./UnauthApp'))
 
 La fonction `lazy()` permet d’afficher un composant importé dynamiquement et chargera automatiquement le bundle contenant le composant.
 
-````JSX
+```JSX
 <Suspense fallback={<div role="alert">Chargement...</div>} >
     {authUser ? <AuthApp /> : <UnauthApp />}
 </Suspense>
-````
+```
 
 Un composant importé dynamiquement doit être wrapper dans un composant `Suspense`, qui  permet d’afficher un contenu de repli en attendant que ce module soit chargé.
 
