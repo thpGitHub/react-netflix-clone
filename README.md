@@ -8,6 +8,7 @@
     - [`./contexts/index.tsx`](#contexts)
     - [`./contexts/authContext.tsx`](#authContext)
     - [`useFetchData`](#useFetchData)
+    - [`handlers`](#handlers)
 
 ---
 
@@ -53,6 +54,19 @@ import './mocks'
 ````
 
 [détails : `./mocks/index.js`](#mocks)
+
+Utilisation de MSW pour simuler un backend et intercepter les requêtes suivantes et renvoyer des données et/ou faire des actions :
+
+- .post('https://auth.service.mock.com/register')
+- .post('https://auth.service.mock.com/login')
+- .get('https://auth.service.mock.com/getUserAuth')
+- .post('https://auth.service.mock.com/bookmark')
+- .post('https://auth.service.mock.com/bookmark/movie')
+- .post('https://auth.service.mock.com/bookmark/tv')
+- .delete('https://auth.service.mock.com/bookmark/tv')
+- .delete('https://auth.service.mock.com/bookmark/movie')
+
+[détails : `src/mocks/handlers.js`](#handlers)
 
 - ### Import de tous les providers de l'application : `QueryClientProvider`, `ThemeProvider`, `AuthContextProvider`
 
@@ -377,4 +391,117 @@ function useFetchData() {
 }
 
 export {useFetchData}
+````
+
+### handlers <a name="handlers"></a>
+
+````javascript
+import {rest} from 'msw'
+import * as usersDB from './db'
+
+export const handlers = [
+    rest.post(
+        'https://auth.service.mock.com/register',
+        async (req, res, ctx) => {
+            const {userName, password} = req.body
+            const userFields = {userName, password}
+            const user = await usersDB.createUser(userFields)
+
+            return res(ctx.json(user))
+        },
+    ),
+
+    rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
+        const {userName, password} = req.body
+        const userFields = {userName, password}
+        const userLogin = await usersDB.authenticateUserForLogin(userFields)
+
+        return res(
+            ctx.status(202, 'Mocked status'),
+            ctx.json(userLogin),
+        )
+    }),
+    rest.get(
+        'https://auth.service.mock.com/getUserAuth',
+        async (req, res, ctx) => {
+            const token = req?.headers
+                .get('Authorization')
+                .replace('Bearer ', '')
+
+            const user = await usersDB.getUserWithTokenInLocalStorage(token)
+            return res(
+                ctx.status(202, 'Mocked status'),
+                ctx.json({user: user}),
+            )
+        },
+    ),
+    rest.post(
+        'https://auth.service.mock.com/bookmark',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+
+            return res(
+                ctx.status(202, 'Mocked status'),
+                ctx.json(authUser),
+            )
+        },
+    ),
+    rest.post(
+        'https://auth.service.mock.com/bookmark/movie',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {bookmark} = req.body.data
+            const {id: movieID} = req.body.movie
+
+            const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(
+                movieID,
+                authUser,
+            )
+
+            return res(
+                ctx.status(202, 'Mocked status'),
+                ctx.json(newAuthUser),
+            )
+        },
+    ),
+    rest.post(
+        'https://auth.service.mock.com/bookmark/tv',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: serieID} = req.body.movie
+            const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(
+                serieID,
+                authUser,
+            )
+
+            return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
+        },
+    ),
+    rest.delete(
+        'https://auth.service.mock.com/bookmark/tv',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: serieID} = req.body.movie
+            const newAuthUser = await usersDB.deleteBookmarkSerieInLocalStorage(
+                serieID,
+                authUser,
+            )
+
+            return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
+        },
+    ),
+    rest.delete(
+        'https://auth.service.mock.com/bookmark/movie',
+        async (req, res, ctx) => {
+            const authUser = req.body.data
+            const {id: movieID} = req.body.movie
+            const newAuthUser = await usersDB.deleteBookmarkMovieInLocalStorage(
+                movieID,
+                authUser,
+            )
+
+            return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
+        },
+    ),
+]
 ````
