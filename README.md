@@ -3,6 +3,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/82ff5f0f-19d3-41e5-a52d-129490ebb381/deploy-status)](https://app.netlify.com/sites/lovely-moxie-7de9f5/deploys)
 
 1. [Point d'entrée `App.tsx`](#app)
+1. [Non Authentifié `<UnauthApp />`](#UnauthApp)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
@@ -139,6 +140,45 @@ La fonction `lazy()` permet d’afficher un composant importé dynamiquement et 
 ```
 
 Un composant importé dynamiquement doit être wrapper dans un composant `Suspense`, qui  permet d’afficher un contenu de repli en attendant que ce module soit chargé.
+
+---
+
+## Non Authentifié `<UnauthApp />` <a name="UnauthApp"></a>
+
+````typescript
+import React from 'react'
+import LoginRegister from './components/LoginRegister'
+
+const UnauthApp = () => {
+    const imageURL = '/images/posters.jpg'
+
+    return (
+        <div
+            style={{
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                overflow: 'auto',
+                position: 'fixed',
+                backgroundSize: 'cover',
+                backgroundImage: `url('${imageURL}')`,
+            }}
+        >
+            <img
+                src="/images/netflix-logo.png"
+                alt=""
+                style={{margin: '30px'}}
+                height={50}
+            />
+
+            <LoginRegister />
+        </div>
+    )
+}
+
+export default UnauthApp
+````
 
 ---
 
