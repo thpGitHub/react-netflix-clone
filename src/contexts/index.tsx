@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 // ** MUI **
 import {ThemeProvider, createTheme} from '@mui/material/styles'
 // ** REACT Query
@@ -6,6 +6,11 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 // ** Contexts
 import {AuthContextProvider} from '../contexts/authContext'
+
+type AppProvidersProps = {
+    children: ReactNode
+}
+
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -42,7 +47,7 @@ const theme = createTheme({
     },
 })
 
-function AppProviders({children}: any) {
+function AppProviders({children}: AppProvidersProps) {
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>

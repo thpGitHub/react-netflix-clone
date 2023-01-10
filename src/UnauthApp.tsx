@@ -1,23 +1,6 @@
 import React from 'react'
 import LoginRegister from './components/LoginRegister'
 
-// interface IProps {
-//   login: () => void
-//   register: () => void
-// }
-// interface IProps {
-//     login: ({userName, password}: {userName: string; password: string}) => void
-//     register: ({
-//         userName,
-//         password,
-//     }: {
-//         userName: string
-//         password: string
-//     }) => void
-//     error: any
-// }
-
-// const UnauthApp = ({login, register, error}: IProps) => {
 const UnauthApp = () => {
     const imageURL = '/images/posters.jpg'
 
@@ -41,7 +24,6 @@ const UnauthApp = () => {
                 height={50}
             />
 
-            {/* <LoginRegister login={login} register={register} error={error} /> */}
             <LoginRegister />
         </div>
     )

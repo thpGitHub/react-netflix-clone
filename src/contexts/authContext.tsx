@@ -1,9 +1,4 @@
-import React, {
-    useEffect,
-    useState,
-    createContext,
-    useContext,
-} from 'react'
+import React, {useEffect, useState, createContext, useContext, ReactNode} from 'react'
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
@@ -15,18 +10,33 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 
 interface IContext {
-    authUser: any
+    authUser: User
     authError: any
     login: ({userName, password}: {userName: string; password: string}) => void
     register: (data: {userName: string; password: string}) => void
     logout: () => void
 }
 
+type User = {
+    id: string
+    userName: string
+    passwordHash: string
+    token: string
+    bookmark: {
+        movies: number[]
+        series: number[]
+    }
+}
+
+type AuthContextProviderProps = {
+    children: ReactNode
+}
+
 /**
  * This function is two fold in NetflixHeader.tsx
  */
 const getUserByToken = async () => {
-    let user = null
+    let user: User | null = null
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
@@ -53,7 +63,8 @@ const useAuthContext = () => {
     return context
 }
 
-const AuthContextProvider = (props: any) => {
+// const AuthContextProvider = (props: any) => {
+const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const queryClient = useQueryClient()
     const {data: authUser, status, execute, setData} = useFetchData()
     const [authError, setAuthError] = useState()
@@ -89,39 +100,7 @@ const AuthContextProvider = (props: any) => {
         setData(null)
     }
 
-    // const login = useCallback(
-    //     ({userName, password}: {userName: string; password: string}) => {
-    //         console.log(userName, password)
-    //         authNetflix
-    //             .login({userName, password})
-    //             .then(user => setData(user))
-    //             .catch(error => setAuthError(error))
-    //     },
-    //     [setData],
-    // )
-
-    // const register = useCallback(
-    //     (data: {userName: string; password: string}) => {
-    //         authNetflix
-    //             .register(data)
-    //             .then(user => setData(user))
-    //             .catch(error => setAuthError(error))
-    //     },
-    //     [setData],
-    // )
-
-    // const logout = useCallback(() => {
-    //     authNetflix.logout()
-    //     queryClient.clear()
-    //     setData(null)
-    // }, [queryClient, setData])
-
     console.log('status === ', status)
-
-    // const value = useMemo(
-    //     () => ({authUser, authError, login, register, logout}),
-    //     [authError, authUser, login, logout, register],
-    // )
 
     if (status === 'fetching' || status === 'idle') {
         return (
@@ -134,8 +113,9 @@ const AuthContextProvider = (props: any) => {
     }
 
     if (status === 'done') {
+        // const value: IContext = {authUser, authError, login, register, logout}
         const value = {authUser, authError, login, register, logout}
-        return <AuthContext.Provider value={value} {...props} />
+        return <AuthContext.Provider value={value} children={children} />
     }
     throw new Error('status invalide')
 }
