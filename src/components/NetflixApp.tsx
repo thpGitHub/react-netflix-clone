@@ -6,30 +6,18 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
-import {getRandomType, getRandomId} from '../utils/helper'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
+import {getRandomType, getRandomId} from '../utils/helper'
 // ** REACT Query
 import {useMovie} from '../utils/hooksMovies'
 
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
-
-// const NetflixApp = ({logout}: IProps) => {
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-
-    // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
-    //     clientApi(`${type}/${defaultMovieId}`),
-    // )
     const headerMovie = useMovie(type, defaultMovieId)
 
     return (
         <div>
-            {/* <NetflixAppBar logout={logout} /> */}
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
