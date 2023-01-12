@@ -4,8 +4,8 @@ import React, {useReducer, useCallback} from 'react'
 
 type ACTIONTYPE =
     | {type: 'fetching'}
-    | {type: 'done', payload: any}
-    | {type: 'fail', error: any}
+    | {type: 'done'; payload: any}
+    | {type: 'fail'; error: any}
 
 interface IState {
     data: null
@@ -13,11 +13,13 @@ interface IState {
     status: string
 }
 
-// interface IAction {
-//     type?: string
-//     payload?: any
-//     error?: string
-// }
+interface ReturnUseFetchData {
+    data: any
+    error: any
+    status: string
+    execute: (promise: Promise<any>) => void
+    setData: (data: any) => void
+}
 
 const reducer = (state: any, action: ACTIONTYPE) => {
     switch (action.type) {
@@ -36,7 +38,8 @@ const initialState: IState = {
     error: null,
     status: 'idle',
 }
-function useFetchData() {
+function useFetchData(): ReturnUseFetchData {
+// function useFetchData(): any {
     const [state, dispatch] = useReducer(reducer, initialState)
     const {data, error, status} = state
 
@@ -53,7 +56,6 @@ function useFetchData() {
         [dispatch],
     )
 
-    // return {data, error, status, execute, setData}
     return {data, error, status, execute, setData}
 }
 
