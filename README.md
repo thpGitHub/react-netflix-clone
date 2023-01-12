@@ -8,8 +8,8 @@
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
-    - [`./contexts/authContext.tsx`](#authContext)
-    - [`useFetchData`](#useFetchData)
+    - [`./contexts/authContext.tsx`](#authcontext)
+    - [`useFetchData`](#usefetchdata)
     - [`handlers`](#handlers)
 
 ---
@@ -88,11 +88,22 @@ Ce hook exporte : `authUser, authError, login, register, logout` pour gérer le 
 
 ````typescript
 interface IContext {
-    authUser: any
+    authUser: User
     authError: any
     login: ({userName, password}: {userName: string; password: string}) => void
     register: (data: {userName: string; password: string}) => void
     logout: () => void
+}
+
+type User = {
+    id: string
+    userName: string
+    passwordHash: string
+    token: string
+    bookmark: {
+        movies: number[]
+        series: number[]
+    }
 }
 ````
 
@@ -333,7 +344,7 @@ export default PopupLogin
 
 ---
 
-## Authentifié <AuthApp /> <a name="authApp"></a>
+## Authentifié `<AuthApp />` <a name="authApp"></a>
 
 ## Annexes <a name="annexes"></a>
 
@@ -415,15 +426,10 @@ function AppProviders({children}: any) {
 export default AppProviders
 ````
 
-### ./contexts/authContext.tsx <a name="authContext"></a>
+### ./contexts/authContext.tsx <a name="authcontext"></a>
 
 ````typescript
-import React, {
-    useEffect,
-    useState,
-    createContext,
-    useContext,
-} from 'react'
+import React, {useEffect, useState, createContext, useContext, ReactNode} from 'react'
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
@@ -435,18 +441,33 @@ import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 
 interface IContext {
-    authUser: any
+    authUser: User
     authError: any
     login: ({userName, password}: {userName: string; password: string}) => void
     register: (data: {userName: string; password: string}) => void
     logout: () => void
 }
 
+type User = {
+    id: string
+    userName: string
+    passwordHash: string
+    token: string
+    bookmark: {
+        movies: number[]
+        series: number[]
+    }
+}
+
+type AuthContextProviderProps = {
+    children: ReactNode
+}
+
 /**
  * This function is two fold in NetflixHeader.tsx
  */
 const getUserByToken = async () => {
-    let user = null
+    let user: User | null = null
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
@@ -461,7 +482,8 @@ const getUserByToken = async () => {
     return user
 }
 
-const AuthContext = createContext<IContext | null>(null)
+// const AuthContext = createContext<IContext | null>(null)
+const AuthContext = createContext<IContext>(null!)
 
 const useAuthContext = () => {
     const context = useContext(AuthContext)
@@ -473,7 +495,8 @@ const useAuthContext = () => {
     return context
 }
 
-const AuthContextProvider = (props: any) => {
+// const AuthContextProvider = (props: any) => {
+const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const queryClient = useQueryClient()
     const {data: authUser, status, execute, setData} = useFetchData()
     const [authError, setAuthError] = useState()
@@ -509,6 +532,8 @@ const AuthContextProvider = (props: any) => {
         setData(null)
     }
 
+    console.log('status === ', status)
+
     if (status === 'fetching' || status === 'idle') {
         return (
             <div role="alert">
@@ -521,7 +546,7 @@ const AuthContextProvider = (props: any) => {
 
     if (status === 'done') {
         const value = {authUser, authError, login, register, logout}
-        return <AuthContext.Provider value={value} {...props} />
+        return <AuthContext.Provider value={value} children={children} />
     }
     throw new Error('status invalide')
 }
@@ -529,7 +554,7 @@ const AuthContextProvider = (props: any) => {
 export {AuthContext, useAuthContext, AuthContextProvider}
 ````
 
-### useFetchData in src\utils\hooks.ts <a name="useFetchData"></a>
+### useFetchData in src\utils\hooks.ts <a name="usefetchdata"></a>
 
 ````typescript
 import React, {useReducer, useCallback} from 'react'
