@@ -51,7 +51,8 @@ const getUserByToken = async () => {
     return user
 }
 
-const AuthContext = createContext<IContext | null>(null)
+// const AuthContext = createContext<IContext | null>(null)
+const AuthContext = createContext<IContext>(null!)
 
 const useAuthContext = () => {
     const context = useContext(AuthContext)

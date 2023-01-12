@@ -10,17 +10,13 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Alert from '@mui/material/Alert'
-// ** Contexts
-// import authContext from '../contexts/authContext'
+// ** Contexts **
 import {AuthContext} from '../contexts/authContext'
-
-// import {browser} from '../mocks/browser'
 
 interface IProps {
     signUp?: boolean
     createLoginCount?: boolean
     login: ({userName, password}: {userName: string; password: string}) => void
-    // register: ({userName?: string, password?: string}) => void
     register: ({
         userName,
         password,
@@ -36,17 +32,6 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     const [password, setPassword] = useState<string>('')
 
     const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
-
-    // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault()
-    //     console.log('on handleSubmit')
-
-    //     fetch('https://example.com/api/login')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log('data :)', data)
-    //         })
-    // }
 
     return (
         // <form autoComplete="off" onSubmit={handleSubmit}>
@@ -109,11 +94,8 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
     )
 }
 
-// const PopupLogin = ({signUp = false, login, register, error}: IProps) => {
 const PopupLogin = ({signUp = false}) => {
-    // const {login, register, authError: error}: any = useContext(authContext)
-    // const {login, register, authError: error}: any = useAuthContext
-    const {login, register, authError: error}: any = useContext(AuthContext)
+    const {login, register, authError: error} = useContext(AuthContext)
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open] = React.useState(true)
 
@@ -147,12 +129,10 @@ const PopupLogin = ({signUp = false}) => {
                 >
                     {!createLogin ? (
                         <Button onClick={handleSignUp}>
-                            {/* Nouveau sur Netflix ? {spinner} */}
                             Nouveau sur Netflix ?
                         </Button>
                     ) : (
                         <Button onClick={handleSignIn}>
-                            {/* Vous posséder déjà un compte ? {spinner} */}
                             Vous posséder déjà un compte ?
                         </Button>
                     )}
