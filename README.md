@@ -3,7 +3,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/82ff5f0f-19d3-41e5-a52d-129490ebb381/deploy-status)](https://app.netlify.com/sites/lovely-moxie-7de9f5/deploys)
 
 1. [Point d'entrée `App.tsx`](#app)
-    1. [Non Authentifié `<UnauthApp />`](#unauthApp)
+    1. [Non Authentifié `<UnauthApp />`](#unauthapp)
     1. [Authentifié `<AuthApp />`](#authApp)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
@@ -155,7 +155,7 @@ Un composant importé dynamiquement doit être wrapper dans un composant `Suspen
 
 ---
 
-## Non Authentifié `<UnauthApp />` <a name="unauthApp"></a>
+## Non Authentifié `<UnauthApp />` <a name="unauthapp"></a>
 
 ````typescript
 import React from 'react'
@@ -193,6 +193,8 @@ export default UnauthApp
 ````
 
 - `<LoginRegister />`
+
+Le composant `<LoginRegister />` contient deux composants `<PopupLogin />` qui est le point d'entré et `<FormLogin />`
 
 ````typescript
 import React, {useState, useContext} from 'react'
@@ -556,19 +558,29 @@ export {AuthContext, useAuthContext, AuthContextProvider}
 
 ### useFetchData in src\utils\hooks.ts <a name="usefetchdata"></a>
 
+Le hook personnalisé `useFetchData` est utilisé une seule fois dans le context `AuthContext.tsx`
+
 ````typescript
 import React, {useReducer, useCallback} from 'react'
 // import {sleep} from './helper'
 
 type ACTIONTYPE =
     | {type: 'fetching'}
-    | {type: 'done', payload: any}
-    | {type: 'fail', error: any}
+    | {type: 'done'; payload: any}
+    | {type: 'fail'; error: any}
 
 interface IState {
     data: null
     error: null
     status: string
+}
+
+interface ReturnUseFetchData {
+    data: any
+    error: any
+    status: string
+    execute: (promise: Promise<any>) => void
+    setData: (data: any) => void
 }
 
 const reducer = (state: any, action: ACTIONTYPE) => {
@@ -588,7 +600,8 @@ const initialState: IState = {
     error: null,
     status: 'idle',
 }
-function useFetchData() {
+function useFetchData(): ReturnUseFetchData {
+// function useFetchData(): any {
     const [state, dispatch] = useReducer(reducer, initialState)
     const {data, error, status} = state
 
