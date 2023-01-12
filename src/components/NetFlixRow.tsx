@@ -6,7 +6,7 @@ import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
 // ** REACT Query
-import { useMovieEndpoint } from '../utils/hooksMovies'
+import {useMovieEndpoint} from '../utils/hooksMovies'
 
 interface IProps {
     type: string
@@ -44,50 +44,7 @@ const NetFlixRow = ({
     watermark = false,
     wideImage = true,
 }: IProps) => {
-    // const {data, error, status, execute} = useFetchData()
-
-    // const endpointLatest = `${type}/upcoming`
-    // const endpointPopular = `${type}/popular`
-    // const endpointTopRated = `${type}/top_rated`
-    // const endpointGenre = `discover/${type}?with_genres=${param}`
-    // const endpointTrending = `trending/${type}/day`
-
-    // let endpoint: string = ''
-
-    // switch (filter) {
-    //     case 'populaire':
-    //         endpoint = endpointPopular
-    //         break
-    //     case 'latest':
-    //         endpoint = endpointLatest
-    //         break
-    //     case 'toprated':
-    //         endpoint = endpointTopRated
-    //         break
-    //     case 'genre':
-    //         endpoint = endpointGenre
-    //         break
-    //     case 'trending':
-    //         endpoint = endpointTrending
-    //         break
-
-    //     default:
-    //         throw new Error('Type non supporté')
-    // }
-
-    // const {data, error, status} = useQuery([`${endpoint}`], () =>
-    //     clientApi(endpoint),
-    // )
-
     const data = useMovieEndpoint(type, filter, param)
-
-    // useEffect(() => {
-    //     execute(clientApi(endpoint))
-    //     // console.log('endpoint', endpoint);
-    //     // console.log('data', data);
-    // }, [endpoint, execute])
-
-    // const image = wideImage ? 'images/sample-poster.jpg' : 'images/sample.jpg'
 
     const buildImagePath = (data: IMovie) => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path
@@ -96,28 +53,9 @@ const NetFlixRow = ({
 
     const watermarkClass: string = watermark ? 'watermarked' : ''
 
-    // if (status === 'loading' || status === 'idle') {
-    // if (status === 'loading') {
-    //     return <RowSkeleton title={title} wideImage={true} />
-    // }
     if (!data) {
         return <RowSkeleton title={title} wideImage={true} />
     }
-
-    // if (err instanceof Error)
-
-    // if (status === 'error') {
-    //     return (
-    //         <Alert severity="error">
-    //             <AlertTitle>Une erreur est survenue</AlertTitle>
-    //             {/* Détail : {`${error.message}`} */}
-    //             {/*
-    //              * err instanceof Error => for typescript
-    //              */}
-    //             Détail : {`${error instanceof Error && error.message}`}
-    //         </Alert>
-    //     )
-    // }
 
     return (
         <div className="row">
