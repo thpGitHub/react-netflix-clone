@@ -114,7 +114,6 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     }
 
     if (status === 'done') {
-        // const value: IContext = {authUser, authError, login, register, logout}
         const value = {authUser, authError, login, register, logout}
         return <AuthContext.Provider value={value} children={children} />
     }
