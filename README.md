@@ -3,7 +3,8 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/82ff5f0f-19d3-41e5-a52d-129490ebb381/deploy-status)](https://app.netlify.com/sites/lovely-moxie-7de9f5/deploys)
 
 1. [Point d'entrée `App.tsx`](#app)
-1. [Non Authentifié `<UnauthApp />`](#UnauthApp)
+    1. [Non Authentifié `<UnauthApp />`](#unauthApp)
+    1. [Authentifié `<AuthApp />`](#authApp)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
@@ -143,7 +144,7 @@ Un composant importé dynamiquement doit être wrapper dans un composant `Suspen
 
 ---
 
-## Non Authentifié `<UnauthApp />` <a name="UnauthApp"></a>
+## Non Authentifié `<UnauthApp />` <a name="unauthApp"></a>
 
 ````typescript
 import React from 'react'
@@ -180,7 +181,159 @@ const UnauthApp = () => {
 export default UnauthApp
 ````
 
+- `<LoginRegister />`
+
+````typescript
+import React, {useState, useContext} from 'react'
+// *** MUI ***
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import Alert from '@mui/material/Alert'
+// ** Contexts **
+import {AuthContext} from '../contexts/authContext'
+
+interface IProps {
+    signUp?: boolean
+    createLoginCount?: boolean
+    login: ({userName, password}: {userName: string; password: string}) => void
+    register: ({
+        userName,
+        password,
+    }: {
+        userName: string
+        password: string
+    }) => void
+    error?: any
+}
+
+const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
+    const [userName, setUserName] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+
+    const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
+
+    return (
+        // <form autoComplete="off" onSubmit={handleSubmit}>
+        <form autoComplete="off">
+            <TextField
+                id="filled-basic-username"
+                type="email"
+                label="Email ou numéro de téléphone"
+                margin="dense"
+                variant="filled"
+                onChange={e => setUserName(e.target.value)}
+                autoFocus
+                fullWidth
+            />
+            <TextField
+                id="filled-basic-password"
+                type="password"
+                label="Mot de passe"
+                margin="dense"
+                onChange={e => setPassword(e.target.value)}
+                variant="filled"
+                fullWidth
+            />
+            {createLoginCount ? (
+                <>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        // type="submit"
+                        onClick={() => register({userName, password})}
+                    >
+                        {labelButton}
+                    </Button>
+                </>
+            ) : (
+                <>
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        // type="submit"
+                        onClick={() => login({userName, password})}
+                    >
+                        {labelButton}
+                    </Button>
+                </>
+            )}
+
+            <FormGroup>
+                <FormControlLabel
+                    style={{
+                        paddingLeft: '24px',
+                        paddingRight: '24px',
+                        justifyContent: 'flex-start',
+                    }}
+                    control={<Checkbox defaultChecked />}
+                    label="Se souvenir de moi"
+                />
+            </FormGroup>
+        </form>
+    )
+}
+
+const PopupLogin = ({signUp = false}) => {
+    const {login, register, authError: error}: any = useContext(AuthContext)
+    const [createLogin, setCreateLogin] = useState(signUp)
+    const [open] = React.useState(true)
+
+    const labelTitle = createLogin ? 'Inscrivez-vous' : 'Connexion'
+
+    const handleSignUp = () => {
+        setCreateLogin(true)
+    }
+    const handleSignIn = () => {
+        setCreateLogin(false)
+    }
+
+    return (
+        <div>
+            <Dialog open={open} style={{backgroundColor: 'transparent'}}>
+                <DialogTitle>{labelTitle}</DialogTitle>
+                <DialogContent>
+                    <FormLogin
+                        createLoginCount={createLogin}
+                        login={login}
+                        register={register}
+                    />
+                    {error ? (
+                        <Alert severity="error">Erreur : {error.message}</Alert>
+                    ) : null}
+                </DialogContent>
+                <DialogActions
+                    style={{
+                        justifyContent: 'flex-start',
+                    }}
+                >
+                    {!createLogin ? (
+                        <Button onClick={handleSignUp}>
+                            Nouveau sur Netflix ?
+                        </Button>
+                    ) : (
+                        <Button onClick={handleSignIn}>
+                            Vous posséder déjà un compte ?
+                        </Button>
+                    )}
+                </DialogActions>
+            </Dialog>
+        </div>
+    )
+}
+
+export default PopupLogin
+````
+
 ---
+
+## Authentifié <AuthApp /> <a name="authApp"></a>
 
 ## Annexes <a name="annexes"></a>
 
