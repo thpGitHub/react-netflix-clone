@@ -3,8 +3,9 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/82ff5f0f-19d3-41e5-a52d-129490ebb381/deploy-status)](https://app.netlify.com/sites/lovely-moxie-7de9f5/deploys)
 
 1. [Point d'entrée `App.tsx`](#app)
-    1. [Non Authentifié `<UnauthApp />`](#unauthapp)
-    1. [Authentifié `<AuthApp />`](#authApp)
+    - [Non Authentifié `<UnauthApp />`](#unauthapp)
+    - [Authentifié `<AuthApp />`](#authApp)
+        - [`<Route path="/" element={<NetflixApp />} /`>](#authApp)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
@@ -347,6 +348,125 @@ export default PopupLogin
 ---
 
 ## Authentifié `<AuthApp />` <a name="authApp"></a>
+
+Le composant `<AuthApp />` contient les routes de l'application.
+
+````typescript
+import React from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+// **Components **
+import Page404 from './components/Error404'
+import NetflixApp from './components/NetflixApp'
+import NetflixById from './components/NetflixById'
+import NetflixNews from './components/NetflixNews'
+import ErrorFallback from './components/ErrorFallback'
+import NetflixMovies from './components/NetflixMovies'
+import NetflixSearch from './components/NetflixSearch'
+import NetflixSeries from './components/NetflixSeries'
+import NetflixBookmark from './components/NetflixBookmark'
+
+const AuthApp = () => {
+    return (
+        <Router>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Routes>
+                    <Route path="/" element={<NetflixApp />} />
+                    <Route path="/tv/:tvId" element={<NetflixById />}></Route>
+                    <Route
+                        path="/movie/:movieId"
+                        element={<NetflixById />}
+                    ></Route>
+                    <Route path="/series" element={<NetflixSeries />} />
+                    <Route path="/movies" element={<NetflixMovies />} />
+                    <Route path="/news" element={<NetflixNews />} />
+                    <Route path="/list" element={<NetflixBookmark />} />
+                    <Route path="/search/:query" element={<NetflixSearch />} />
+                    <Route path="*" element={<Page404 />} />
+                </Routes>
+            </ErrorBoundary>
+        </Router>
+    )
+}
+
+export default AuthApp
+````
+
+- `<Route path="/" element={<NetflixApp />} />`
+
+````typescript
+import React, {useState} from 'react'
+import './Netflix.css'
+// ** Components **
+import NetFlixRow from './NetFlixRow'
+import NetflixAppBar from './NetflixAppBar'
+import NetflixFooter from './NetflixFooter'
+import NetflixHeader from './NetflixHeader'
+// ** Utils **
+import {TYPE_MOVIE, TYPE_TV} from '../const'
+import {getRandomType, getRandomId} from '../utils/helper'
+// ** REACT Query
+import {useMovie} from '../utils/hooksMovies'
+
+const NetflixApp = () => {
+    const [type] = useState(getRandomType())
+    const [defaultMovieId] = useState(getRandomId(type))
+    const headerMovie = useMovie(type, defaultMovieId)
+
+    return (
+        <div>
+            <NetflixAppBar />
+            <NetflixHeader movie={headerMovie?.data} type={type} />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                title="Films Netflix"
+                filter="trending"
+                watermark={true}
+                wideImage={true}
+            />
+
+            <NetFlixRow
+                type={TYPE_TV}
+                title="Séries Netflix"
+                filter="trending"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                title="Les mieux notés"
+                filter="toprated"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_TV}
+                param="10759"
+                title="Action & aventure"
+                filter="genre"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetFlixRow
+                type={TYPE_MOVIE}
+                param="53"
+                title="Les meilleurs thrillers"
+                filter="genre"
+                watermark={true}
+                wideImage={false}
+            />
+
+            <NetflixFooter />
+        </div>
+    )
+}
+
+export default NetflixApp
+````
 
 ## Annexes <a name="annexes"></a>
 
