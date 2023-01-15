@@ -8,13 +8,12 @@ import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
-// ** REACT Query
-import {useMovie} from '../utils/hooksMovies'
+import {useGetOneMovie} from '../utils/hooksMovies'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-    const headerMovie = useMovie(type, defaultMovieId)
+    const headerMovie = useGetOneMovie(type, defaultMovieId)
 
     return (
         <div>

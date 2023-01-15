@@ -9,7 +9,7 @@ import NetflixHeader from './NetflixHeader'
 import {getRandomId} from '../utils/helper'
 import {TYPE_TV} from '../const'
 // ** REACT Query
-import { useMovie } from '../utils/hooksMovies'
+import { useGetOneMovie } from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -24,7 +24,7 @@ const NetflixSeries = () => {
     // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
     //     clientApi(`${type}/${defaultMovieId}`),
     // )
-    const headerMovie = useMovie(type, defaultMovieId)
+    const headerMovie = useGetOneMovie(type, defaultMovieId)
 
     return (
         <div>

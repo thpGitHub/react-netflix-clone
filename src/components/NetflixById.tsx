@@ -9,7 +9,7 @@ import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
-import { useMovie } from '../utils/hooksMovies'
+import { useGetOneMovie } from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -34,7 +34,7 @@ const NetflixById = () => {
     // const {data: headerMovie} = useQuery([`${type}/${id}`], () =>
     //     clientApi(`${type}/${id}`),
     // )
-    const headerMovie = useMovie(type, Number(id))
+    const headerMovie = useGetOneMovie(type, Number(id))
 
     useEffect(() => {
         const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE

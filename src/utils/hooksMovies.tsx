@@ -1,9 +1,11 @@
-import {useQuery} from '@tanstack/react-query'
+// ** Utils **
 import {clientApi} from './clientAPI'
 import * as authNetflix from './authNetflixProvider'
 import { clientAuth } from './clientAPI'
+// ** REACT Query **
+import {useQuery} from '@tanstack/react-query'
 
-const useMovie = (TYPE_MOVIE: string, id: number) => {
+const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientApi(`${TYPE_MOVIE}/${id}`),
     )
@@ -81,4 +83,4 @@ const useSearchMovie = (query: string) => {
     return data?.data?.results ?? []
   }
 
-export {useMovie, useMovieEndpoint, useBookmark, useSearchMovie}
+export {useGetOneMovie, useMovieEndpoint, useBookmark, useSearchMovie}

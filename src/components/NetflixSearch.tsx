@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
 // ** Utils
-import {useMovie, useSearchMovie} from '../utils/hooksMovies'
+import {useGetOneMovie, useSearchMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
 // ** Components
 import NetflixAppBar from './NetflixAppBar'
@@ -23,7 +23,7 @@ const NetflixSearch = () => {
     const data = useSearchMovie(slug)
     console.log('data === ', data)
 
-    const defaultMovie = useMovie(TYPE_MOVIE, 785752)
+    const defaultMovie = useGetOneMovie(TYPE_MOVIE, 785752)
     console.log('defaultMovie === ', defaultMovie)
     const headerMovie = data?.[0] ?? defaultMovie
     console.log('headerMovie === ', headerMovie)

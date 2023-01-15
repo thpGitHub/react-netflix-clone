@@ -1,5 +1,7 @@
 import axios from 'axios'
-import {API_KEY, LANG, API_URL} from '../const'
+// ** Constants **
+import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
+// ** Utils **
 import * as authNetflix from '../../src/utils/authNetflixProvider'
 // import {sleep} from './helper'
 
@@ -10,7 +12,7 @@ const clientApi = async (endpoint: string) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     // await sleep(4000)
-    const keyLang = `${startChar}api_key=${API_KEY}&language=${LANG}&page=${page}`
+    const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`
     //API_URL = https://api.themoviedb.org/3
 
     // on catch ici l'erreur retourné par tmdb afin de personaliser le
@@ -19,7 +21,7 @@ const clientApi = async (endpoint: string) => {
     // status_code:34
     // status_message: "The resource you requested could not be found."
     // success: false
-    return axios.get(`${API_URL}/${endpoint}${keyLang}`).catch(error => {
+    return axios.get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`).catch(error => {
         if (error.response) {
             const err = {
                 ...error.response,
