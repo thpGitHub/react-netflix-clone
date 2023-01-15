@@ -4,8 +4,8 @@
 
 1. [Point d'entrée `App.tsx`](#app)
     - [Non Authentifié `<UnauthApp />`](#unauthapp)
-    - [Authentifié `<AuthApp />`](#authApp)
-        - [`<Route path="/" element={<NetflixApp />} /`>](#authApp)
+    - [Authentifié `<AuthApp />`](#authapp)
+        - [`<Route path="/" element={<NetflixApp />} /`>](#netflixapp)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
@@ -347,7 +347,7 @@ export default PopupLogin
 
 ---
 
-## Authentifié `<AuthApp />` <a name="authApp"></a>
+## Authentifié `<AuthApp />` <a name="authapp"></a>
 
 Le composant `<AuthApp />` contient les routes de l'application.
 
@@ -392,7 +392,7 @@ const AuthApp = () => {
 export default AuthApp
 ````
 
-- `<Route path="/" element={<NetflixApp />} />`
+- `<Route path="/" element={<NetflixApp />} />` <a name="netflixapp"></a>
 
 ````typescript
 import React, {useState} from 'react'
@@ -403,10 +403,9 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
+import {useMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
-// ** REACT Query
-import {useMovie} from '../utils/hooksMovies'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
