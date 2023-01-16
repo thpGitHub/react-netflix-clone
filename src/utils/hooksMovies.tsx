@@ -1,13 +1,12 @@
 // ** Utils **
-import {clientApi} from './clientAPI'
+import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
 import * as authNetflix from './authNetflixProvider'
-import { clientAuth } from './clientAPI'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 
 const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-        clientApi(`${TYPE_MOVIE}/${id}`),
+    clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
     console.log('data in useGetOneMovie', data);
     
@@ -44,7 +43,7 @@ const useMovieEndpoint = (type: string, filter: string, param: string) => {
             throw new Error('Type non supporté')
     }
 
-    const {data} = useQuery([`${endpoint}`], () => clientApi(endpoint))
+    const {data} = useQuery([`${endpoint}`], () => clientUseApiTheMovieDB(endpoint))
 
     return data
 }
@@ -77,7 +76,7 @@ const useBookmark = () => {
 
 const useSearchMovie = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
-      clientApi(`search/multi?query=${query}`),
+    clientUseApiTheMovieDB(`search/multi?query=${query}`),
     )
     console.log('data in useSearchMovie === ', data);
     

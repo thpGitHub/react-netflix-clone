@@ -7,8 +7,10 @@ import * as authNetflix from '../../src/utils/authNetflixProvider'
 
 /*
  * fetch on : https://api.themoviedb.org/3
+ * endpoint exemple : 'tv/71446'
+ * https://api.themoviedb.org/3/tv/71446?api_key=<<key_api>>&language=fr-fr&page=1
  */
-const clientApi = async (endpoint: string) => {
+const clientUseApiTheMovieDB = async (endpoint: string) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     // await sleep(4000)
@@ -95,4 +97,4 @@ const clientNetflix = (
     )
 }
 
-export {clientApi, clientAuth, clientNetflix}
+export {clientUseApiTheMovieDB, clientAuth, clientNetflix}

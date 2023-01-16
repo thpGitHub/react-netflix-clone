@@ -1,16 +1,16 @@
 import React, {useState} from 'react'
-import HeaderSkeleton from './skeletons/HeaderSkeleton'
-import useDimension from '../hooks/useDimension'
 import {AxiosData} from '../ts/interfaces/axiosData'
-import {IMAGE_URL, TYPE_MOVIE} from '../const'
+import useDimension from '../hooks/useDimension'
+import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import {clientNetflix} from '../utils/clientAPI'
+import {IMAGE_URL, TYPE_MOVIE} from '../const'
 // *** MUI ***
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 import Snackbar from '@mui/material/Snackbar'
 import MuiAlert, {AlertProps} from '@mui/material/Alert'
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 // ** REACT Query
-import {useMutation, useQueryClient} from '@tanstack/react-query'
 import {useBookmark} from '../utils/hooksMovies'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -21,39 +21,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 interface IProps {
     movie: AxiosData | undefined
-    // movie: any,
     type: string
-    // authUser?: any
-    // setAuthUser?: any
 }
-
-/**
- * This function is two fold in App.tsx
- */
-// const getUserByToken = async () => {
-//     let user = null
-//     const token = await authNetflix.getTokenInLocalStorage()
-
-//     if (token) {
-//         console.log('Token exist :)')
-//         const data = await clientAuth('getUserAuth', token)
-//         // AxiosResponse
-//         user = data.data.user
-//         console.log('data ====', data)
-//         console.log('user ====', user)
-//     }
-
-//     return user
-// }
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
     const queryClient = useQueryClient()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
 
-    // const {data} = useQuery(['bookmark'], () => {
-    //     return getUserByToken()
-    // })
     const data = useBookmark()
 
     const addMutation = useMutation(
@@ -120,7 +95,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
     const imageURL = `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`
     // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
 
-    // const banner = {
     const banner: React.CSSProperties = {
         color: 'white',
         height: '448px',
@@ -128,7 +102,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
         backgroundSize: 'cover',
         backgroundImage: `url('${imageURL}')`,
         backgroundPosition: 'center center',
-    } //as const
+    } 
 
     const handleAddToBookmark = async () => {
         addMutation.mutate()
@@ -216,5 +190,3 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
 }
 
 export default NetflixHeader
-
-// <img class="concord-img vlv-creative" src="https://assets.nflxext.com/ffe/siteui/vlv3/25badb14-858b-4b1c-8b7d-2244098454d9/f52376b2-aadc-4f64-b708-5c8e2d2f64c3/FR-en-20220606-popsignuptwoweeks-perspective_alpha_website_small.jpg" srcset="https://assets.nflxext.com/ffe/siteui/vlv3/25badb14-858b-4b1c-8b7d-2244098454d9/f52376b2-aadc-4f64-b708-5c8e2d2f64c3/FR-en-20220606-popsignuptwoweeks-perspective_alpha_website_small.jpg 1000w, https://assets.nflxext.com/ffe/siteui/vlv3/25badb14-858b-4b1c-8b7d-2244098454d9/f52376b2-aadc-4f64-b708-5c8e2d2f64c3/FR-en-20220606-popsignuptwoweeks-perspective_alpha_website_medium.jpg 1500w, https://assets.nflxext.com/ffe/siteui/vlv3/25badb14-858b-4b1c-8b7d-2244098454d9/f52376b2-aadc-4f64-b708-5c8e2d2f64c3/FR-en-20220606-popsignuptwoweeks-perspective_alpha_website_large.jpg 1800w" alt="">
