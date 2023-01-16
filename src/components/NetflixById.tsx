@@ -102,4 +102,3 @@ const NetflixById = () => {
 
 export default NetflixById
 
-// https://api.themoviedb.org/3/movie/550?api_key=8ee18f65008b7108b46834a1a60f55fc

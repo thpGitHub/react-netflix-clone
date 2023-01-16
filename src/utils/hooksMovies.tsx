@@ -9,6 +9,8 @@ const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientApi(`${TYPE_MOVIE}/${id}`),
     )
+    console.log('data in useGetOneMovie', data);
+    
     return data
 }
 
@@ -79,7 +81,6 @@ const useSearchMovie = (query: string) => {
     )
     console.log('data in useSearchMovie === ', data);
     
-    // return data?.data.results ?? []
     return data?.data?.results ?? []
   }
 

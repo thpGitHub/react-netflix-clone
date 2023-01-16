@@ -224,7 +224,7 @@ export interface AxiosResponse {
             Accept: 'application/json, text/plain, */*',
         },
         method: 'get',
-        url: 'https://api.themoviedb.org/3/tv/66732?api_key=8ee18f65008b7108b46834a1a60f55fc&language=fr-fr',
+        url: 'https://api.themoviedb.org/3/tv/66732?api_key=<<api_key>>&language=fr-fr',
     };
     request: {};
 }
