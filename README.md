@@ -137,7 +137,7 @@ const {authUser} = useAuthContext()
 
 - ### Découpage dynamique de code avec les imports dynamiques
 
-Cela va nous permettre de fractionner notre bundle et de gagner en performence.  
+Cela va nous permettre de fractionner notre bundle et de gagner en performance.  
 On est authentifié (AuthApp) ou pas (UnauthApp).
 
 ````typescript
