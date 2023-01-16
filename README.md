@@ -12,6 +12,7 @@
     - [`./contexts/authContext.tsx`](#authcontext)
     - [`useFetchData`](#usefetchdata)
     - [`handlers`](#handlers)
+    - [`src/utils/hooksMovies.tsx`](#hooksmovies)
 
 ---
 
@@ -403,14 +404,14 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
-import {useMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
+import {useGetOneMovie} from '../utils/hooksMovies'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-    const headerMovie = useMovie(type, defaultMovieId)
+    const headerMovie = useGetOneMovie(type, defaultMovieId)
 
     return (
         <div>
@@ -465,6 +466,131 @@ const NetflixApp = () => {
 }
 
 export default NetflixApp
+````
+
+````javascript
+const headerMovie = useGetOneMovie(type, defaultMovieId)
+````
+
+[détails useGetOneMovie : `src/utils/hooksMovies.tsx`](#hooksmovies)
+
+Exemple de `headerMovie` avec `type = movie`
+
+````JSON
+{
+    "data": {
+        "adult": false,
+        "backdrop_path": "/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg",
+        "belongs_to_collection": {
+            "id": 535313,
+            "name": "Godzilla - Saga",
+            "poster_path": "/inNN466SKHNjbGmpfhfsaPQNleS.jpg",
+            "backdrop_path": "/oboBn4VYB79uDxnyIri0Nt3U3N2.jpg"
+        },
+        "budget": 200000000,
+        "genres": [
+            {
+                "id": 28,
+                "name": "Action"
+            },
+            {
+                "id": 14,
+                "name": "Fantastique"
+            },
+            {
+                "id": 878,
+                "name": "Science-Fiction"
+            }
+        ],
+        "homepage": "",
+        "id": 399566,
+        "imdb_id": "tt5034838",
+        "original_language": "en",
+        "original_title": "Godzilla vs. Kong",
+        "overview": "À une époque où les monstres parcourent la Terre, et alors que l’humanité lutte pour son avenir, Godzilla et King Kong, les deux forces les plus puissantes de la nature, entrent en collision dans une bataille spectaculaire inédite. Alors que Monarch se lance dans une mission périlleuse en terrain inconnu, et qu’il découvre des indices sur les origines des Titans, un complot humain menace d’éradiquer ces créatures – qu’elles soient bonnes ou mauvaises – de la surface de la planète.",
+        "popularity": 163.734,
+        "poster_path": "/4bTShLVFnVKK31cowgjdAIZV84T.jpg",
+        "production_companies": [
+            {
+                "id": 923,
+                "logo_path": "/5UQsZrfbfG2dYJbx8DxfoTr2Bvu.png",
+                "name": "Legendary Pictures",
+                "origin_country": "US"
+            }
+        ],
+        "production_countries": [
+            {
+                "iso_3166_1": "US",
+                "name": "United States of America"
+            }
+        ],
+        "release_date": "2021-03-24",
+        "revenue": 470067014,
+        "runtime": 113,
+        "spoken_languages": [
+            {
+                "english_name": "English",
+                "iso_639_1": "en",
+                "name": "English"
+            }
+        ],
+        "status": "Released",
+        "tagline": "Deux rois. Un seul trône.",
+        "title": "Godzilla vs. Kong",
+        "video": false,
+        "vote_average": 7.714,
+        "vote_count": 8492
+    },
+    "status": 200,
+    "statusText": "",
+    "headers": {
+        "access-control-allow-origin": "*",
+        "access-control-expose-headers": "*",
+        "alt-svc": "h3=\":443\"; ma=86400",
+        "cache-control": "public, max-age=28800",
+        "content-encoding": "br",
+        "content-type": "application/json;charset=utf-8",
+        "date": "Mon, 16 Jan 2023 09:39:01 GMT",
+        "etag": "W/\"0f495e7edd7a5d4e4ee2bcd6eec7b910\"",
+        "server": "openresty",
+        "vary": "Accept-Encoding,Accept-Encoding,Accept-Encoding",
+        "via": "1.1 ec0e2f034bee82259de23281111aa344.cloudfront.net (CloudFront)",
+        "x-amz-cf-id": "kKzO-EpNZa7VHh3DCeihbVJVPk_b8jGUT3oCe5JG1HKo4-7F-k3kFw==",
+        "x-amz-cf-pop": "CDG50-C1",
+        "x-cache": "Miss from cloudfront",
+        "x-memc": "MISS, STORE",
+        "x-memc-age": "0",
+        "x-memc-expires": "17160",
+        "x-memc-key": "035815e165b0443daf3e4f7e901c9f9a6c62ad65"
+    },
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {
+            "FormData": null
+        },
+        "headers": {
+            "Accept": "application/json, text/plain, */*"
+        },
+        "method": "get",
+        "url": "https://api.themoviedb.org/3/movie/399566?api_key=<<api_key>>c&language=fr-fr&page=1"
+    },
+    "request": {}
+}
 ````
 
 ## Annexes <a name="annexes"></a>
@@ -854,4 +980,96 @@ export const handlers = [
         },
     ),
 ]
+````
+
+### hooksMovies.tsx <a name="hooksmovies"></a>
+
+````typescript
+// ** Utils **
+import {clientApi} from './clientAPI'
+import * as authNetflix from './authNetflixProvider'
+import { clientAuth } from './clientAPI'
+// ** REACT Query **
+import {useQuery} from '@tanstack/react-query'
+
+const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
+    const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
+        clientApi(`${TYPE_MOVIE}/${id}`),
+    )
+    console.log('data in useGetOneMovie', data);
+    
+    return data
+}
+
+const useMovieEndpoint = (type: string, filter: string, param: string) => {
+    const endpointLatest = `${type}/upcoming`
+    const endpointPopular = `${type}/popular`
+    const endpointTopRated = `${type}/top_rated`
+    const endpointGenre = `discover/${type}?with_genres=${param}`
+    const endpointTrending = `trending/${type}/day`
+
+    let endpoint: string = ''
+
+    switch (filter) {
+        case 'populaire':
+            endpoint = endpointPopular
+            break
+        case 'latest':
+            endpoint = endpointLatest
+            break
+        case 'toprated':
+            endpoint = endpointTopRated
+            break
+        case 'genre':
+            endpoint = endpointGenre
+            break
+        case 'trending':
+            endpoint = endpointTrending
+            break
+
+        default:
+            throw new Error('Type non supporté')
+    }
+
+    const {data} = useQuery([`${endpoint}`], () => clientApi(endpoint))
+
+    return data
+}
+
+/**
+ * This function is two fold in App.tsx
+ */
+ const getUserByToken = async () => {
+    let user = null
+    const token = await authNetflix.getTokenInLocalStorage()
+
+    if (token) {
+        console.log('Token exist :)')
+        const data = await clientAuth('getUserAuth', token)
+        // AxiosResponse
+        user = data.data.user
+        console.log('data ====', data)
+        console.log('user ====', user)
+    }
+
+    return user
+}
+
+const useBookmark = () => {
+    const {data} = useQuery(['bookmark'], () => {
+        return getUserByToken()
+    })
+    return data
+}
+
+const useSearchMovie = (query: string) => {
+    const {data} = useQuery([`search/multi?query=${query}`], () =>
+      clientApi(`search/multi?query=${query}`),
+    )
+    console.log('data in useSearchMovie === ', data);
+    
+    return data?.data?.results ?? []
+  }
+
+export {useGetOneMovie, useMovieEndpoint, useBookmark, useSearchMovie}
 ````
