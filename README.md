@@ -10,7 +10,7 @@
                 - [`clientUseApiTheMovieDB`](#clientapi)
             - [`<NetflixAppBar />`](#netflixappbar)
             - [`<NetflixHeader />`](#netflixheader)
-            - [`<NetFlixRow />`](#Netflixrow)
+            - [`<NetFlixRow />`](#netflixrow)
             - [`<NetflixFooter />`](#netflixfooter)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
@@ -1543,7 +1543,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
 export default NetflixHeader
 ````
 
-### `<NetFlixRow />` <a name="Netflixrow"></a>
+### `<NetFlixRow />` <a name="netflixrow"></a>
 
 ````typescript
 import React from 'react'
