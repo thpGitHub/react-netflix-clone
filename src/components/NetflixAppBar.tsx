@@ -3,17 +3,12 @@ import {Link, useNavigate} from 'react-router-dom'
 // ** MUI **
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import {styled, alpha} from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
-
+import Typography from '@mui/material/Typography'
+import {styled, alpha} from '@mui/material/styles'
 // ** Contexts
 import {useAuthContext} from '../contexts/authContext'
-
-// interface IProps {
-//     logout: () => void
-// }
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -57,7 +52,6 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }))
 
-// const NetflixAppBar = ({logout}: IProps): JSX.Element => {
 const NetflixAppBar = () => {
     const navigate = useNavigate()
     const [query, setQuery] = useState<any>()
@@ -140,7 +134,7 @@ const NetflixAppBar = () => {
                         placeholder="Search…"
                         inputProps={{'aria-label': 'search'}}
                         onKeyDown={handleKeyPress}
-                        onChange={(e)=> setQuery(e.target.value)}
+                        onChange={e => setQuery(e.target.value)}
                     />
                 </Search>
                 <img

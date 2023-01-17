@@ -61,10 +61,7 @@ const clientNetflix = (
     const config: any = {
         method,
         url: `https://auth.service.mock.com/${endpoint}`,
-        // data: JSON.stringify(data),
-        // data: data,
         data: {data, movie},
-        // movie: movie,
         headers: {
             Authorization: data.token ? `Bearer ${data.token}` : undefined,
         },
@@ -76,11 +73,6 @@ const clientNetflix = (
                 console.log('movie ', movie)
                 return response.data
             })
-            // .catch(error => {
-            //     if (error.response) {
-            //         return Promise.reject(error.response.data)
-            //     }
-            // })
             .catch(error => {
                 if (error?.response?.status === 401) {
                     authNetflix.logout()
