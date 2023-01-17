@@ -6,6 +6,12 @@
     - [Non Authentifié `<UnauthApp />`](#unauthapp)
     - [Authentifié `<AuthApp />`](#authapp)
         - [`<Route path="/" element={<NetflixApp />} /`>](#netflixapp)
+            - [`useGetOneMovie`](#hooksmovies)
+                - [`clientUseApiTheMovieDB`](#clientapi)
+            - [`<NetflixAppBar />`](#netflixappbar)
+            - [`<NetflixHeader />`](#netflixheader)
+            - [`<NetFlixRow />`](#Netflixrow)
+            - [`<NetflixFooter />`](#netflixfooter)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
     - [`./contexts/index.tsx`](#contexts)
@@ -13,6 +19,7 @@
     - [`useFetchData`](#usefetchdata)
     - [`handlers`](#handlers)
     - [`src/utils/hooksMovies.tsx`](#hooksmovies)
+    - [`src/utils/clientAPI.ts`](#clientapi)
 
 ---
 
@@ -1081,4 +1088,562 @@ export {useGetOneMovie, useMovieEndpoint, useBookmark, useSearchMovie}
 const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
     clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
 )
+````
+
+### clientAPI.ts <a name="clientapi"></a>
+
+````typescript
+import axios from 'axios'
+// ** Constants **
+import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
+// ** Utils **
+import * as authNetflix from '../../src/utils/authNetflixProvider'
+// import {sleep} from './helper'
+
+/*
+ * fetch on : https://api.themoviedb.org/3
+ * endpoint exemple : 'tv/71446'
+ * https://api.themoviedb.org/3/tv/71446?api_key=<<key_api>>&language=fr-fr&page=1
+ */
+const clientUseApiTheMovieDB = async (endpoint: string) => {
+    const page = 1
+    const startChar = endpoint.includes('?') ? `&` : `?`
+    // await sleep(4000)
+    const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`
+    //API_URL = https://api.themoviedb.org/3
+
+    // on catch ici l'erreur retourné par tmdb afin de personaliser le
+    // message dans errorBoundary
+    // retour tmdb quand mauvais id :
+    // status_code:34
+    // status_message: "The resource you requested could not be found."
+    // success: false
+    return axios.get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`).catch(error => {
+        if (error.response) {
+            const err = {
+                ...error.response,
+                message: error.response?.data?.status_message,
+            }
+            return Promise.reject(err)
+        } else {
+            return Promise.reject(error)
+        }
+    })
+}
+
+/*
+ * Catch by MSW
+ */
+const clientAuth = async (endPoint: string, token: string) => {
+    // await sleep(4000)
+    const config: any = {
+        headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+            // Authorization: `Bearer ${token}`
+        },
+    }
+    return axios.get(`https://auth.service.mock.com/${endPoint}`, config)
+    // https://auth.service.mock.com/getUserAuth
+}
+
+/*
+ * Catch by MSW
+ */
+const clientNetflix = (
+    endpoint: string,
+    {data, method = 'get', movie}: any,
+) => {
+    const config: any = {
+        method,
+        url: `https://auth.service.mock.com/${endpoint}`,
+        data: {data, movie},
+        headers: {
+            Authorization: data.token ? `Bearer ${data.token}` : undefined,
+        },
+    }
+    return (
+        axios(config)
+            .then(response => {
+                console.log('response data ', response?.data)
+                console.log('movie ', movie)
+                return response.data
+            })
+            .catch(error => {
+                if (error?.response?.status === 401) {
+                    authNetflix.logout()
+                    return Promise.reject({
+                        message: 'Authentification incorrecte',
+                    })
+                }
+                if (error.response) {
+                    return Promise.reject(error.response.data)
+                } else {
+                    return Promise.reject(error)
+                }
+            })
+    )
+}
+
+export {clientUseApiTheMovieDB, clientAuth, clientNetflix}
+````
+
+### `<NetflixAppBar />` <a name="netflixappbar"></a>
+
+````typescript
+import React, {useState, useEffect} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+// ** MUI **
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import InputBase from '@mui/material/InputBase'
+import SearchIcon from '@mui/icons-material/Search'
+import Typography from '@mui/material/Typography'
+import {styled, alpha} from '@mui/material/styles'
+// ** Contexts
+import {useAuthContext} from '../contexts/authContext'
+
+const Search = styled('div')(({theme}) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+    },
+}))
+
+const SearchIconWrapper = styled('div')(({theme}) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}))
+
+const StyledInputBase = styled(InputBase)(({theme}) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
+        },
+    },
+}))
+
+const NetflixAppBar = () => {
+    const navigate = useNavigate()
+    const [query, setQuery] = useState<any>()
+    const {logout} = useAuthContext()
+    const [appBarStyle, setAppBarStyle] = useState({
+        background: 'transparent',
+        boxShadow: 'none',
+        transition: 'none',
+    })
+
+    useEffect(() => {
+        const onScroll = (e: any) => {
+            console.log(e.target.documentElement.scrollTop)
+            if (e.target.documentElement.scrollTop > 100) {
+                setAppBarStyle({
+                    boxShadow: 'none',
+                    background: '#111',
+                    transition: 'background 2s ease-out',
+                })
+            } else {
+                setAppBarStyle({
+                    boxShadow: 'none',
+                    background: 'transparent',
+                    transition: 'background 2s ease-out',
+                })
+            }
+        }
+        window.addEventListener('scroll', onScroll)
+
+        return () => window.removeEventListener('scroll', onScroll)
+    }, [])
+
+    const margin10 = {margin: 10}
+
+    const handleKeyPress = (e: any) => {
+        const keyEnter = 13
+        if (e.keyCode === keyEnter) {
+            navigate(`/search/${query}`)
+        }
+    }
+
+    return (
+        <AppBar style={appBarStyle}>
+            <Toolbar>
+                <img
+                    className="nav__logo"
+                    src="images/netflix-logo.png"
+                    alt=""
+                />
+                <Link to="/">
+                    <Typography style={margin10} variant="h6">
+                        Accueil
+                    </Typography>
+                </Link>
+                <Link to="/series">
+                    <Typography style={margin10} variant="h6">
+                        Series
+                    </Typography>
+                </Link>
+                <Link to="/movies">
+                    <Typography style={margin10} variant="h6">
+                        Movies
+                    </Typography>
+                </Link>
+                <Link to="/news">
+                    <Typography style={margin10} variant="h6">
+                        News
+                    </Typography>
+                </Link>
+                <Link to="/list">
+                    <Typography style={margin10} variant="h6">
+                        List
+                    </Typography>
+                </Link>
+                <Search>
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{'aria-label': 'search'}}
+                        onKeyDown={handleKeyPress}
+                        onChange={e => setQuery(e.target.value)}
+                    />
+                </Search>
+                <img
+                    role="button"
+                    aria-label="logout"
+                    style={{marginLeft: 'auto'}}
+                    className="nav__avatar"
+                    src="/images/netflix-avatar.png"
+                    alt="netflix avatar"
+                    onClick={logout}
+                />
+            </Toolbar>
+        </AppBar>
+    )
+}
+
+export default NetflixAppBar
+````
+
+### `<NetflixHeader />` <a name="netflixheader"></a>
+
+````typescript
+import React, {useState} from 'react'
+import {AxiosData} from '../ts/interfaces/axiosData'
+import useDimension from '../hooks/useDimension'
+import HeaderSkeleton from './skeletons/HeaderSkeleton'
+import {clientNetflix} from '../utils/clientAPI'
+import {IMAGE_URL, TYPE_MOVIE} from '../const'
+// *** MUI ***
+import Snackbar from '@mui/material/Snackbar'
+import MuiAlert, {AlertProps} from '@mui/material/Alert'
+import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
+// ** REACT Query
+import {useBookmark} from '../utils/hooksMovies'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+})
+
+interface IProps {
+    movie: AxiosData | undefined
+    type: string
+}
+
+const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
+    const queryClient = useQueryClient()
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false)
+    const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
+
+    const data = useBookmark()
+
+    const addMutation = useMutation(
+        async () => {
+            return clientNetflix(`bookmark/${type}`, {
+                method: 'POST',
+                data,
+                movie,
+            })
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['bookmark'])
+                setSnackbarOpen(true)
+                setMutateBookmarkError(null)
+            },
+            onError: error => {
+                setSnackbarOpen(true)
+                setMutateBookmarkError(error)
+            },
+        },
+    )
+
+    const deleteMutation = useMutation(
+        async () => {
+            return clientNetflix(`bookmark/${type}`, {
+                method: 'DELETE',
+                data,
+                movie,
+            })
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['bookmark'])
+                setSnackbarOpen(true)
+                setMutateBookmarkError(null)
+            },
+            onError: error => {
+                setSnackbarOpen(true)
+                setMutateBookmarkError(error)
+            },
+        },
+    )
+
+    const title = type === TYPE_MOVIE ? movie?.title : movie?.name
+
+    let imageWidth = 1280
+
+    const browserWidth: number | undefined = useDimension()
+    console.log('browserWidth', browserWidth)
+
+    if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
+        console.log('780 - 1280')
+        imageWidth = 780
+    }
+    if (browserWidth && browserWidth < 780) {
+        console.log('--- 780')
+        imageWidth = 300
+    }
+    /*
+     * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
+     * backdrop_sizes : "w300" "w780" "w1280"
+     */
+    const imageURL = `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`
+    // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
+
+    const banner: React.CSSProperties = {
+        color: 'white',
+        height: '448px',
+        objectFit: 'contain',
+        backgroundSize: 'cover',
+        backgroundImage: `url('${imageURL}')`,
+        backgroundPosition: 'center center',
+    } 
+
+    const handleAddToBookmark = async () => {
+        addMutation.mutate()
+    }
+    const handleDeleteToBookmark = async () => {
+        deleteMutation.mutate()
+    }
+
+    /*
+     * props type = movie or tv
+     * authUser.bookmark = {movies: [], series: []}
+     */
+    // const isInBookmark = false
+    const isInBookmark = data?.bookmark[
+        type === TYPE_MOVIE ? 'movies' : 'series'
+    ]?.includes(movie?.id)
+
+    console.log('isInBookmark', isInBookmark)
+    console.log('isInBookmark type ===', type)
+    console.log('data.bookmark', data?.bookmark ?? 'totot')
+    console.log('data.data.bookmark', data?.data?.bookmark ?? 'totot')
+
+    if (!movie) {
+        return <HeaderSkeleton />
+    }
+
+    return (
+        <header style={banner}>
+            <div className="banner__contents">
+                <h1 className="banner__title">{title ?? '...'}</h1>
+                <div className="banner__buttons">
+                    <button className="banner__button banner__buttonplay">
+                        Lecture
+                    </button>
+                    {isInBookmark ? (
+                        <button
+                            className="banner__button banner__buttonInfo"
+                            onClick={handleDeleteToBookmark}
+                        >
+                            <DeleteForeverRoundedIcon
+                                color="secondary"
+                                fontSize="small"
+                                style={{marginRight: '5px'}}
+                            />
+                            Supprimer à ma liste
+                        </button>
+                    ) : (
+                        <button
+                            className="banner__button banner__buttonInfo"
+                            onClick={handleAddToBookmark}
+                        >
+                            Ajouter à ma liste
+                        </button>
+                    )}
+                </div>
+                <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
+            </div>
+            <div className="banner--fadeBottom"></div>
+            {/* {status === 'done' && isBookmarkFetchOneTime ? ( */}
+            {!mutateBookmarkError ? (
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={4000}
+                    onClose={() => setSnackbarOpen(false)}
+                >
+                    <Alert severity="success" sx={{width: '100%'}}>
+                        Liste modifiée avec succès
+                    </Alert>
+                </Snackbar>
+            ) : null}
+            {/* {status === 'error' && isBookmarkFetchOneTime ? ( */}
+            {mutateBookmarkError ? (
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={4000}
+                    onClose={() => setSnackbarOpen(false)}
+                >
+                    <Alert severity="error" sx={{width: '100%'}}>
+                        Problème lors de l'ajout : {mutateBookmarkError.message}
+                    </Alert>
+                </Snackbar>
+            ) : null}
+        </header>
+    )
+}
+
+export default NetflixHeader
+````
+
+### `<NetFlixRow />` <a name="Netflixrow"></a>
+
+````typescript
+import React from 'react'
+import './Netflix.css'
+import {Link} from 'react-router-dom'
+// ** Component **
+import RowSkeleton from './skeletons/RowSkeleton'
+// ** Const **
+import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
+// ** REACT Query
+import {useMovieEndpoint} from '../utils/hooksMovies'
+
+interface IProps {
+    type: string
+    param?: string
+    title: string
+    filter: string
+    watermark: boolean
+    wideImage: boolean
+}
+
+interface IMovie {
+    adult: false
+    backdrop_path: '/wcKFYIiVDvRURrzglV9kGu7fpfY.jpg'
+    genre_ids: [14, 28, 12]
+    id: 453395
+    media_type: 'movie'
+    title?: 'Doctor Strange in the Multiverse of Madness'
+    name?: 'Doctor Strange in the Multiverse of Madness'
+    original_language: 'en'
+    original_title: 'Doctor Strange in the Multiverse of Madness'
+    overview: "Le Docteur Strange lance un sort interdit qui ouvre le portail du Multivers, incluant des versions alternatives de lui-même. Cette menace à l'humanité est plus puissante que les pouvoirs combinés de Strange, Wong et Wanda Maximoff."
+    popularity: 7931.499
+    poster_path: '/arfzjn1tGvXWwkX7eaGVuXsc0mp.jpg'
+    release_date: '2022-05-04'
+    video: false
+    vote_average: 7.539
+    vote_count: 4015
+}
+
+const NetFlixRow = ({
+    type = TYPE_MOVIE,
+    param = '',
+    title = '',
+    filter = 'populaire',
+    watermark = false,
+    wideImage = true,
+}: IProps) => {
+    const data = useMovieEndpoint(type, filter, param)
+
+    const buildImagePath = (data: IMovie) => {
+        const image = wideImage ? data?.backdrop_path : data?.poster_path
+        return `${IMAGE_URL_ORIGINAL}${image}`
+    }
+
+    const watermarkClass: string = watermark ? 'watermarked' : ''
+
+    if (!data) {
+        return <RowSkeleton title={title} wideImage={true} />
+    }
+
+    return (
+        <div className="row">
+            <h2>{title}</h2>
+            <div className="row__posters">
+                {/* {data.data.results.map((movie: IMovie) => { */}
+                {data?.data?.results?.map((movie: IMovie) => {
+                    return (
+                        <Link key={movie.id} to={`/${type}/${movie.id}`}>
+                            <div
+                                className={`row__poster row__posterLarge ${watermarkClass}`}
+                            >
+                                <img
+                                    src={buildImagePath(movie)}
+                                    alt={movie.name}
+                                />
+                            </div>
+                        </Link>
+                    )
+                })}
+            </div>
+        </div>
+    )
+}
+
+export default NetFlixRow
+````
+
+### `<NetflixFooter />` <a name="netflixfooter"></a>
+
+````typescript
+import React from 'react'
+
+const NetflixFooter = (): JSX.Element => {
+    return (
+        <>
+            <footer className="footer">2022 - Netflix Clone</footer>
+        </>
+    )
+}
+
+export default NetflixFooter
 ````
