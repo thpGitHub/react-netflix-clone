@@ -1,15 +1,15 @@
 import React, {useState, useContext} from 'react'
 // *** MUI ***
+import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import FormGroup from '@mui/material/FormGroup'
 import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
-import Alert from '@mui/material/Alert'
 // ** Contexts **
 import {AuthContext} from '../contexts/authContext'
 
@@ -81,11 +81,11 @@ const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
 
             <FormGroup>
                 <FormControlLabel
-                    style={{
-                        paddingLeft: '24px',
-                        paddingRight: '24px',
-                        justifyContent: 'flex-start',
-                    }}
+                    // style={{
+                    //     paddingLeft: '24px',
+                    //     paddingRight: '24px',
+                    //     justifyContent: 'flex-start',
+                    // }}
                     control={<Checkbox defaultChecked />}
                     label="Se souvenir de moi"
                 />
