@@ -5,6 +5,7 @@ import NetFlixRow from './NetFlixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
+import NetflixAppBar2 from './NetflixAppBar2'
 // ** Utils **
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
@@ -17,6 +18,7 @@ const NetflixApp = () => {
 
     return (
         <div>
+            <NetflixAppBar2 />
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
