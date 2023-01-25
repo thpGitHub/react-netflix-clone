@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search'
 
 const Button = styled.button``
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{backgroundStyle: 'transparent' | '#111'}>`
     width: 100%;
     display: flex;
     padding: 0 12px;
@@ -16,8 +16,8 @@ const Wrapper = styled.div`
     min-height: 64px;
     align-items: center;
     letter-spacing: 0.0075em;
-    /* font-weight: 500; */
-    /* transition: 'background 4s ease-out' // ne fonctionne pas !!!! */
+    background: ${({backgroundStyle}) => backgroundStyle};
+    transition: background 4s ease-out;
 `
 
 const Nav = styled.nav`
@@ -45,24 +45,16 @@ const Actions = styled.div`
 `
 
 const NetflixAppBar2 = () => {
-    const [backgroundStyle, setBackgroundStyle] = useState<any>({
-        background: 'transparent',
-        transition: 'none'
-    })
+    const [backgroundStyle, setBackgroundStyle] =
+        useState<'transparent' | '#111'>('transparent')
 
     useEffect(() => {
         const onScroll = (e: any) => {
             console.log(e.target.documentElement.scrollTop)
             if (e.target.documentElement.scrollTop > 100) {
-                setBackgroundStyle({
-                    background: '#111',
-                    transition: 'background 2s ease-out'
-                })
+                setBackgroundStyle('#111')
             } else {
-                setBackgroundStyle({
-                    background: 'transparent',
-                    transition: 'background 2s ease-out'
-                })
+                setBackgroundStyle('transparent')
             }
         }
         window.addEventListener('scroll', onScroll)
@@ -71,11 +63,9 @@ const NetflixAppBar2 = () => {
     }, [])
 
     return (
-        // <div className="nav">
-        <Wrapper style={backgroundStyle}>
+        <Wrapper backgroundStyle={backgroundStyle}>
             <Button className="nav_burger">***</Button>
             <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" />
-            {/* <nav className="nav__links"> */}
             <Nav>
                 <StyledLink className="nav__link" to="/">
                     Accueil
@@ -93,8 +83,6 @@ const NetflixAppBar2 = () => {
                     List
                 </StyledLink>
             </Nav>
-            {/* </nav> */}
-            {/* <div className="nav__actions"> */}
             <Actions>
                 <Link className="nav__action" to="/">
                     search
@@ -104,9 +92,7 @@ const NetflixAppBar2 = () => {
                     alt="netflix avatar"
                 />
             </Actions>
-            {/* </div> */}
         </Wrapper>
-        // </div>
     )
 }
 
