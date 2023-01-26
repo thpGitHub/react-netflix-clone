@@ -25,7 +25,7 @@ const Nav = styled.nav`
 `
 
 const StyledLink = styled(Link)`
-    color: white;
+    color: #FFF;
     padding: 0 5px;
     text-decoration: none;
 `
@@ -49,15 +49,18 @@ const NetflixAppBar2 = () => {
         useState<'transparent' | '#111'>('transparent')
 
     useEffect(() => {
-        const onScroll = (e: any) => {
-            console.log(e.target.documentElement.scrollTop)
-            if (e.target.documentElement.scrollTop > 100) {
+        const onScroll = (e: Event) => {
+            const window = e.currentTarget as Window
+            let currentPosition = window.scrollY
+            console.log({currentPosition: currentPosition})
+
+            if (currentPosition > 100) {
                 setBackgroundStyle('#111')
             } else {
                 setBackgroundStyle('transparent')
             }
         }
-        window.addEventListener('scroll', onScroll)
+        window.addEventListener('scroll', e => onScroll(e))
 
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
