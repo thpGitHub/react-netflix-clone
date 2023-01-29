@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search'
+import MenuSharpIcon from '@mui/icons-material/MenuSharp'
 import device from '../utils/style/breakpoints'
 import {createGlobalStyle, ThemeProvider} from 'styled-components'
 
@@ -73,6 +74,20 @@ const StyledLink = styled(Link)`
     }
 `
 
+const Search = styled.div`
+    /* width: 38px; */
+    display: flex;
+    color: #fff;
+    padding: 8px;
+    background: #111;
+    opacity: 0.4;
+    border-radius: 5px;
+    margin-right: 10px;
+    /* input {
+        background: #0000;
+    } */
+`
+
 const ImgLogoNetflix = styled.img`
     max-width: 100px;
     // object-fit: contain;
@@ -87,12 +102,23 @@ const Actions = styled.div`
     align-items: center;
     margin-left: auto;
 `
+const InputSearch = styled.input`
+    border: none;
+    outline: none;
+    color: #fff;
+    max-width: 100px;
+    background: #0000;
+    /* margin-right: 10px; */
+`
 
 const NetflixAppBar2 = () => {
     const [backgroundStyle, setBackgroundStyle] =
         useState<'transparent' | '#111'>('transparent')
+
     const [displayBurgerMenu, setDisplayBurgerMenu] =
         useState<'none' | 'flex'>('none')
+
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
         const onScroll = (e: Event) => {
@@ -115,13 +141,19 @@ const NetflixAppBar2 = () => {
         setDisplayBurgerMenu(displayBurgerMenu === 'none' ? 'flex' : 'none')
     }
 
+    const handleSearchQuery = (e:any) => {
+        setSearchQuery(e.target.value)
+    }
+
     return (
         <Wrapper
             backgroundStyle={backgroundStyle}
             displayBurgerMenu={displayBurgerMenu}
         >
             <GlobalStyle displayBurgerMenu={displayBurgerMenu} />
-            <ButtonBurger onClick={handlerDisplayBurgerMenu}>***</ButtonBurger>
+            <ButtonBurger onClick={handlerDisplayBurgerMenu}>
+                <MenuSharpIcon />
+            </ButtonBurger>
             <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" />
             <Nav displayBurgerMenu={displayBurgerMenu}>
                 <StyledLink className="nav__link" to="/">
@@ -141,9 +173,16 @@ const NetflixAppBar2 = () => {
                 </StyledLink>
             </Nav>
             <Actions>
-                <Link className="nav__action" to="/">
-                    search
-                </Link>
+                <Search>
+                    <SearchIcon />
+                    <InputSearch
+                        placeholder="Search…"
+                        type="search"
+                        aria-label="search"
+                        value={searchQuery}
+                        onChange={handleSearchQuery}
+                    />
+                </Search>
                 <ImgAvatarForLogout
                     src="/images/netflix-avatar.png"
                     alt="netflix avatar"
