@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-// *** Styled components ***
-import styled from 'styled-components'
-import {createGlobalStyle, ThemeProvider} from 'styled-components'
-// *** MUI ***
+// ** Contexts **
+import {useAuthContext} from '../contexts/authContext'
+// ** MUI **
 import SearchIcon from '@mui/icons-material/Search'
 import MenuSharpIcon from '@mui/icons-material/MenuSharp'
-// *** Utils ***
+// ** Styled components **
+import styled from 'styled-components'
+import {createGlobalStyle} from 'styled-components'
+// ** Utils **
 import device from '../utils/style/breakpoints'
 
 const GlobalStyle = createGlobalStyle<{displayBurgerMenu: 'none' | 'flex'}>`
@@ -75,12 +77,18 @@ const StyledLink = styled(Link)`
 
 const Search = styled.div`
     color: #fff;
-    display: flex;
+    /* display: flex; */
     opacity: 0.4;
     padding: 8px;
     background: #111;
     margin-right: 10px;
     border-radius: 5px;
+    &:focus-within {
+        opacity: 1;
+    }
+    label {
+        display: flex;
+    }
 `
 
 const ImgLogoNetflix = styled.img`
@@ -116,6 +124,7 @@ const InputSearch = styled.input`
 
 const NetflixAppBar2 = () => {
     const navigate = useNavigate()
+    const {logout} = useAuthContext()
     const [backgroundStyle, setBackgroundStyle] =
         useState<'transparent' | '#111'>('transparent')
 
@@ -185,19 +194,22 @@ const NetflixAppBar2 = () => {
             </Nav>
             <Actions>
                 <Search>
-                    <SearchIcon />
-                    <InputSearch
-                        type="search"
-                        value={searchQuery}
-                        onChange={handleSearchQuery}
-                        onKeyDown={handleKeyEnter}
-                        aria-label="search"
-                        placeholder="Search…"
-                    />
+                    <label>
+                        <SearchIcon />
+                        <InputSearch
+                            type="search"
+                            value={searchQuery}
+                            onChange={handleSearchQuery}
+                            onKeyDown={handleKeyEnter}
+                            aria-label="search"
+                            placeholder="Search…"
+                        />
+                    </label>
                 </Search>
                 <ImgAvatarForLogout
                     alt="netflix avatar"
                     src="/images/netflix-avatar.png"
+                    onClick={logout}
                 />
             </Actions>
         </Wrapper>

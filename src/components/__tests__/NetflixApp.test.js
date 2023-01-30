@@ -40,12 +40,12 @@ test('should render componant', async () => {
     await waitForElementToBeRemoved(() => screen.queryByRole('alert'))
     // screen.debug()
     // screen.logTestingPlaygroundURL()
-    expect(screen.getByRole('heading', {name: /accueil/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /series/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /movies/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /news/i})).toBeInTheDocument()
-    expect(screen.getByRole('heading', {name: /list/i})).toBeInTheDocument()
-    expect(screen.getByRole('textbox', {name: /search/i})).toBeInTheDocument()
+    expect(screen.getByRole('link', {name: /accueil/i})).toBeInTheDocument()
+    expect(screen.getByRole('link', {name: /series/i})).toBeInTheDocument()
+    expect(screen.getByRole('link', {name: /movies/i})).toBeInTheDocument()
+    expect(screen.getByRole('link', {name: /news/i})).toBeInTheDocument()
+    expect(screen.getByRole('link', {name: /list/i})).toBeInTheDocument()
+    expect(screen.getByRole('searchbox', {name: /search/i})).toBeInTheDocument()
     expect(
         screen.getByRole('heading', {name: /Films Netflix/i}),
     ).toBeInTheDocument()
