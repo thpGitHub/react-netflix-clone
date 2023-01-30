@@ -10,7 +10,7 @@ import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
 import {useGetOneMovie} from '../utils/hooksMovies'
 
-import NetflixAppBar2 from './NetflixAppBar2'
+// import NetflixAppBar2 from './NetflixAppBar2'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
@@ -19,8 +19,8 @@ const NetflixApp = () => {
 
     return (
         <div>
-            <NetflixAppBar2 />
-            {/* <NetflixAppBar /> */}
+            {/* <NetflixAppBar2 /> */}
+            <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
             <NetFlixRow

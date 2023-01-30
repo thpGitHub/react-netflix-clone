@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'storybook-addon-react-router-v6';
 
-import ResponsiveAppBar from './NetflixAppBar2'
+// import ResponsiveAppBar from './NetflixAppBar2'
+import ResponsiveAppBar from './NetflixAppBar'
 
 export default {
   component: ResponsiveAppBar,
