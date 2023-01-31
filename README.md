@@ -1192,160 +1192,240 @@ export {clientUseApiTheMovieDB, clientAuth, clientNetflix}
 ### `<NetflixAppBar />` <a name="netflixappbar"></a>
 
 ````typescript
-import React, {useState, useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-// ** MUI **
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
-import InputBase from '@mui/material/InputBase'
-import SearchIcon from '@mui/icons-material/Search'
-import Typography from '@mui/material/Typography'
-import {styled, alpha} from '@mui/material/styles'
-// ** Contexts
+// import netflixlogo from '../assets/images/netflixlogo'
+
+// ** Contexts **
 import {useAuthContext} from '../contexts/authContext'
+// ** MUI **
+import SearchIcon from '@mui/icons-material/Search'
+import MenuSharpIcon from '@mui/icons-material/MenuSharp'
+// ** Styled components **
+import styled from 'styled-components'
+import {createGlobalStyle} from 'styled-components'
+// ** Utils **
+import device from '../utils/style/breakpoints'
 
-const Search = styled('div')(({theme}) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-    },
-}))
+/**
+ * For fix typescript error : Cannot find module
+ * Another way :
+ * tsconfig : "include": ["src", "index.d.ts"]
+ * and add file : index.d.ts with :
+ * declare module '*.png';
+ * declare module '*.jpg';
+ */
+const NetflixLogo = require('../assets/images/netflixlogo.png')
 
-const SearchIconWrapper = styled('div')(({theme}) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}))
+const GlobalStyle = createGlobalStyle<{displayBurgerMenu: 'none' | 'flex'}>`
+    body {
+      overflow: ${({displayBurgerMenu}) =>
+          displayBurgerMenu === 'none' ? 'auto' : 'hidden'}
+      }
+`
 
-const StyledInputBase = styled(InputBase)(({theme}) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: '12ch',
-            '&:focus': {
-                width: '20ch',
-            },
-        },
-    },
-}))
+const ButtonBurger = styled.button`
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    @media ${device.sm} {
+        display: none;
+    }
+`
 
-const NetflixAppBar = () => {
+const Wrapper = styled.div<{
+    backgroundStyle: 'transparent' | '#111'
+    displayBurgerMenu: 'none' | 'flex'
+}>`
+    width: 100%;
+    display: flex;
+    padding: 0 12px;
+    z-index: 1111;
+    position: fixed;
+    flex-wrap: wrap;
+    font-size: 1.25rem;
+    min-height: 64px;
+    align-items: center;
+    letter-spacing: 0.0075em;
+    background: ${({backgroundStyle}) => backgroundStyle};
+    transition: background 4s ease-out;
+    @media screen and (max-width: 768px) {
+        background: ${({displayBurgerMenu}) =>
+            displayBurgerMenu === 'none'
+                ? ({backgroundStyle}) => backgroundStyle
+                : '#111'};
+    }
+`
+
+const Nav = styled.nav<{displayBurgerMenu: 'none' | 'flex'}>`
+    margin-left: auto;
+    @media screen and (max-width: 768px) {
+        top: 64px;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: ${({displayBurgerMenu}) => displayBurgerMenu};
+        position: absolute;
+        flex-direction: column;
+        background-color: #111;
+    }
+`
+
+const StyledLink = styled(Link)`
+    color: #fff;
+    padding: 0 5px;
+    text-decoration: none;
+    @media screen and (max-width: 768px) {
+        padding: 15px 4%;
+    }
+`
+
+const Search = styled.div`
+    color: #fff;
+    /* display: flex; */
+    opacity: 0.4;
+    padding: 8px;
+    background: #111;
+    margin-right: 10px;
+    border-radius: 5px;
+    &:focus-within {
+        opacity: 1;
+    }
+    label {
+        display: flex;
+    }
+`
+
+const ImgLogoNetflix = styled.img`
+    max-width: 100px;
+    // object-fit: contain;
+    @media screen and (max-width: 768px) {
+        max-width: 80px;
+    }
+`
+const ImgAvatarForLogout = styled.img`
+    width: 30px;
+    cursor: pointer;
+    @media screen and (max-width: 320px) {
+        width: 20px;
+    }
+`
+
+const Actions = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+`
+const InputSearch = styled.input`
+    color: #fff;
+    border: none;
+    outline: none;
+    max-width: 100px;
+    background: #0000;
+    @media screen and (max-width: 768px) {
+        max-width: 80px;
+    }
+`
+
+const NetflixAppBar2 = () => {
     const navigate = useNavigate()
-    const [query, setQuery] = useState<any>()
     const {logout} = useAuthContext()
-    const [appBarStyle, setAppBarStyle] = useState({
-        background: 'transparent',
-        boxShadow: 'none',
-        transition: 'none',
-    })
+    const [backgroundStyle, setBackgroundStyle] =
+        useState<'transparent' | '#111'>('transparent')
+
+    const [displayBurgerMenu, setDisplayBurgerMenu] =
+        useState<'none' | 'flex'>('none')
+
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
-        const onScroll = (e: any) => {
-            console.log(e.target.documentElement.scrollTop)
-            if (e.target.documentElement.scrollTop > 100) {
-                setAppBarStyle({
-                    boxShadow: 'none',
-                    background: '#111',
-                    transition: 'background 2s ease-out',
-                })
+        const onScroll = (e: Event) => {
+            const window = e.currentTarget as Window
+            let currentPosition = window.scrollY
+            console.log({currentPosition: currentPosition})
+
+            if (currentPosition > 100) {
+                setBackgroundStyle('#111')
             } else {
-                setAppBarStyle({
-                    boxShadow: 'none',
-                    background: 'transparent',
-                    transition: 'background 2s ease-out',
-                })
+                setBackgroundStyle('transparent')
             }
         }
+        // window.addEventListener('scroll', e => onScroll(e))
         window.addEventListener('scroll', onScroll)
 
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
-    const margin10 = {margin: 10}
+    const handlerDisplayBurgerMenu = () => {
+        setDisplayBurgerMenu(displayBurgerMenu === 'none' ? 'flex' : 'none')
+    }
 
-    const handleKeyPress = (e: any) => {
-        const keyEnter = 13
-        if (e.keyCode === keyEnter) {
-            navigate(`/search/${query}`)
+    const handleSearchQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value)
+    }
+
+    const handleKeyEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            navigate(`/search/${searchQuery}`)
         }
     }
 
     return (
-        <AppBar style={appBarStyle}>
-            <Toolbar>
-                <img
-                    className="nav__logo"
-                    src="images/netflix-logo.png"
-                    alt=""
-                />
-                <Link to="/">
-                    <Typography style={margin10} variant="h6">
-                        Accueil
-                    </Typography>
-                </Link>
-                <Link to="/series">
-                    <Typography style={margin10} variant="h6">
-                        Series
-                    </Typography>
-                </Link>
-                <Link to="/movies">
-                    <Typography style={margin10} variant="h6">
-                        Movies
-                    </Typography>
-                </Link>
-                <Link to="/news">
-                    <Typography style={margin10} variant="h6">
-                        News
-                    </Typography>
-                </Link>
-                <Link to="/list">
-                    <Typography style={margin10} variant="h6">
-                        List
-                    </Typography>
-                </Link>
+        <Wrapper
+            backgroundStyle={backgroundStyle}
+            displayBurgerMenu={displayBurgerMenu}
+        >
+            <GlobalStyle displayBurgerMenu={displayBurgerMenu} />
+            <ButtonBurger onClick={handlerDisplayBurgerMenu}>
+                <MenuSharpIcon />
+            </ButtonBurger>
+            {/* <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" /> */}
+            {/* <ImgLogoNetflix src="public/images/netflix-logo.png" alt="Netflix" /> */}
+            <ImgLogoNetflix src={NetflixLogo} alt="Netflix" />
+            <Nav displayBurgerMenu={displayBurgerMenu}>
+                <StyledLink className="nav__link" to="/">
+                    Accueil
+                </StyledLink>
+                <StyledLink className="nav__link" to="/series">
+                    Series
+                </StyledLink>
+                <StyledLink className="nav__link" to="/movies">
+                    Movies
+                </StyledLink>
+                <StyledLink className="nav__link" to="/news">
+                    News
+                </StyledLink>
+                <StyledLink className="nav__link" to="/list">
+                    List
+                </StyledLink>
+            </Nav>
+            <Actions>
                 <Search>
-                    <SearchIconWrapper>
+                    <label>
                         <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{'aria-label': 'search'}}
-                        onKeyDown={handleKeyPress}
-                        onChange={e => setQuery(e.target.value)}
-                    />
+                        <InputSearch
+                            type="search"
+                            value={searchQuery}
+                            onChange={handleSearchQuery}
+                            onKeyDown={handleKeyEnter}
+                            aria-label="search"
+                            placeholder="Search…"
+                        />
+                    </label>
                 </Search>
-                <img
-                    role="button"
-                    aria-label="logout"
-                    style={{marginLeft: 'auto'}}
-                    className="nav__avatar"
-                    src="/images/netflix-avatar.png"
+                <ImgAvatarForLogout
                     alt="netflix avatar"
+                    src="/images/netflix-avatar.png"
                     onClick={logout}
                 />
-            </Toolbar>
-        </AppBar>
+            </Actions>
+        </Wrapper>
     )
 }
 
-export default NetflixAppBar
+export default NetflixAppBar2
+
 ````
 
 ### `<NetflixHeader />` <a name="netflixheader"></a>
