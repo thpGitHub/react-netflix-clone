@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+// import netflixlogo from '../assets/images/netflixlogo'
+
 // ** Contexts **
 import {useAuthContext} from '../contexts/authContext'
 // ** MUI **
@@ -10,6 +12,16 @@ import styled from 'styled-components'
 import {createGlobalStyle} from 'styled-components'
 // ** Utils **
 import device from '../utils/style/breakpoints'
+
+/**
+ * For fix typescript error : Cannot find module
+ * Another way : 
+ * tsconfig : "include": ["src", "index.d.ts"]  
+ * and add file : index.d.ts with : 
+ * declare module '*.png';
+ * declare module '*.jpg';
+ */ 
+const NetflixLogo =  require("../assets/images/netflixlogo.png")
 
 const GlobalStyle = createGlobalStyle<{displayBurgerMenu: 'none' | 'flex'}>`
     body {
@@ -174,7 +186,9 @@ const NetflixAppBar2 = () => {
             <ButtonBurger onClick={handlerDisplayBurgerMenu}>
                 <MenuSharpIcon />
             </ButtonBurger>
-            <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" />
+            {/* <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" /> */}
+            {/* <ImgLogoNetflix src="public/images/netflix-logo.png" alt="Netflix" /> */}
+            <ImgLogoNetflix src={NetflixLogo} alt="Netflix" />
             <Nav displayBurgerMenu={displayBurgerMenu}>
                 <StyledLink className="nav__link" to="/">
                     Accueil
