@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-// import netflixlogo from '../assets/images/netflixlogo'
-
 // ** Contexts **
 import {useAuthContext} from '../contexts/authContext'
 // ** MUI **
@@ -15,13 +13,13 @@ import device from '../utils/style/breakpoints'
 
 /**
  * For fix typescript error : Cannot find module
- * Another way : 
- * tsconfig : "include": ["src", "index.d.ts"]  
- * and add file : index.d.ts with : 
+ * Another way :
+ * tsconfig : "include": ["src", "index.d.ts"]
+ * and add file : index.d.ts with :
  * declare module '*.png';
  * declare module '*.jpg';
- */ 
-const NetflixLogo =  require("../assets/images/netflixlogo.png")
+ */
+const NetflixLogo = require('../assets/images/netflixlogo.png')
 
 const GlobalStyle = createGlobalStyle<{displayBurgerMenu: 'none' | 'flex'}>`
     body {
@@ -134,7 +132,7 @@ const InputSearch = styled.input`
     }
 `
 
-const NetflixAppBar2 = () => {
+const NetflixAppBar = () => {
     const navigate = useNavigate()
     const {logout} = useAuthContext()
     const [backgroundStyle, setBackgroundStyle] =
@@ -230,4 +228,4 @@ const NetflixAppBar2 = () => {
     )
 }
 
-export default NetflixAppBar2
+export default NetflixAppBar
