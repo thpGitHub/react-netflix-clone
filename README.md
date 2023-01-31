@@ -11,6 +11,7 @@
             - [`useGetOneMovie`](#hooksmovies)
                 - [`clientUseApiTheMovieDB`](#clientapi)
             - [`<NetflixAppBar />`](#netflixappbar)
+                - [`navigate(`/search/${searchQuery}`)`](#search)
             - [`<NetflixHeader />`](#netflixheader)
             - [`<NetFlixRow />`](#netflixrow)
             - [`<NetflixFooter />`](#netflixfooter)
@@ -1206,7 +1207,7 @@ import {createGlobalStyle} from 'styled-components'
 import device from '../utils/style/breakpoints'
 
 /**
- * For fix typescript error : Cannot find module
+ * `require` For fix typescript error : Cannot find module
  * Another way :
  * tsconfig : "include": ["src", "index.d.ts"]
  * and add file : index.d.ts with :
@@ -1349,7 +1350,6 @@ const NetflixAppBar = () => {
                 setBackgroundStyle('transparent')
             }
         }
-        // window.addEventListener('scroll', e => onScroll(e))
         window.addEventListener('scroll', onScroll)
 
         return () => window.removeEventListener('scroll', onScroll)
@@ -1378,8 +1378,6 @@ const NetflixAppBar = () => {
             <ButtonBurger onClick={handlerDisplayBurgerMenu}>
                 <MenuSharpIcon />
             </ButtonBurger>
-            {/* <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" /> */}
-            {/* <ImgLogoNetflix src="public/images/netflix-logo.png" alt="Netflix" /> */}
             <ImgLogoNetflix src={NetflixLogo} alt="Netflix" />
             <Nav displayBurgerMenu={displayBurgerMenu}>
                 <StyledLink className="nav__link" to="/">
@@ -1424,6 +1422,10 @@ const NetflixAppBar = () => {
 
 export default NetflixAppBar
 ````
+
+### `<NetflixSearch />` <a name="search"></a>
+
+
 
 ### `<NetflixHeader />` <a name="netflixheader"></a>
 
