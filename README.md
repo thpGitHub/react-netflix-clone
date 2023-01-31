@@ -13,7 +13,7 @@
             - [`<NetflixAppBar />`](#netflixappbar)
                 - [`navigate(`/search/${searchQuery}`)`](#search)
             - [`<NetflixHeader />`](#netflixheader)
-            - [`<NetFlixRow />`](#netflixrow)
+            - [`<NetflixRow />`](#netflixrow)
             - [`<NetflixFooter />`](#netflixfooter)
 1. [Annexes](#annexes)
     - [`./mocks/index.js`](#mocks)
@@ -409,7 +409,7 @@ export default AuthApp
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
@@ -428,7 +428,7 @@ const NetflixApp = () => {
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Films Netflix"
                 filter="trending"
@@ -436,7 +436,7 @@ const NetflixApp = () => {
                 wideImage={true}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Séries Netflix"
                 filter="trending"
@@ -444,7 +444,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Les mieux notés"
                 filter="toprated"
@@ -452,7 +452,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 param="10759"
                 title="Action & aventure"
@@ -461,7 +461,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 param="53"
                 title="Les meilleurs thrillers"
@@ -1624,7 +1624,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
 export default NetflixHeader
 ````
 
-### `<NetFlixRow />` <a name="netflixrow"></a>
+### `<NetflixRow />` <a name="netflixrow"></a>
 
 ````typescript
 import React from 'react'
@@ -1665,7 +1665,7 @@ interface IMovie {
     vote_count: 4015
 }
 
-const NetFlixRow = ({
+const NetflixRow = ({
     type = TYPE_MOVIE,
     param = '',
     title = '',
@@ -1710,7 +1710,7 @@ const NetFlixRow = ({
     )
 }
 
-export default NetFlixRow
+export default NetflixRow
 ````
 
 ### `<NetflixFooter />` <a name="netflixfooter"></a>

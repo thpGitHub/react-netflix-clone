@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './Netflix.css'
 import {useParams, useLocation} from 'react-router-dom'
 // ** Components **
-import NetFlixRow from './NetflixRow'
+import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
@@ -53,7 +53,7 @@ const NetflixById = () => {
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Films Netflix"
                 filter="trending"
@@ -61,7 +61,7 @@ const NetflixById = () => {
                 wideImage={true}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Séries Netflix"
                 filter="trending"
@@ -69,7 +69,7 @@ const NetflixById = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Les mieux notés"
                 filter="toprated"
@@ -77,7 +77,7 @@ const NetflixById = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 param="10759"
                 title="Action & aventure"
@@ -86,7 +86,7 @@ const NetflixById = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 param="53"
                 title="Les meilleurs thrillers"
