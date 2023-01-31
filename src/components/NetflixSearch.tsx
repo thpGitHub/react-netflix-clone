@@ -65,8 +65,6 @@ const NetflixSearch = () => {
                     />
                 </>
             )}
-
-            {/* <NetFlixFooter color="secondary" si /> */}
             <NetflixFooter />
         </div>
     )
