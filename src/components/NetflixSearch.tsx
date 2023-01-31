@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useParams} from 'react-router-dom'
 // ** Components **
 import NetflixAppBar from './NetflixAppBar'
-import NetFlixFooter from './NetflixFooter'
+import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 import RowSkeleton from './skeletons/RowSkeleton'
 // ** Utils **
@@ -67,7 +67,7 @@ const NetflixSearch = () => {
             )}
 
             {/* <NetFlixFooter color="secondary" si /> */}
-            <NetFlixFooter />
+            <NetflixFooter />
         </div>
     )
 }
