@@ -2,6 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/82ff5f0f-19d3-41e5-a52d-129490ebb381/deploy-status)](https://app.netlify.com/sites/lovely-moxie-7de9f5/deploys)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/thpGitHub/react-netflix-clone/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/thpGitHub/react-netflix-clone/tree/main)
+[![CodeFactor](https://www.codefactor.io/repository/github/thpgithub/react-netflix-clone/badge/main)](https://www.codefactor.io/repository/github/thpgithub/react-netflix-clone/overview/main)
 
 1. [Point d'entrée `App.tsx`](#app)
     - [Non Authentifié `<UnauthApp />`](#unauthapp)
