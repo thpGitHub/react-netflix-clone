@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetflixRow from './NetflixRow'
+// import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
@@ -9,6 +9,7 @@ import NetflixHeader from './NetflixHeader'
 import {useGetOneMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
+import NetflixRow from './NetflixRow'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
