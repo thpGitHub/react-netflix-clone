@@ -1194,8 +1194,6 @@ export {clientUseApiTheMovieDB, clientAuth, clientNetflix}
 ````typescript
 import React, {useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-// import netflixlogo from '../assets/images/netflixlogo'
-
 // ** Contexts **
 import {useAuthContext} from '../contexts/authContext'
 // ** MUI **
@@ -1328,7 +1326,7 @@ const InputSearch = styled.input`
     }
 `
 
-const NetflixAppBar2 = () => {
+const NetflixAppBar = () => {
     const navigate = useNavigate()
     const {logout} = useAuthContext()
     const [backgroundStyle, setBackgroundStyle] =
@@ -1424,8 +1422,7 @@ const NetflixAppBar2 = () => {
     )
 }
 
-export default NetflixAppBar2
-
+export default NetflixAppBar
 ````
 
 ### `<NetflixHeader />` <a name="netflixheader"></a>
