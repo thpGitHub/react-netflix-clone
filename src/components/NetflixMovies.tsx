@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+import NetFlixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'

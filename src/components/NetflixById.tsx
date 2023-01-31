@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './Netflix.css'
 import {useParams, useLocation} from 'react-router-dom'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+import NetFlixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
