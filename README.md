@@ -1425,8 +1425,6 @@ export default NetflixAppBar
 
 ### `<NetflixSearch />` <a name="search"></a>
 
-
-
 ### `<NetflixHeader />` <a name="netflixheader"></a>
 
 ````typescript
