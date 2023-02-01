@@ -36,7 +36,7 @@ interface IMovie {
     vote_count: 4015
 }
 
-const NetFlixRow = ({
+const NetflixRow = ({
     type = TYPE_MOVIE,
     param = '',
     title = '',
@@ -81,4 +81,4 @@ const NetFlixRow = ({
     )
 }
 
-export default NetFlixRow
+export default NetflixRow

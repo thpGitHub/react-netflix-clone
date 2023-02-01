@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
@@ -31,7 +31,7 @@ const NetflixSeries = () => {
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Séries tendances Netflix"
                 filter="trending"
@@ -39,7 +39,7 @@ const NetflixSeries = () => {
                 wideImage={true}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Séries les mieux notées"
                 filter="toprated"
@@ -47,7 +47,7 @@ const NetflixSeries = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Les séries populaires"
                 filter="populaire"
@@ -55,7 +55,7 @@ const NetflixSeries = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 param="99"
                 title="Les documentaires"
@@ -64,7 +64,7 @@ const NetflixSeries = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 param="80"
                 title="Les séries criminelles"

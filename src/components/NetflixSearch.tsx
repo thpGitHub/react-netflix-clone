@@ -1,13 +1,13 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
-// ** Utils
-import {useGetOneMovie, useSearchMovie} from '../utils/hooksMovies'
-import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
-// ** Components
+// ** Components **
 import NetflixAppBar from './NetflixAppBar'
-import NetFlixFooter from './NetflixFooter'
+import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 import RowSkeleton from './skeletons/RowSkeleton'
+// ** Utils **
+import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
+import {useGetOneMovie, useSearchMovie} from '../utils/hooksMovies'
 
 const NetflixSearch = () => {
     /*
@@ -65,9 +65,7 @@ const NetflixSearch = () => {
                     />
                 </>
             )}
-
-            {/* <NetFlixFooter color="secondary" si /> */}
-            <NetFlixFooter />
+            <NetflixFooter />
         </div>
     )
 }

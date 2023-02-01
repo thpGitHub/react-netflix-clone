@@ -11,6 +11,16 @@ import {createGlobalStyle} from 'styled-components'
 // ** Utils **
 import device from '../utils/style/breakpoints'
 
+/**
+ * `require` For fix typescript error : Cannot find module
+ * Another way :
+ * tsconfig : "include": ["src", "index.d.ts"]
+ * and add file : index.d.ts with :
+ * declare module '*.png';
+ * declare module '*.jpg';
+ */
+const NetflixLogo = require('../assets/images/netflixlogo.png')
+
 const GlobalStyle = createGlobalStyle<{displayBurgerMenu: 'none' | 'flex'}>`
     body {
       overflow: ${({displayBurgerMenu}) =>
@@ -122,7 +132,7 @@ const InputSearch = styled.input`
     }
 `
 
-const NetflixAppBar2 = () => {
+const NetflixAppBar = () => {
     const navigate = useNavigate()
     const {logout} = useAuthContext()
     const [backgroundStyle, setBackgroundStyle] =
@@ -145,7 +155,6 @@ const NetflixAppBar2 = () => {
                 setBackgroundStyle('transparent')
             }
         }
-        // window.addEventListener('scroll', e => onScroll(e))
         window.addEventListener('scroll', onScroll)
 
         return () => window.removeEventListener('scroll', onScroll)
@@ -174,7 +183,7 @@ const NetflixAppBar2 = () => {
             <ButtonBurger onClick={handlerDisplayBurgerMenu}>
                 <MenuSharpIcon />
             </ButtonBurger>
-            <ImgLogoNetflix src="images/netflix-logo.png" alt="Netflix" />
+            <ImgLogoNetflix src={NetflixLogo} alt="Netflix" />
             <Nav displayBurgerMenu={displayBurgerMenu}>
                 <StyledLink className="nav__link" to="/">
                     Accueil
@@ -216,4 +225,4 @@ const NetflixAppBar2 = () => {
     )
 }
 
-export default NetflixAppBar2
+export default NetflixAppBar

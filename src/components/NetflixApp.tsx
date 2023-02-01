@@ -1,16 +1,15 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+// import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
+import {useGetOneMovie} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
-import {useGetOneMovie} from '../utils/hooksMovies'
-
-// import NetflixAppBar2 from './NetflixAppBar2'
+import NetflixRow from './NetflixRow'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
@@ -19,11 +18,10 @@ const NetflixApp = () => {
 
     return (
         <div>
-            {/* <NetflixAppBar2 /> */}
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Films Netflix"
                 filter="trending"
@@ -31,7 +29,7 @@ const NetflixApp = () => {
                 wideImage={true}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 title="Séries Netflix"
                 filter="trending"
@@ -39,7 +37,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Les mieux notés"
                 filter="toprated"
@@ -47,7 +45,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_TV}
                 param="10759"
                 title="Action & aventure"
@@ -56,7 +54,7 @@ const NetflixApp = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 param="53"
                 title="Les meilleurs thrillers"

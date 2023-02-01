@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-import NetFlixRow from './NetFlixRow'
+import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
@@ -31,7 +31,7 @@ const NetflixMovies = () => {
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie?.data} type={type} />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Films Netflix"
                 filter="trending"
@@ -39,7 +39,7 @@ const NetflixMovies = () => {
                 wideImage={true}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Les mieux notées"
                 filter="toprated"
@@ -47,7 +47,7 @@ const NetflixMovies = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 title="Les films populaires"
                 filter="populaire"
@@ -55,7 +55,7 @@ const NetflixMovies = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 param="14"
                 title="Les films fantastiques"
@@ -64,7 +64,7 @@ const NetflixMovies = () => {
                 wideImage={false}
             />
 
-            <NetFlixRow
+            <NetflixRow
                 type={TYPE_MOVIE}
                 param="878"
                 title="Les films de sciences fictions"
