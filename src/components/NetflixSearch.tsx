@@ -14,18 +14,20 @@ const NetflixSearch = () => {
      * {query: 'batman'}
      * {query: slug} destructuring and rename at the same time :)
      */
-    const {query: slug}: any = useParams()
+    const {query: slug} = useParams()
     console.log('slug', slug)
+    // console.log({slug: slug})
     /*
      *  https://api.themoviedb.org/3/search/multi?api_key=<SECRET KEY>&language=en-US&page=1&include_adult=false&query=batman
      * data === [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
      */
-    const data = useSearchMovie(slug)
+    const data = useSearchMovie(slug ?? "")
     console.log('data === ', data)
 
-    const defaultMovie = useGetOneMovie(TYPE_MOVIE, 785752)
+    // const defaultMovie = useGetOneMovie(TYPE_MOVIE, 785752)
+    const defaultMovie = useGetOneMovie(TYPE_TV, 72987)
     console.log('defaultMovie === ', defaultMovie)
-    const headerMovie = data?.[0] ?? defaultMovie
+    const headerMovie = data?.[0] ?? defaultMovie?.data
     console.log('headerMovie === ', headerMovie)
 
     const type = headerMovie?.media_type
