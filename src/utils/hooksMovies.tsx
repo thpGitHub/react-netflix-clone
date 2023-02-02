@@ -4,16 +4,20 @@ import * as authNetflix from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 
-const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
+const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-    clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
+        clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-    console.log('data in useGetOneMovie', data);
-    
+    console.log('data in useGetOneMovieWithApiTheMovieDB', data)
+
     return data
 }
 
-const useMovieEndpoint = (type: string, filter: string, param: string) => {
+const useGetMoviesbyEndpointWithApiTheMovieDB = (
+    type: string,
+    filter: string,
+    param: string,
+) => {
     const endpointLatest = `${type}/upcoming`
     const endpointPopular = `${type}/popular`
     const endpointTopRated = `${type}/top_rated`
@@ -43,7 +47,9 @@ const useMovieEndpoint = (type: string, filter: string, param: string) => {
             throw new Error('Type non supporté')
     }
 
-    const {data} = useQuery([`${endpoint}`], () => clientUseApiTheMovieDB(endpoint))
+    const {data} = useQuery([`${endpoint}`], () =>
+        clientUseApiTheMovieDB(endpoint),
+    )
 
     return data
 }
@@ -51,7 +57,7 @@ const useMovieEndpoint = (type: string, filter: string, param: string) => {
 /**
  * This function is two fold in App.tsx
  */
- const getUserByToken = async () => {
+const getUserByToken = async () => {
     let user = null
     const token = await authNetflix.getTokenInLocalStorage()
 
@@ -74,13 +80,18 @@ const useBookmark = () => {
     return data
 }
 
-const useSearchMovie = (query: string) => {
+const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
-    clientUseApiTheMovieDB(`search/multi?query=${query}`),
+        clientUseApiTheMovieDB(`search/multi?query=${query}`),
     )
-    console.log('data in useSearchMovie === ', data);
-    
-    return data?.data?.results ?? []
-  }
+    console.log('data in useSearchMovie === ', data)
 
-export {useGetOneMovie, useMovieEndpoint, useBookmark, useSearchMovie}
+    return data?.data?.results ?? []
+}
+
+export {
+    useGetOneMovieWithApiTheMovieDB,
+    useGetMoviesbyEndpointWithApiTheMovieDB,
+    useBookmark,
+    useSearchMoviesWithApiTheMovieDB,
+}

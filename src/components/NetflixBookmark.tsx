@@ -2,7 +2,7 @@ import React from 'react'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixHeader from './NetflixHeader'
 import {TYPE_MOVIE} from '../const'
-import {useGetOneMovie, useBookmark} from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB, useBookmark} from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -42,7 +42,7 @@ const NetflixBookmark = () => {
     // const {data: headerMovie} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
     //     clientApi(`${TYPE_MOVIE}/${id}`),
     // )
-    const headerMovie = useGetOneMovie(TYPE_MOVIE, id)
+    const headerMovie = useGetOneMovieWithApiTheMovieDB(TYPE_MOVIE, id)
 
     return (
         <>

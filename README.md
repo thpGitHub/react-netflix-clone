@@ -8,7 +8,7 @@
     - [Non Authentifié `<UnauthApp />`](#unauthapp)
     - [Authentifié `<AuthApp />`](#authapp)
         - [`<Route path="/" element={<NetflixApp />} /`>](#netflixapp)
-            - [`useGetOneMovie`](#hooksmovies)
+            - [`useGetOneMovieWithApiTheMovieDB`](#hooksmovies)
                 - [`clientUseApiTheMovieDB`](#clientapi)
             - [`<NetflixAppBar />`](#netflixappbar)
                 - [`navigate(`/search/${searchQuery}`)`](#search)
@@ -416,12 +416,12 @@ import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
-import {useGetOneMovie} from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-    const headerMovie = useGetOneMovie(type, defaultMovieId)
+    const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (
         <div>
@@ -479,10 +479,10 @@ export default NetflixApp
 ````
 
 ````javascript
-const headerMovie = useGetOneMovie(type, defaultMovieId)
+const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 ````
 
-[détails useGetOneMovie : `src/utils/hooksMovies.tsx`](#hooksmovies)
+[détails useGetOneMovieWithApiTheMovieDB : `src/utils/hooksMovies.tsx`](#hooksmovies)
 
 Exemple de `headerMovie` avec `type = movie`
 
@@ -1001,16 +1001,16 @@ import * as authNetflix from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 
-const useGetOneMovie = (TYPE_MOVIE: string, id: number) => {
+const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
     clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-    console.log('data in useGetOneMovie', data);
+    console.log('data in useGetOneMovieWithApiTheMovieDB', data);
     
     return data
 }
 
-const useMovieEndpoint = (type: string, filter: string, param: string) => {
+const useGetMoviesbyEndpointWithApiTheMovieDB = (type: string, filter: string, param: string) => {
     const endpointLatest = `${type}/upcoming`
     const endpointPopular = `${type}/popular`
     const endpointTopRated = `${type}/top_rated`
@@ -1080,7 +1080,7 @@ const useSearchMovie = (query: string) => {
     return data?.data?.results ?? []
   }
 
-export {useGetOneMovie, useMovieEndpoint, useBookmark, useSearchMovie}
+export {useGetOneMovieWithApiTheMovieDB, useGetMoviesbyEndpointWithApiTheMovieDB, useBookmark, useSearchMovie}
 ````
 
 - Utilisation de la librairie `React Query`
@@ -1633,7 +1633,7 @@ import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
 // ** REACT Query
-import {useMovieEndpoint} from '../utils/hooksMovies'
+import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 
 interface IProps {
     type: string
@@ -1671,7 +1671,7 @@ const NetflixRow = ({
     watermark = false,
     wideImage = true,
 }: IProps) => {
-    const data = useMovieEndpoint(type, filter, param)
+    const data = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
 
     const buildImagePath = (data: IMovie) => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path
