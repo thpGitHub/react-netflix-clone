@@ -11,7 +11,7 @@
             - [`useGetOneMovieWithApiTheMovieDB`](#hooksmovies)
                 - [`clientUseApiTheMovieDB`](#clientapi)
             - [`<NetflixAppBar />`](#netflixappbar)
-                - [`navigate(`/search/${searchQuery}`)`](#search)
+                - [`navigate(/search/${searchQuery}`)`](#search)
             - [`<NetflixHeader />`](#netflixheader)
             - [`<NetflixRow />`](#netflixrow)
             - [`<NetflixFooter />`](#netflixfooter)
