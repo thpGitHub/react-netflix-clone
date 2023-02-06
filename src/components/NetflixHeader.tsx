@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {AxiosData} from '../ts/interfaces/axiosData'
 import useDimension from '../hooks/useDimension'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import {clientNetflix} from '../utils/clientAPI'
@@ -11,6 +10,9 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 // ** REACT Query
 import {useBookmark} from '../utils/hooksMovies'
 import {useMutation, useQueryClient} from '@tanstack/react-query'
+// ** TS **
+import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
+import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -19,12 +21,19 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-interface IProps {
-    movie: AxiosData | undefined
+// interface IProps {
+//     movie: AxiosData | undefined
+//     type: string
+// }
+type TvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
+
+interface NetflixHeaderProps {
+    movie: TvOrMovie
     type: string
 }
 
-const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
+// const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
+const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
@@ -73,7 +82,16 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
         },
     )
 
-    const title = type === TYPE_MOVIE ? movie?.title : movie?.name
+    // const title = type === TYPE_MOVIE ? movie?.title : movie?.name
+    let title
+
+    if (movie) {
+        if ('title' in movie) {
+            title = movie?.title
+        } else {
+            title = movie?.name
+        }
+    }
 
     let imageWidth = 1280
 
@@ -102,7 +120,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
         backgroundSize: 'cover',
         backgroundImage: `url('${imageURL}')`,
         backgroundPosition: 'center center',
-    } 
+    }
 
     const handleAddToBookmark = async () => {
         addMutation.mutate()

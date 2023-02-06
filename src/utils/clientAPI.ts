@@ -1,9 +1,21 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 // ** Constants **
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
 // ** Utils **
 import * as authNetflix from '../../src/utils/authNetflixProvider'
 // import {sleep} from './helper'
+
+import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
+import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
+
+type ResponseForTvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
+// interface ApiResponse {
+//     // properties of the response object go here
+// }
+
+// const clientUseApiTheMovieDB = async (endpoint: string): Promise<ApiResponse> => {
+//     // ... rest of the code ...
+// }
 
 /*
  * fetch on : https://api.themoviedb.org/3
@@ -15,7 +27,11 @@ const clientUseApiTheMovieDB = async (endpoint: string) => {
     const startChar = endpoint.includes('?') ? `&` : `?`
     // await sleep(4000)
     const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`
-    //API_URL = https://api.themoviedb.org/3
+
+    const str = endpoint
+    const parts = str.split('/')
+    const firstPartOfEndpoint = parts[0] // tv | movie | trending | discover
+    console.log('firstPartOfEndpoint', firstPartOfEndpoint)
 
     // on catch ici l'erreur retourné par tmdb afin de personaliser le
     // message dans errorBoundary
@@ -23,17 +39,19 @@ const clientUseApiTheMovieDB = async (endpoint: string) => {
     // status_code:34
     // status_message: "The resource you requested could not be found."
     // success: false
-    return axios.get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`).catch(error => {
-        if (error.response) {
-            const err = {
-                ...error.response,
-                message: error.response?.data?.status_message,
+    return axios
+        .get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`)
+        .catch(error => {
+            if (error.response) {
+                const err = {
+                    ...error.response,
+                    message: error.response?.data?.status_message,
+                }
+                return Promise.reject(err)
+            } else {
+                return Promise.reject(error)
             }
-            return Promise.reject(err)
-        } else {
-            return Promise.reject(error)
-        }
-    })
+        })
 }
 
 /*
@@ -66,27 +84,25 @@ const clientNetflix = (
             Authorization: data.token ? `Bearer ${data.token}` : undefined,
         },
     }
-    return (
-        axios(config)
-            .then(response => {
-                console.log('response data ', response?.data)
-                console.log('movie ', movie)
-                return response.data
-            })
-            .catch(error => {
-                if (error?.response?.status === 401) {
-                    authNetflix.logout()
-                    return Promise.reject({
-                        message: 'Authentification incorrecte',
-                    })
-                }
-                if (error.response) {
-                    return Promise.reject(error.response.data)
-                } else {
-                    return Promise.reject(error)
-                }
-            })
-    )
+    return axios(config)
+        .then(response => {
+            console.log('response data ', response?.data)
+            console.log('movie ', movie)
+            return response.data
+        })
+        .catch(error => {
+            if (error?.response?.status === 401) {
+                authNetflix.logout()
+                return Promise.reject({
+                    message: 'Authentification incorrecte',
+                })
+            }
+            if (error.response) {
+                return Promise.reject(error.response.data)
+            } else {
+                return Promise.reject(error)
+            }
+        })
 }
 
 export {clientUseApiTheMovieDB, clientAuth, clientNetflix}
