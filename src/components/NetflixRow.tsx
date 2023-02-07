@@ -6,7 +6,7 @@ import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
 // ** REACT Query
-import {useMovieEndpoint} from '../utils/hooksMovies'
+import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 
 interface IProps {
     type: string
@@ -44,7 +44,7 @@ const NetflixRow = ({
     watermark = false,
     wideImage = true,
 }: IProps) => {
-    const data = useMovieEndpoint(type, filter, param)
+    const data = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
 
     const buildImagePath = (data: IMovie) => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path

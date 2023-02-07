@@ -6,7 +6,7 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
-import {useGetOneMovie} from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
 import NetflixRow from './NetflixRow'
@@ -14,7 +14,7 @@ import NetflixRow from './NetflixRow'
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-    const headerMovie = useGetOneMovie(type, defaultMovieId)
+    const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (
         <div>

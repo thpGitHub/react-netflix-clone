@@ -7,25 +7,30 @@ import NetflixHeader from './NetflixHeader'
 import RowSkeleton from './skeletons/RowSkeleton'
 // ** Utils **
 import {TYPE_MOVIE, TYPE_TV, IMAGE_URL_ORIGINAL} from '../const'
-import {useGetOneMovie, useSearchMovie} from '../utils/hooksMovies'
+import {
+    useGetOneMovieWithApiTheMovieDB,
+    useSearchMoviesWithApiTheMovieDB,
+} from '../utils/hooksMovies'
 
 const NetflixSearch = () => {
     /*
      * {query: 'batman'}
      * {query: slug} destructuring and rename at the same time :)
      */
-    const {query: slug}: any = useParams()
+    const {query: slug} = useParams()
     console.log('slug', slug)
+    // console.log({slug: slug})
     /*
      *  https://api.themoviedb.org/3/search/multi?api_key=<SECRET KEY>&language=en-US&page=1&include_adult=false&query=batman
      * data === [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
      */
-    const data = useSearchMovie(slug)
+    const data = useSearchMoviesWithApiTheMovieDB(slug ?? '')
     console.log('data === ', data)
 
-    const defaultMovie = useGetOneMovie(TYPE_MOVIE, 785752)
+    // const defaultMovie = useGetOneMovieWithApiTheMovieDB(TYPE_MOVIE, 785752)
+    const defaultMovie = useGetOneMovieWithApiTheMovieDB(TYPE_TV, 72987)
     console.log('defaultMovie === ', defaultMovie)
-    const headerMovie = data?.[0] ?? defaultMovie
+    const headerMovie = data?.[0] ?? defaultMovie?.data
     console.log('headerMovie === ', headerMovie)
 
     const type = headerMovie?.media_type
@@ -70,7 +75,7 @@ const NetflixSearch = () => {
     )
 }
 // 🐶'NetflixRowView' est le meme composant que 'NetflixRow' sauf qu'on
-// peut lui passer un 'array'(data) de films/series
+// lui passe un 'array'(data) de films/series
 const NetflixRowView = ({
     data = [],
     title = '',
