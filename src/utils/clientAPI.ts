@@ -1,21 +1,9 @@
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 // ** Constants **
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
 // ** Utils **
 import * as authNetflix from '../../src/utils/authNetflixProvider'
 // import {sleep} from './helper'
-
-import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
-import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
-
-type ResponseForTvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
-// interface ApiResponse {
-//     // properties of the response object go here
-// }
-
-// const clientUseApiTheMovieDB = async (endpoint: string): Promise<ApiResponse> => {
-//     // ... rest of the code ...
-// }
 
 /*
  * fetch on : https://api.themoviedb.org/3
@@ -28,17 +16,20 @@ const clientUseApiTheMovieDB = async (endpoint: string) => {
     // await sleep(4000)
     const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`
 
-    const str = endpoint
-    const parts = str.split('/')
-    const firstPartOfEndpoint = parts[0] // tv | movie | trending | discover
-    console.log('firstPartOfEndpoint', firstPartOfEndpoint)
-
-    // on catch ici l'erreur retourné par tmdb afin de personaliser le
-    // message dans errorBoundary
-    // retour tmdb quand mauvais id :
-    // status_code:34
-    // status_message: "The resource you requested could not be found."
-    // success: false
+   /* On catch ici l'erreur retourné par tmdb afin de personaliser le
+   * message dans errorBoundary
+   * retour tmdb quand mauvais id :
+   * status_code:34
+   * status_message: "The resource you requested could not be found."
+   * success: false  
+   */ 
+   
+   /*
+   * Pour le moment les datas de la réponse axios est sur any
+   * <AxiosResponse<any, any>
+   * Les composants qui reçoivent en props une des réponses devront la typer !
+   * TODO : une fois toutes les interfaces créés, voir pour typer la réponse axios !
+   */
     return axios
         .get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`)
         .catch(error => {

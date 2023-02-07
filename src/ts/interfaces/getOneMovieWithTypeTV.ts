@@ -1,6 +1,5 @@
 export interface OneMovieWithTypeTV {
-    // adult:                boolean;
-    adult:                string;
+    adult:                boolean;
     backdrop_path:        string;
     created_by:           CreatedBy[];
     episode_run_time:     number[];
