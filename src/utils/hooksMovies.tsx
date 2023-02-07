@@ -4,9 +4,6 @@ import * as authNetflix from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 
-import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
-import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
-
 const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),

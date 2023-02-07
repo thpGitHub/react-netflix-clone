@@ -21,10 +21,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-// interface IProps {
-//     movie: AxiosData | undefined
-//     type: string
-// }
 type TvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
 
 interface NetflixHeaderProps {
@@ -32,7 +28,6 @@ interface NetflixHeaderProps {
     type: string
 }
 
-// const NetflixHeader = ({movie, type = TYPE_MOVIE}: IProps) => {
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
@@ -82,36 +77,45 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         },
     )
 
-    // const title = type === TYPE_MOVIE ? movie?.title : movie?.name
-    let title
-
-    if (movie) {
-        if ('title' in movie) {
-            title = movie?.title
-        } else {
-            title = movie?.name
+    const getTitle = (
+        movie: {title?: string; name?: string} | undefined,
+    ): string | undefined => {
+        if (!movie) {
+            return
         }
+
+        return movie.title || movie.name
     }
 
-    let imageWidth = 1280
+    const title = getTitle(movie)
 
-    const browserWidth: number | undefined = useDimension()
-    console.log('browserWidth', browserWidth)
-
-    if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
-        console.log('780 - 1280')
-        imageWidth = 780
+    interface Movie {
+        backdrop_path: string;
     }
-    if (browserWidth && browserWidth < 780) {
-        console.log('--- 780')
-        imageWidth = 300
+    
+    const useMovieImageWidth = (movie: Movie | undefined): string => {
+        let imageWidth = 1280;
+    
+        const browserWidth: number | undefined = useDimension();
+        console.log('browserWidth', browserWidth);
+    
+        if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
+            console.log('780 - 1280');
+            imageWidth = 780;
+        }
+        if (browserWidth && browserWidth < 780) {
+            console.log('--- 780');
+            imageWidth = 300;
+        }
+    
+        /*
+         * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
+         * backdrop_sizes : "w300" "w780" "w1280"
+         */
+        return `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`;
     }
-    /*
-     * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
-     * backdrop_sizes : "w300" "w780" "w1280"
-     */
-    const imageURL = `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`
-    // const imageURL = `https://image.tmdb.org/t/p/w1280/${movie?.backdrop_path}`
+    
+    const imageURL = useMovieImageWidth(movie)
 
     const banner: React.CSSProperties = {
         color: 'white',
@@ -129,19 +133,13 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         deleteMutation.mutate()
     }
 
-    /*
-     * props type = movie or tv
-     * authUser.bookmark = {movies: [], series: []}
-     */
-    // const isInBookmark = false
-    const isInBookmark = data?.bookmark[
-        type === TYPE_MOVIE ? 'movies' : 'series'
-    ]?.includes(movie?.id)
+    const checkBookmark = (data: any, type: any, movie: any) => {
+        const movieType = type === 'TYPE_MOVIE' ? 'movies' : 'series'
+        const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
+        return isInBookmark
+    }
 
-    console.log('isInBookmark', isInBookmark)
-    console.log('isInBookmark type ===', type)
-    console.log('data.bookmark', data?.bookmark ?? 'totot')
-    console.log('data.data.bookmark', data?.data?.bookmark ?? 'totot')
+    const isInBookmark = checkBookmark(data, type, movie)
 
     if (!movie) {
         return <HeaderSkeleton />
@@ -179,7 +177,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
                 <h1 className="synopsis">{movie?.overview ?? '...'}</h1>
             </div>
             <div className="banner--fadeBottom"></div>
-            {/* {status === 'done' && isBookmarkFetchOneTime ? ( */}
             {!mutateBookmarkError ? (
                 <Snackbar
                     open={snackbarOpen}
@@ -191,7 +188,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
                     </Alert>
                 </Snackbar>
             ) : null}
-            {/* {status === 'error' && isBookmarkFetchOneTime ? ( */}
             {mutateBookmarkError ? (
                 <Snackbar
                     open={snackbarOpen}
