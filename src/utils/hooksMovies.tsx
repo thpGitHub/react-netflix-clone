@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react'
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
 import * as authNetflix from './authNetflixProvider'
@@ -74,10 +75,26 @@ const getUserByToken = async () => {
 }
 
 const useBookmark = () => {
-    const {data} = useQuery(['bookmark'], () => {
-        return getUserByToken()
-    })
-    return data
+    const [user, setUser] = useState()
+    // const {data} = useQuery(['bookmark'], () => {
+    //     return getUserByToken()
+    // })
+    // const data = await getUserByToken()
+    // setUser(data)
+
+    useEffect(()=> {
+        const getUser: any = async () => {
+            const user = await getUserByToken()
+            console.log({user: user})
+            setUser(user)
+        }
+        getUser()
+    }, [])
+
+   
+
+    // return data
+    return user
 }
 
 const useSearchMoviesWithApiTheMovieDB = (query: string) => {

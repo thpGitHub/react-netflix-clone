@@ -35,7 +35,8 @@ const NetflixBookmark = () => {
     // const {data} = useQuery(['bookmark'], () => {
     //     return getUserByToken()
     // })
-    const data = useBookmark()
+    // const data = useBookmark()
+    const data: any = useBookmark()
 
     const id = data?.bookmark?.movies[0] ?? idDefault
 

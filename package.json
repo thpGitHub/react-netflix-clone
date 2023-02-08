@@ -19,8 +19,8 @@
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^4.1.1",
     "nanoid": "^4.0.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-error-boundary": "^3.1.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
@@ -42,7 +42,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:react-hooks/recommended"
     ],
     "overrides": [
       {
@@ -89,6 +90,7 @@
     "@types/styled-components": "^5.1.26",
     "babel-plugin-named-exports-order": "^0.0.2",
     "cypress": "^11.0.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "msw": "^0.44.2",
     "prop-types": "^15.8.1",
     "webpack": "^5.75.0"

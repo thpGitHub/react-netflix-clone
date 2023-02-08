@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import useDimension from '../hooks/useDimension'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import {clientNetflix} from '../utils/clientAPI'
@@ -30,10 +30,19 @@ interface NetflixHeaderProps {
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
+    const data = useBookmark()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
+    // const data2 = useBookmark()
+    // const [data, setdata] = useState()
+    // const [isInBookmark, setIsBookmark] = useState()
 
-    const data = useBookmark()
+    // useEffect(()=> {
+    //     setdata(data2)
+    //    setIsBookmark (checkBookmark(data, type, movie))
+
+    // }, [data2])
+    
 
     const addMutation = useMutation(
         async () => {
@@ -140,6 +149,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     }
 
     const isInBookmark = checkBookmark(data, type, movie)
+    //  setIsBookmark (checkBookmark(data, type, movie))
     console.log({data: data, isInBookmark: isInBookmark})
 
     if (!movie) {
