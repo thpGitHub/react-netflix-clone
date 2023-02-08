@@ -77,8 +77,8 @@ const clientNetflix = (
     }
     return axios(config)
         .then(response => {
-            console.log('response data ', response?.data)
-            console.log('movie ', movie)
+            // console.log('response data ', response?.data)
+            // console.log('movie ', movie)
             return response.data
         })
         .catch(error => {

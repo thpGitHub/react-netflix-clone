@@ -8,7 +8,7 @@ const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-    console.log('data in useGetOneMovieWithApiTheMovieDB', data)
+    // console.log('data in useGetOneMovieWithApiTheMovieDB', data)
 
     return data
 }
@@ -62,12 +62,12 @@ const getUserByToken = async () => {
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
-        console.log('Token exist :)')
+        // console.log('Token exist :)')
         const data = await clientAuth('getUserAuth', token)
         // AxiosResponse
         user = data.data.user
-        console.log('data ====', data)
-        console.log('user ====', user)
+        // console.log('data ====', data)
+        // console.log('user ====', user)
     }
 
     return user
@@ -84,7 +84,7 @@ const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
         clientUseApiTheMovieDB(`search/multi?query=${query}`),
     )
-    console.log('data in useSearchMovie === ', data)
+    // console.log('data in useSearchMovie === ', data)
 
     return data?.data?.results ?? []
 }

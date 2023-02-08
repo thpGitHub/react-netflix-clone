@@ -7,11 +7,11 @@ export const handlers = [
         'https://auth.service.mock.com/register',
         async (req, res, ctx) => {
             const {userName, password} = req.body
-            console.log('req.body === ', req.body)
+            // console.log('req.body === ', req.body)
             const userFields = {userName, password}
-            console.log('userFields === ', userFields)
+            // console.log('userFields === ', userFields)
             const user = await usersDB.createUser(userFields)
-            console.log('user in handlers/register ===', user)
+            // console.log('user in handlers/register ===', user)
 
             return res(ctx.json(user))
         },
@@ -39,7 +39,7 @@ export const handlers = [
 
             const user = await usersDB.getUserWithTokenInLocalStorage(token)
             // usersDB.getUserWithTokenInLocalStorage(token)
-            console.log('****https://auth.service.mock.com/getUserAuth ****')
+            // console.log('****https://auth.service.mock.com/getUserAuth ****')
             return res(
                 // ctx.delay(1500),
                 ctx.status(202, 'Mocked status'),
@@ -73,9 +73,9 @@ export const handlers = [
             const {id: movieID} = req.body.movie
             // const {token} = req.body.data
 
-            console.log('{bookmark} = req.body.data ===', bookmark)
-            console.log('movieID = req.body.movie.id ===', movieID)
-            console.log('req.body === ', req.body)
+            // console.log('{bookmark} = req.body.data ===', bookmark)
+            // console.log('movieID = req.body.movie.id ===', movieID)
+            // console.log('req.body === ', req.body)
 
             const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(
                 movieID,

@@ -23,13 +23,13 @@ interface Error {
 
 const getUsersFromLocalStorage = async () => {
     let users = localStorage.getItem(localStorageKey)
-    console.log('users === ', users)
+    //console.log('users === ', users)
 
     if (typeof users === 'string') {
-        console.log('users STRING in loadUserFromLocalStorage', users)
+        //console.log('users STRING in loadUserFromLocalStorage', users)
         return (users = JSON.parse(users))
     }
-    console.log('users in loadUserFromLocalStorage', users)
+    //console.log('users in loadUserFromLocalStorage', users)
 
     return users
 }
@@ -42,17 +42,17 @@ const saveUserInlocalStorage = async (user: {
     bookmark: any
 }) => {
     let users = await getUsersFromLocalStorage()
-    console.log('users in saveUserInlocalStorage', users)
+    //console.log('users in saveUserInlocalStorage', users)
 
     if (users) {
         users.push(user)
     } else {
         users = [user]
-        console.log('else users === ', users)
+        //console.log('else users === ', users)
     }
 
     localStorage.setItem(localStorageKey, JSON.stringify(users))
-    console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
+    //console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
 }
 
 const getUserNameInLocalStorage = async (userName: string) => {
@@ -63,10 +63,10 @@ const getUserNameInLocalStorage = async (userName: string) => {
 
 const getUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
-    console.log(
-        'users.find((item: {token: string}) => item.token === token',
-        users.find((item: {token: string}) => item.token === token),
-    )
+    // console.log(
+    //     'users.find((item: {token: string}) => item.token === token',
+    //     users.find((item: {token: string}) => item.token === token),
+    // )
 
     return users.find((item: {token: string}) => item.token === token)
 }
@@ -81,17 +81,17 @@ const getUserWithTokenInLocalStorage = async (token: string) => {
 
 const deleteUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
-    console.log('users before slice', users)
+    // console.log('users before slice', users)
 
-    console.log(
-        'findIndex === ',
-        users.findIndex((element: any) => element.token === token),
-    )
+    // console.log(
+    //     'findIndex === ',
+    //     users.findIndex((element: any) => element.token === token),
+    // )
     const indexForDelete = users.findIndex(
         (element: any) => element.token === token,
     )
     await users.splice(indexForDelete, 1)
-    console.log('splice = ', users)
+    // console.log('splice = ', users)
 
     localStorage.setItem(localStorageKey, JSON.stringify(users))
     
@@ -124,13 +124,13 @@ const createUser = async ({
         throw error
     }
 
-    console.log('userName === ', userName)
+    // console.log('userName === ', userName)
 
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
         userName,
     )
 
-    console.log('userNameExistInLocalStorage', userNameExistInLocalStorage)
+    // console.log('userNameExistInLocalStorage', userNameExistInLocalStorage)
     // sleep(4000)
 
     if (userNameExistInLocalStorage !== undefined) {
@@ -138,7 +138,7 @@ const createUser = async ({
             `Impossible de créer un utilisateur car ${userName} existe déjà `,
         )
         error.status = 400
-        console.log('error ', error)
+        // console.log('error ', error)
         throw error
     }
 

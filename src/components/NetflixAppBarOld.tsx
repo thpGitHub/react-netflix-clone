@@ -64,7 +64,7 @@ const NetflixAppBar = () => {
 
     useEffect(() => {
         const onScroll = (e: any) => {
-            console.log(e.target.documentElement.scrollTop)
+            //console.log(e.target.documentElement.scrollTop)
             if (e.target.documentElement.scrollTop > 100) {
                 setAppBarStyle({
                     boxShadow: 'none',

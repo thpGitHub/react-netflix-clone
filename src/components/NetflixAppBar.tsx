@@ -147,7 +147,7 @@ const NetflixAppBar = () => {
         const onScroll = (e: Event) => {
             const window = e.currentTarget as Window
             let currentPosition = window.scrollY
-            console.log({currentPosition: currentPosition})
+            //console.log({currentPosition: currentPosition})
 
             if (currentPosition > 100) {
                 setBackgroundStyle('#111')

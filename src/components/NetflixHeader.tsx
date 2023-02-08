@@ -90,31 +90,31 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const title = getTitle(movie)
 
     interface Movie {
-        backdrop_path: string;
+        backdrop_path: string
     }
-    
+
     const useMovieImageWidth = (movie: Movie | undefined): string => {
-        let imageWidth = 1280;
-    
-        const browserWidth: number | undefined = useDimension();
-        console.log('browserWidth', browserWidth);
-    
+        let imageWidth = 1280
+
+        const browserWidth: number | undefined = useDimension()
+        //console.log('browserWidth', browserWidth);
+
         if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
-            console.log('780 - 1280');
-            imageWidth = 780;
+            //console.log('780 - 1280');
+            imageWidth = 780
         }
         if (browserWidth && browserWidth < 780) {
-            console.log('--- 780');
-            imageWidth = 300;
+            //console.log('--- 780');
+            imageWidth = 300
         }
-    
+
         /*
          * official sizes : https://www.themoviedb.org/talk/5ff32c1467203d003fcb7a21
          * backdrop_sizes : "w300" "w780" "w1280"
          */
-        return `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`;
+        return `${IMAGE_URL}w${imageWidth}/${movie?.backdrop_path}`
     }
-    
+
     const imageURL = useMovieImageWidth(movie)
 
     const banner: React.CSSProperties = {
@@ -140,6 +140,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     }
 
     const isInBookmark = checkBookmark(data, type, movie)
+    console.log({data: data, isInBookmark: isInBookmark})
 
     if (!movie) {
         return <HeaderSkeleton />

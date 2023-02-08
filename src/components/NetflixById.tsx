@@ -22,9 +22,9 @@ const NetflixById = () => {
     let {tvId, movieId} = useParams()
     const location = useLocation()
 
-    console.log('location', location)
-    console.log('params tvID', tvId)
-    console.log('params movieId', movieId)
+    //console.log('location', location)
+    //console.log('params tvID', tvId)
+    //console.log('params movieId', movieId)
 
     const [type, setType] = useState(
         location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
