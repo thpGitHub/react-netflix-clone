@@ -74,28 +74,38 @@ const getUserByToken = async () => {
     return user
 }
 
-const useBookmark = () => {
-    const [user, setUser] = useState()
-    // const {data} = useQuery(['bookmark'], () => {
-    //     return getUserByToken()
-    // })
-    // const data = await getUserByToken()
-    // setUser(data)
+// const useBookmark = () => {
+//     const {data} = useQuery(['bookmark'], () => {
+//         return getUserByToken()
+//     })
 
-    useEffect(()=> {
-        const getUser: any = async () => {
-            const user = await getUserByToken()
-            console.log({user: user})
-            setUser(user)
-        }
-        getUser()
-    }, [])
+//     return data
+// }
 
-   
+const checkBookmark = (data: any, type: any, movie: any) => {
+    const movieType = type === 'TYPE_MOVIE' ? 'movies' : 'series'
+    console.log({In_in_checkBookmark_data1: data})
 
-    // return data
-    return user
+    const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
+    console.log({In_in_checkBookmark_data2: data, isInBookmark: isInBookmark})
+    return isInBookmark
 }
+
+const useBookmark = (type: any, movie: any) => {
+    const { data } = useQuery(['bookmark'], () => {
+        console.log({data_in_usequery: data})
+      return getUserByToken();
+    });
+  
+    console.log({data_before_isInBookmark: data})
+    const isInBookmark = checkBookmark(data, type, movie);
+  
+    console.log({data: data, isInBookmark: isInBookmark})
+
+
+    return { data, isInBookmark };
+  };
+  
 
 const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>

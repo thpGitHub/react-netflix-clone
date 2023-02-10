@@ -30,9 +30,17 @@ interface NetflixHeaderProps {
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
-    const data = useBookmark()
+    const {data, isInBookmark} = useBookmark(type, movie)
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
+    
+    useEffect(()=> {
+        console.log({data_in_useEffect: data})
+    },[data])
+    // const data = async () => {
+    //     return await useBookmark()
+    // }
+    
     // const data2 = useBookmark()
     // const [data, setdata] = useState()
     // const [isInBookmark, setIsBookmark] = useState()
@@ -148,9 +156,10 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         return isInBookmark
     }
 
-    const isInBookmark = checkBookmark(data, type, movie)
+    // const isInBookmark = checkBookmark(data, type, movie)
+    
     //  setIsBookmark (checkBookmark(data, type, movie))
-    console.log({data: data, isInBookmark: isInBookmark})
+    // console.log({data: data, isInBookmark: isInBookmark})
 
     if (!movie) {
         return <HeaderSkeleton />
