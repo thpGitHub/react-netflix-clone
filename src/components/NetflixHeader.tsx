@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import useDimension from '../hooks/useDimension'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
 import {clientNetflix} from '../utils/clientAPI'
@@ -30,33 +30,15 @@ interface NetflixHeaderProps {
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
-    const {data, isInBookmark} = useBookmark(type, movie)
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
-    
-    useEffect(()=> {
-        console.log({data_in_useEffect: data})
-    },[data])
-    // const data = async () => {
-    //     return await useBookmark()
-    // }
-    
-    // const data2 = useBookmark()
-    // const [data, setdata] = useState()
-    // const [isInBookmark, setIsBookmark] = useState()
-
-    // useEffect(()=> {
-    //     setdata(data2)
-    //    setIsBookmark (checkBookmark(data, type, movie))
-
-    // }, [data2])
-    
+    const {userAuthenticate, isInBookmark} = useBookmark(type, movie)
 
     const addMutation = useMutation(
         async () => {
             return clientNetflix(`bookmark/${type}`, {
                 method: 'POST',
-                data,
+                userAuthenticate,
                 movie,
             })
         },
@@ -77,7 +59,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         async () => {
             return clientNetflix(`bookmark/${type}`, {
                 method: 'DELETE',
-                data,
+                userAuthenticate,
                 movie,
             })
         },
@@ -114,14 +96,11 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         let imageWidth = 1280
 
         const browserWidth: number | undefined = useDimension()
-        //console.log('browserWidth', browserWidth);
 
         if (browserWidth && browserWidth >= 780 && browserWidth < 1280) {
-            //console.log('780 - 1280');
             imageWidth = 780
         }
         if (browserWidth && browserWidth < 780) {
-            //console.log('--- 780');
             imageWidth = 300
         }
 
@@ -149,17 +128,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const handleDeleteToBookmark = async () => {
         deleteMutation.mutate()
     }
-
-    const checkBookmark = (data: any, type: any, movie: any) => {
-        const movieType = type === 'TYPE_MOVIE' ? 'movies' : 'series'
-        const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
-        return isInBookmark
-    }
-
-    // const isInBookmark = checkBookmark(data, type, movie)
-    
-    //  setIsBookmark (checkBookmark(data, type, movie))
-    // console.log({data: data, isInBookmark: isInBookmark})
 
     if (!movie) {
         return <HeaderSkeleton />
