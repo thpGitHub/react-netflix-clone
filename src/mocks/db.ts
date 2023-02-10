@@ -251,19 +251,6 @@ const addBookmarkMovieInLocalStorage = async (
     const newAuthUser = structuredClone(authUser)
     newAuthUser.bookmark.movies = addBookmarkMovie
 
-    // const newAuthUser = authUser.bookmark.movies
-    // newAuthUser.push(movieID)
-    // console.log(
-    //     'newAuthUser in addBookmarkMovieInLocalStorage === ',
-    //     newAuthUser,
-    // )
-
-    // const newAuthUser2 = authUser
-    // authUser.bookmark.movies = newAuthUser
-    // console.log(
-    //     'newAuthUser2 in addBookmarkMovieInLocalStorage === ',
-    //     newAuthUser2,
-    // )
     await deleteUserWithTokenInLocalStorage(authUser.token)
     // await saveUserInlocalStorage(newAuthUser2)
     await saveUserInlocalStorage(newAuthUser)
