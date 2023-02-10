@@ -1,8 +1,8 @@
 import React from 'react'
 import NetflixAppBar from './NetflixAppBar'
-import NetflixHeader from './NetflixHeader'
-import {TYPE_MOVIE} from '../const'
-import {useGetOneMovieWithApiTheMovieDB, useBookmark} from '../utils/hooksMovies'
+// import NetflixHeader from './NetflixHeader'
+// import {TYPE_MOVIE} from '../const'
+// import {useGetOneMovieWithApiTheMovieDB, useBookmark} from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -30,24 +30,17 @@ import {useGetOneMovieWithApiTheMovieDB, useBookmark} from '../utils/hooksMovies
 // }
 
 const NetflixBookmark = () => {
-    const idDefault = 749274
+    // const idDefault = 749274
 
-    // const {data} = useQuery(['bookmark'], () => {
-    //     return getUserByToken()
-    // })
-    const data = useBookmark()
+    // const data: any = useBookmark()
 
-    const id = data?.bookmark?.movies[0] ?? idDefault
-
-    // const {data: headerMovie} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-    //     clientApi(`${TYPE_MOVIE}/${id}`),
-    // )
-    const headerMovie = useGetOneMovieWithApiTheMovieDB(TYPE_MOVIE, id)
+    // const id = data?.bookmark?.movies[0] ?? idDefault
+    // const headerMovie = useGetOneMovieWithApiTheMovieDB(TYPE_MOVIE, id)
 
     return (
         <>
             <NetflixAppBar />
-            <NetflixHeader movie={headerMovie?.data} type={TYPE_MOVIE} />
+            {/* <NetflixHeader movie={headerMovie?.data} type={TYPE_MOVIE} /> */}
         </>
     )
 }

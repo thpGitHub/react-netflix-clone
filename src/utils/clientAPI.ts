@@ -65,20 +65,20 @@ const clientAuth = async (endPoint: string, token: string) => {
  */
 const clientNetflix = (
     endpoint: string,
-    {data, method = 'get', movie}: any,
+    {userAuthenticated:data, method = 'get', movie}: any,
 ) => {
     const config: any = {
         method,
         url: `https://auth.service.mock.com/${endpoint}`,
         data: {data, movie},
         headers: {
-            Authorization: data.token ? `Bearer ${data.token}` : undefined,
+            Authorization: data?.token ? `Bearer ${data.token}` : undefined,
         },
     }
     return axios(config)
         .then(response => {
-            console.log('response data ', response?.data)
-            console.log('movie ', movie)
+            // console.log('response data ', response?.data)
+            // console.log('movie ', movie)
             return response.data
         })
         .catch(error => {

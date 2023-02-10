@@ -1,14 +1,16 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react'
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
 import * as authNetflix from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
+import {TYPE_MOVIE} from 'src/const'
 
 const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-    console.log('data in useGetOneMovieWithApiTheMovieDB', data)
 
     return data
 }
@@ -62,29 +64,46 @@ const getUserByToken = async () => {
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
-        console.log('Token exist :)')
         const data = await clientAuth('getUserAuth', token)
-        // AxiosResponse
         user = data.data.user
-        console.log('data ====', data)
-        console.log('user ====', user)
     }
 
     return user
 }
 
-const useBookmark = () => {
-    const {data} = useQuery(['bookmark'], () => {
+type Movie = {
+    id: number
+}
+
+type Bookmark = {
+    movies: number[]
+    series: number[]
+}
+
+type Data = {
+    bookmark: Bookmark
+}
+
+const checkBookmark = (data: Data, type: string, movie: Movie) => {
+    const movieType = type === TYPE_MOVIE ? 'movies' : 'series'
+    const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
+    return isInBookmark
+}
+
+const useBookmark = (type: string, movie: Movie) => {
+    const {data: userAuthenticated} = useQuery(['bookmark'], () => {
         return getUserByToken()
     })
-    return data
+
+    const isInBookmark = checkBookmark(userAuthenticated, type, movie)
+
+    return {userAuthenticated, isInBookmark}
 }
 
 const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
         clientUseApiTheMovieDB(`search/multi?query=${query}`),
     )
-    console.log('data in useSearchMovie === ', data)
 
     return data?.data?.results ?? []
 }

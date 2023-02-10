@@ -8,11 +8,11 @@ export const handlers_for_run_tests = [
         'https://auth.service.mock.com/register',
         async (req, res, ctx) => {
             const {userName, password} = req.body
-            console.log('req.body === ', req.body)
+            // console.log('req.body === ', req.body)
             const userFields = {userName, password}
-            console.log('userFields === ', userFields)
+            // console.log('userFields === ', userFields)
             const user = await usersDB.createUser(userFields)
-            console.log('user in handlers/register ===', user)
+            // console.log('user in handlers/register ===', user)
 
             return res(ctx.json(user))
         },
@@ -40,7 +40,7 @@ export const handlers_for_run_tests = [
 
             const user = await usersDB.getUserWithTokenInLocalStorage(token)
             // usersDB.getUserWithTokenInLocalStorage(token)
-            console.log('****https://auth.service.mock.com/getUserAuth ****')
+            // console.log('****https://auth.service.mock.com/getUserAuth ****')
             return res(
                 // ctx.delay(1500),
                 ctx.status(202, 'Mocked status'),
@@ -65,18 +65,8 @@ export const handlers_for_run_tests = [
     rest.post(
         'https://auth.service.mock.com/bookmark/movie',
         async (req, res, ctx) => {
-            // const {userName, password} = req.body
-            // const userFields = {userName, password}
-            // const userLogin = await usersDB.authenticateUserForLogin(userFields)
             const authUser = req.body.data
-            const {bookmark} = req.body.data
-            // const movieID = req.body.movie.id
             const {id: movieID} = req.body.movie
-            const {token} = req.body.data
-
-            console.log('{bookmark} = req.body.data ===', bookmark)
-            console.log('movieID = req.body.movie.id ===', movieID)
-            console.log('req.body === ', req.body)
 
             const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(
                 movieID,
@@ -184,4 +174,3 @@ export const handlers_for_run_tests = [
         },
     ),
 ]
-// bookmark/movie req.body ===  {"id":"t0tQr7qYTUYuMB69IVD6o","userName":"titi2@hot.com","passwordHash":"$2a$10$4uxGGzx0/ET0KpkJXCcBx.QI5Y4GHlx5228cqudIEzpR7Kzl1abXW","token":"$2a$10$N8oo/LOueS.m1RjtRkIpCO","bookmark":{"movies":[],"series":[]}}

@@ -40,12 +40,12 @@ const getUserByToken = async () => {
     const token = await authNetflix.getTokenInLocalStorage()
 
     if (token) {
-        console.log('Token exist :) === ', token)
+        //console.log('Token exist :) === ', token)
         const data = await clientAuth('getUserAuth', token)
         // AxiosResponse
         user = data.data.user
-        console.log('data ====', data)
-        console.log('user ====', user)
+        //console.log('data ====', data)
+        //console.log('user ====', user)
     }
 
     return user
@@ -81,7 +81,7 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         userName: string
         password: string
     }) => {
-        console.log(userName, password)
+        //console.log(userName, password)
         authNetflix
             .login({userName, password})
             .then(user => setData(user))
@@ -101,7 +101,7 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         setData(null)
     }
 
-    console.log('status === ', status)
+    //console.log('status === ', status)
 
     if (status === 'fetching' || status === 'idle') {
         return (

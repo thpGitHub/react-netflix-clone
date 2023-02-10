@@ -11,15 +11,15 @@ const clientApiNetflix = async (
         body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'},
     }).then(async response => {
-        console.log('response before', response)
+        // console.log('response before', response)
         const data = await response.json()
-        console.log('data after', data)
+        // console.log('data after', data)
         if (response.ok) {
-            console.log('**** IN response.ok ****', data)
+            // console.log('**** IN response.ok ****', data)
 
             return data
         } else {
-            console.log('**** IN Promise.reject ****', data)
+            // console.log('**** IN Promise.reject ****', data)
 
             return Promise.reject(data)
             // or same result
