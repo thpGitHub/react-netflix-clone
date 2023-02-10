@@ -32,13 +32,13 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
     const queryClient = useQueryClient()
     const [snackbarOpen, setSnackbarOpen] = React.useState(false)
     const [mutateBookmarkError, setMutateBookmarkError] = useState<any>()
-    const {userAuthenticate, isInBookmark} = useBookmark(type, movie)
+    const {userAuthenticated, isInBookmark} = useBookmark(type, movie)
 
     const addMutation = useMutation(
         async () => {
             return clientNetflix(`bookmark/${type}`, {
                 method: 'POST',
-                userAuthenticate,
+                userAuthenticated,
                 movie,
             })
         },
@@ -59,7 +59,7 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
         async () => {
             return clientNetflix(`bookmark/${type}`, {
                 method: 'DELETE',
-                userAuthenticate,
+                userAuthenticated,
                 movie,
             })
         },
