@@ -9,8 +9,8 @@ import bcryptjs from 'bcryptjs'
 const { v4: uuidv4 } = require('uuid')
 
 
-const localStorageKey = 'netflixTEST-clone-users'
-// const localStorageTokenKey = 'netflixTEST_auth_token'
+const localStorageKey = 'netflix-fake-database'
+// const localStorageTokenKey = 'netflix-authUser-token'
 // const localStorageKey = 'netflix-clone-users'
 
 interface Error {
