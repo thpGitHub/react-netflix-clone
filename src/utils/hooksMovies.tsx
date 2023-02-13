@@ -2,7 +2,7 @@
 import React from 'react'
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
-import * as authNetflix from './authNetflixProvider'
+import * as authNetflixProvider from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 import {TYPE_MOVIE} from 'src/const'
@@ -61,7 +61,7 @@ const useGetMoviesbyEndpointWithApiTheMovieDB = (
  */
 const getUserByToken = async () => {
     let user = null
-    const token = await authNetflix.getTokenInLocalStorage()
+    const token = await authNetflixProvider.getTokenInLocalStorage()
 
     if (token) {
         const data = await clientAuth('getUserAuth', token)

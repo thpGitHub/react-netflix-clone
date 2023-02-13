@@ -15,7 +15,7 @@ import NetflixAppBar from './NetflixAppBar'
  */
 // const getUserByToken = async () => {
 //     let user = null
-//     const token = await authNetflix.getTokenInLocalStorage()
+//     const token = await authNetflixProvider.getTokenInLocalStorage()
 
 //     if (token) {
 //         console.log('Token exist :)')
