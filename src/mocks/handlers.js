@@ -113,24 +113,13 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
-    rest.get(
-        '/getUserByToken',
-        async (req, res, ctx) => {
-            // const token = req?.headers
-            //     .get('Authorization')
-            //     .replace('Bearer ', '')
+    rest.get('/getUserByToken', async (req, res, ctx) => {
+        const user = await DB.getUserByTheTokenPresentInLocalStorage()
+        console.log({userInHandlerGetUserByToken: user});
+        return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
+    }),
 
-            // const user = await usersDB.getUserWithTokenInLocalStorage(token)
-            // usersDB.getUserWithTokenInLocalStorage(token)
-            // console.log('****https://auth.service.mock.com/getUserAuth ****')
-            return res(
-                // ctx.delay(1500),
-                ctx.status(202, 'Mocked status'),
-                ctx.json({user: 'user'}),
-            )
-        },
-    ),
-
+    //user = data.data.user
 
     // rest.get(
     //     `https://api.themoviedb.org/3/trending/movie/day`,

@@ -18,7 +18,7 @@ function App() {
 
 const AppConsumer = () => {
     const {authUser} = useAuthContext()
-    //console.log('authUser', authUser);
+    console.log('authUser', authUser);
     
     return (
         <Suspense fallback={<div role="alert">Chargement...</div>} >

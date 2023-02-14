@@ -54,13 +54,33 @@ const saveUserInlocalStorage = async (user: {
     //console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
 }
 //*****work in progress *****
+
+type User = {
+    id: string
+    userName: string
+    passwordHash: string
+    token: string
+    bookmark: {
+        movies: number[]
+        series: number[]
+    }
+}
+
 export const getUserByTheTokenPresentInLocalStorage = async () => {
     const token = localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
-    const users = await getUsersFromLocalStorage()
-    console.log({token: token, users: users})
-    const user = users.find((user: {token: string}) => user.token === token)
+    let user: User | null = null
+    if(token) {
+        const users = await getUsersFromLocalStorage()
+        // const user = users.find((user: {token: string}) => user.token === token)
+        user = users.find((user: {token: string}) => user.token === token)
+        console.log({token: token, users: users, user: user})
 
+    }
+    console.log({user: user});
+    
     return user
+    // return null
+    // user = data.data.user
 }
 
 const getUserNameInLocalStorage: any = async (userName: string) => {
