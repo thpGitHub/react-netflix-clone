@@ -52,7 +52,7 @@ const login = async ({
 }
 
 const logout = () => {
-    localStorage.removeItem('netflixTEST_auth_token')
+    localStorage.removeItem('netflix-authUser-token')
 }
 
 const getTokenInLocalStorage = async () => {

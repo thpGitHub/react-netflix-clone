@@ -40,7 +40,7 @@ test.skip('sould render of App in connect mode', async () => {
     )
     const connexion = 'Connexion'
     const register = 'Inscrivez-vous'
-    const localStorageKey = 'netflixTEST-clone-users'
+    // const localStorageKey = 'netflix-fake-database'
     const user = [
         {
             id: '1',
@@ -54,7 +54,7 @@ test.skip('sould render of App in connect mode', async () => {
         },
     ]
     localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, user[0].token)
-    localStorage.setItem('netflixTEST-clone-users', JSON.stringify(user))
+    localStorage.setItem('netflix-fake-database', JSON.stringify(user))
 
     render(<App></App>)
     await waitForElementToBeRemoved(() => screen.queryByRole('alert'))

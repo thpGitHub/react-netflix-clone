@@ -690,7 +690,7 @@ import React, {useEffect, useState, createContext, useContext, ReactNode} from '
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
-import * as authNetflix from '../utils/authNetflixProvider'
+import * as authNetflixProvider from '../utils/authNetflixProvider'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
@@ -725,7 +725,7 @@ type AuthContextProviderProps = {
  */
 const getUserByToken = async () => {
     let user: User | null = null
-    const token = await authNetflix.getTokenInLocalStorage()
+    const token = await authNetflixProvider.getTokenInLocalStorage()
 
     if (token) {
         console.log('Token exist :) === ', token)
@@ -770,21 +770,21 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         password: string
     }) => {
         console.log(userName, password)
-        authNetflix
+        authNetflixProvider
             .login({userName, password})
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
     const register = (data: {userName: string; password: string}) => {
-        authNetflix
+        authNetflixProvider
             .register(data)
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
     const logout = () => {
-        authNetflix.logout()
+        authNetflixProvider.logout()
         queryClient.clear()
         setData(null)
     }
@@ -997,7 +997,7 @@ export const handlers = [
 ````typescript
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
-import * as authNetflix from './authNetflixProvider'
+import * as authNetflixProvider from './authNetflixProviderProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 
@@ -1050,7 +1050,7 @@ const useGetMoviesbyEndpointWithApiTheMovieDB = (type: string, filter: string, p
  */
  const getUserByToken = async () => {
     let user = null
-    const token = await authNetflix.getTokenInLocalStorage()
+    const token = await authNetflixProvider.getTokenInLocalStorage()
 
     if (token) {
         console.log('Token exist :)')
@@ -1100,7 +1100,7 @@ import axios from 'axios'
 // ** Constants **
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
 // ** Utils **
-import * as authNetflix from '../../src/utils/authNetflixProvider'
+import * as authNetflixProvider from '../../src/utils/authNetflixProvider'
 // import {sleep} from './helper'
 
 /*
@@ -1173,7 +1173,7 @@ const clientNetflix = (
             })
             .catch(error => {
                 if (error?.response?.status === 401) {
-                    authNetflix.logout()
+                    authNetflixProvider.logout()
                     return Promise.reject({
                         message: 'Authentification incorrecte',
                     })

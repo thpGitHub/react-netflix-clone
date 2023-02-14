@@ -1,6 +1,6 @@
 import {clientAuth, clientNetflix} from '../clientAPI'
 import {server, rest} from '../../mocks'
-import * as authNetflix from '../../utils/authNetflixProvider'
+import * as authNetflixProvider from '../../utils/authNetflixProvider'
 jest.mock('../../utils/authNetflixProvider')
 
 beforeAll(() => server.listen())
@@ -91,5 +91,5 @@ test('check error mesage on 401', async () => {
         error => error,
     )
     expect(error.message).toMatchInlineSnapshot(`"Authentification incorrecte"`) 
-    expect(authNetflix.logout).toHaveBeenCalledTimes(1) 
+    expect(authNetflixProvider.logout).toHaveBeenCalledTimes(1) 
 })

@@ -2,7 +2,7 @@ import React, {useEffect, useState, createContext, useContext, ReactNode} from '
 // ** utils **
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
-import * as authNetflix from '../utils/authNetflixProvider'
+import * as authNetflixProvider from '../utils/authNetflixProvider'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
@@ -37,7 +37,7 @@ type AuthContextProviderProps = {
  */
 const getUserByToken = async () => {
     let user: User | null = null
-    const token = await authNetflix.getTokenInLocalStorage()
+    const token = await authNetflixProvider.getTokenInLocalStorage()
 
     if (token) {
         //console.log('Token exist :) === ', token)
@@ -82,21 +82,21 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         password: string
     }) => {
         //console.log(userName, password)
-        authNetflix
+        authNetflixProvider
             .login({userName, password})
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
     const register = (data: {userName: string; password: string}) => {
-        authNetflix
+        authNetflixProvider
             .register(data)
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
     const logout = () => {
-        authNetflix.logout()
+        authNetflixProvider.logout()
         queryClient.clear()
         setData(null)
     }

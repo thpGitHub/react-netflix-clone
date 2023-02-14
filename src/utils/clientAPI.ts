@@ -2,7 +2,7 @@ import axios from 'axios'
 // ** Constants **
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
 // ** Utils **
-import * as authNetflix from '../../src/utils/authNetflixProvider'
+import * as authNetflixProvider from '../../src/utils/authNetflixProvider'
 // import {sleep} from './helper'
 
 /*
@@ -83,7 +83,7 @@ const clientNetflix = (
         })
         .catch(error => {
             if (error?.response?.status === 401) {
-                authNetflix.logout()
+                authNetflixProvider.logout()
                 return Promise.reject({
                     message: 'Authentification incorrecte',
                 })
