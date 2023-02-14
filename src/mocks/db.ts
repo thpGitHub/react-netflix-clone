@@ -6,8 +6,7 @@ import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 import bcryptjs from 'bcryptjs'
 // import {nanoid} from 'nanoid'
 // import { v4 as uuidv4 } from 'uuid';
-const { v4: uuidv4 } = require('uuid')
-
+const {v4: uuidv4} = require('uuid')
 
 const localStorageKey = 'netflix-fake-database'
 // const localStorageTokenKey = 'netflix-authUser-token'
@@ -54,8 +53,17 @@ const saveUserInlocalStorage = async (user: {
     localStorage.setItem(localStorageKey, JSON.stringify(users))
     //console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
 }
+//*****work in progress *****
+export const getUserByTheTokenPresentInLocalStorage = async () => {
+    const token = localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
+    const users = await getUsersFromLocalStorage()
+    console.log({token: token, users: users})
+    const user = users.find((user: {token: string}) => user.token === token)
 
-const getUserNameInLocalStorage = async (userName: string) => {
+    return user
+}
+
+const getUserNameInLocalStorage: any = async (userName: string) => {
     const users = await getUsersFromLocalStorage()
 
     return users?.find((item: {userName: string}) => item.userName === userName)
@@ -67,6 +75,8 @@ const getUserWithTokenInLocalStorage = async (token: string) => {
     //     'users.find((item: {token: string}) => item.token === token',
     //     users.find((item: {token: string}) => item.token === token),
     // )
+
+    getUserByTheTokenPresentInLocalStorage()
 
     return users.find((item: {token: string}) => item.token === token)
 }
@@ -94,7 +104,7 @@ const deleteUserWithTokenInLocalStorage = async (token: string) => {
     // console.log('splice = ', users)
 
     localStorage.setItem(localStorageKey, JSON.stringify(users))
-    
+
     // users.findIndex((element: any) => element.token === token )
 }
 
@@ -145,7 +155,7 @@ const createUser = async ({
     const id = uuidv4()
     // const id = nanoid()
     // console.log('nanoid === ', id);
-    
+
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
     const token = await createTokenInLocalStorage()

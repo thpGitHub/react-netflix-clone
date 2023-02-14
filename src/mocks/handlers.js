@@ -1,5 +1,5 @@
 import {rest} from 'msw'
-import * as usersDB from './db'
+import * as DB from './db'
 
 export const handlers = [
     // Handles a POST /login request
@@ -10,7 +10,7 @@ export const handlers = [
             // console.log('req.body === ', req.body)
             const userFields = {userName, password}
             // console.log('userFields === ', userFields)
-            const user = await usersDB.createUser(userFields)
+            const user = await DB.createUser(userFields)
             // console.log('user in handlers/register ===', user)
 
             return res(ctx.json(user))
@@ -22,7 +22,7 @@ export const handlers = [
     rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
         const {userName, password} = req.body
         const userFields = {userName, password}
-        const userLogin = await usersDB.authenticateUserForLogin(userFields)
+        const userLogin = await DB.authenticateUserForLogin(userFields)
 
         return res(
             // ctx.delay(1500),
@@ -37,7 +37,7 @@ export const handlers = [
                 .get('Authorization')
                 .replace('Bearer ', '')
 
-            const user = await usersDB.getUserWithTokenInLocalStorage(token)
+            const user = await DB.getUserWithTokenInLocalStorage(token)
             // usersDB.getUserWithTokenInLocalStorage(token)
             // console.log('****https://auth.service.mock.com/getUserAuth ****')
             return res(
@@ -66,7 +66,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: movieID} = req.body.movie
-            const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(
+            const newAuthUser = await DB.addBookmarkMovieInLocalStorage(
                 movieID,
                 authUser,
             )
@@ -79,7 +79,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: serieID} = req.body.movie
-            const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(
+            const newAuthUser = await DB.addBookmarkSerieInLocalStorage(
                 serieID,
                 authUser,
             )
@@ -92,7 +92,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: serieID} = req.body.movie
-            const newAuthUser = await usersDB.deleteBookmarkSerieInLocalStorage(
+            const newAuthUser = await DB.deleteBookmarkSerieInLocalStorage(
                 serieID,
                 authUser,
             )
@@ -105,7 +105,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: movieID} = req.body.movie
-            const newAuthUser = await usersDB.deleteBookmarkMovieInLocalStorage(
+            const newAuthUser = await DB.deleteBookmarkMovieInLocalStorage(
                 movieID,
                 authUser,
             )
@@ -113,6 +113,25 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
+    rest.get(
+        '/getUserByToken',
+        async (req, res, ctx) => {
+            // const token = req?.headers
+            //     .get('Authorization')
+            //     .replace('Bearer ', '')
+
+            // const user = await usersDB.getUserWithTokenInLocalStorage(token)
+            // usersDB.getUserWithTokenInLocalStorage(token)
+            // console.log('****https://auth.service.mock.com/getUserAuth ****')
+            return res(
+                // ctx.delay(1500),
+                ctx.status(202, 'Mocked status'),
+                ctx.json({user: 'user'}),
+            )
+        },
+    ),
+
+
     // rest.get(
     //     `https://api.themoviedb.org/3/trending/movie/day`,
     //     async (req, res, ctx) => {

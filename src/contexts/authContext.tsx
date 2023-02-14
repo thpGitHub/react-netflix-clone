@@ -3,6 +3,7 @@ import React, {useEffect, useState, createContext, useContext, ReactNode} from '
 import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import * as authNetflixProvider from '../utils/authNetflixProvider'
+import * as clientAuth2 from '../utils/clientAuth'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
@@ -71,7 +72,8 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const [authError, setAuthError] = useState()
 
     useEffect(() => {
-        execute(getUserByToken())
+        // execute(getUserByToken())
+        execute(clientAuth2.getUserByToken2())
     }, [execute])
 
     const login = ({
