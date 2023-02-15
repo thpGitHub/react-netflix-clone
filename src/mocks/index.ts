@@ -1,6 +1,6 @@
 // @ts-ignore
 if (process.env.NODE_ENV === 'development') {
-    // console.log("%c process.env.NODE_ENV === ", "color: green;", process.env.NODE_ENV)
+    console.log("%c process.env.NODE_ENV === ", "color: green;", process.env.NODE_ENV)
     module.exports = require('./browser')
 } else if (process.env.NODE_ENV === 'test') {
     console.log("%c process.env.NODE_ENV === ", "color: tomato;", process.env.NODE_ENV)

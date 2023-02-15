@@ -1,6 +1,6 @@
 import {rest} from 'msw'
 import * as usersDB from './db'
-import { sampleMovie } from '../test/data'
+import {sampleMovie} from '../test/data'
 
 export const handlers_for_run_tests = [
     // Handles a POST /login request
