@@ -13,21 +13,34 @@ import DialogContent from '@mui/material/DialogContent'
 // ** Contexts **
 import {AuthContext} from '../contexts/authContext'
 
-interface IProps {
+// interface IProps {
+//     signUp?: boolean
+//     createLoginCount?: boolean
+//     login: ({userName, password}: {userName: string; password: string}) => void
+//     register: ({
+//         userName,
+//         password,
+//     }: {
+//         userName: string
+//         password: string
+//     }) => void
+//     error?: any
+// }
+
+type AuthData = {
+    userName: string
+    password: string
+}
+
+type Props = {
     signUp?: boolean
     createLoginCount?: boolean
-    login: ({userName, password}: {userName: string; password: string}) => void
-    register: ({
-        userName,
-        password,
-    }: {
-        userName: string
-        password: string
-    }) => void
+    login: (data: AuthData) => void
+    register: (data: AuthData) => void
     error?: any
 }
 
-const FormLogin = ({createLoginCount = true, login, register}: IProps) => {
+const FormLogin = ({createLoginCount = true, login, register}: Props) => {
     const [userName, setUserName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 

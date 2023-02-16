@@ -14,6 +14,7 @@ import NetflixRow from './NetflixRow'
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
+    
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (
