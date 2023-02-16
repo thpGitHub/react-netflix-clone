@@ -1,21 +1,49 @@
-import React, {useEffect, useState, createContext, useContext, ReactNode} from 'react'
+import React, {
+    useEffect,
+    useState,
+    createContext,
+    useContext,
+    ReactNode,
+} from 'react'
 // ** utils **
-import {clientAuth} from '../utils/clientAPI'
+// import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import * as authNetflixProvider from '../utils/authNetflixProvider'
-import * as clientAuth2 from '../utils/clientAuth'
+import * as clientAuth from '../utils/clientAuth'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 
-interface IContext {
-    authUser: User
-    authError: any
-    login: ({userName, password}: {userName: string; password: string}) => void
-    register: (data: {userName: string; password: string}) => void
-    logout: () => void
+// interface IContext {
+//     authUser: User
+//     authError: any
+//     login: ({userName, password}: {userName: string; password: string}) => void
+//     register: (data: {userName: string; password: string}) => void
+//     logout: () => void
+// }
+
+// type User = {
+//     id: string
+//     userName: string
+//     passwordHash: string
+//     token: string
+//     bookmark: {
+//         movies: number[]
+//         series: number[]
+//     }
+// }
+
+/**
+ * before :
+ * login: ({userName, password}: {userName: string; password: string}) => void
+ * register: (data: {userName: string; password: string}) => void
+ */
+
+type LoginData = {
+    userName: string
+    password: string
 }
 
 type User = {
@@ -29,31 +57,19 @@ type User = {
     }
 }
 
+type Context = {
+    authUser: User | null
+    authError: any
+    login: (data: LoginData) => void
+    register: (data: LoginData) => void
+    logout: () => void
+}
+
 type AuthContextProviderProps = {
     children: ReactNode
 }
 
-/**
- * This function is two fold in NetflixHeader.tsx
- */
-const getUserByToken = async () => {
-    let user: User | null = null
-    const token = await authNetflixProvider.getTokenInLocalStorage()
-
-    if (token) {
-        //console.log('Token exist :) === ', token)
-        const data = await clientAuth('getUserAuth', token)
-        // AxiosResponse
-        user = data.data.user
-        //console.log('data ====', data)
-        //console.log('user ====', user)
-    }
-
-    return user
-}
-
-// const AuthContext = createContext<IContext | null>(null)
-const AuthContext = createContext<IContext>(null!)
+const AuthContext = createContext<Context>(null!)
 
 const useAuthContext = () => {
     const context = useContext(AuthContext)
@@ -65,7 +81,6 @@ const useAuthContext = () => {
     return context
 }
 
-// const AuthContextProvider = (props: any) => {
 const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const queryClient = useQueryClient()
     const {data: authUser, status, execute, setData} = useFetchData()
@@ -73,7 +88,7 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
 
     useEffect(() => {
         // execute(getUserByToken())
-        execute(clientAuth2.getUserByToken2())
+        execute(clientAuth.getUserByToken2())
     }, [execute])
 
     const login = ({
@@ -83,7 +98,6 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         userName: string
         password: string
     }) => {
-        //console.log(userName, password)
         authNetflixProvider
             .login({userName, password})
             .then(user => setData(user))
@@ -102,8 +116,6 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         queryClient.clear()
         setData(null)
     }
-
-    //console.log('status === ', status)
 
     if (status === 'fetching' || status === 'idle') {
         return (
