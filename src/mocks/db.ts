@@ -1,17 +1,12 @@
 /* fichier simulant un backend qui stock des données
-   dans le localStorage
+dans le localStorage
 */
 // import {sleep} from '../utils/helper'
 import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 import bcryptjs from 'bcryptjs'
-// import {nanoid} from 'nanoid'
-// import { v4 as uuidv4 } from 'uuid';
+
 const {v4: uuidv4} = require('uuid')
-
 const localStorageKey = 'netflix-fake-database'
-// const localStorageTokenKey = 'netflix-authUser-token'
-// const localStorageKey = 'netflix-clone-users'
-
 interface Error {
     name: string
     message: string
@@ -19,41 +14,6 @@ interface Error {
     status?: number
     // code?: number;
 }
-
-const getUsersFromLocalStorage = async () => {
-    let users = localStorage.getItem(localStorageKey)
-    //console.log('users === ', users)
-
-    if (typeof users === 'string') {
-        //console.log('users STRING in loadUserFromLocalStorage', users)
-        return (users = JSON.parse(users))
-    }
-    //console.log('users in loadUserFromLocalStorage', users)
-
-    return users
-}
-
-const saveUserInlocalStorage = async (user: {
-    id: string
-    userName: string
-    passwordHash: string
-    token: string
-    bookmark: any
-}) => {
-    let users = await getUsersFromLocalStorage()
-    //console.log('users in saveUserInlocalStorage', users)
-
-    if (users) {
-        users.push(user)
-    } else {
-        users = [user]
-        //console.log('else users === ', users)
-    }
-
-    localStorage.setItem(localStorageKey, JSON.stringify(users))
-    //console.log('10 ********************* JSON.stringify(users) === ', JSON.stringify(users))
-}
-//*****work in progress *****
 
 type User = {
     id: string
@@ -66,21 +26,43 @@ type User = {
     }
 }
 
+const getUsersFromLocalStorage = async () => {
+    let users = localStorage.getItem(localStorageKey)
+
+    if (typeof users === 'string') {
+        return (users = JSON.parse(users))
+    }
+
+    return users
+}
+
+const saveUserInlocalStorage = async (user: {
+    id: string
+    userName: string
+    passwordHash: string
+    token: string
+    bookmark: any
+}) => {
+    let users = await getUsersFromLocalStorage()
+
+    if (users) {
+        users.push(user)
+    } else {
+        users = [user]
+    }
+
+    localStorage.setItem(localStorageKey, JSON.stringify(users))
+}
+
 export const getUserByTheTokenPresentInLocalStorage = async () => {
     const token = localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
     let user: User | null = null
     if(token) {
         const users = await getUsersFromLocalStorage()
-        // const user = users.find((user: {token: string}) => user.token === token)
         user = users.find((user: {token: string}) => user.token === token)
-        console.log({token: token, users: users, user: user})
-
     }
-    console.log({user: user});
     
     return user
-    // return null
-    // user = data.data.user
 }
 
 const getUserNameInLocalStorage: any = async (userName: string) => {
@@ -91,47 +73,24 @@ const getUserNameInLocalStorage: any = async (userName: string) => {
 
 const getUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
-    // console.log(
-    //     'users.find((item: {token: string}) => item.token === token',
-    //     users.find((item: {token: string}) => item.token === token),
-    // )
-
     getUserByTheTokenPresentInLocalStorage()
 
     return users.find((item: {token: string}) => item.token === token)
 }
 
-// const getTokenInLocalStorage = async () => {
-//     return localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
-// }
-
-// const getUserWithPresentTokenInLocalStorage = () => {
-
-// }
-
 const deleteUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
-    // console.log('users before slice', users)
-
-    // console.log(
-    //     'findIndex === ',
-    //     users.findIndex((element: any) => element.token === token),
-    // )
     const indexForDelete = users.findIndex(
         (element: any) => element.token === token,
     )
     await users.splice(indexForDelete, 1)
-    // console.log('splice = ', users)
-
     localStorage.setItem(localStorageKey, JSON.stringify(users))
-
-    // users.findIndex((element: any) => element.token === token )
 }
 
 const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
     localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, token)
-    // localStorage.setItem(localStorageTokenKey, JSON.stringify(token))
+    
     return token
 }
 
@@ -154,13 +113,9 @@ const createUser = async ({
         throw error
     }
 
-    // console.log('userName === ', userName)
-
     const userNameExistInLocalStorage = await getUserNameInLocalStorage(
         userName,
     )
-
-    // console.log('userNameExistInLocalStorage', userNameExistInLocalStorage)
     // sleep(4000)
 
     if (userNameExistInLocalStorage !== undefined) {
@@ -168,14 +123,10 @@ const createUser = async ({
             `Impossible de créer un utilisateur car ${userName} existe déjà `,
         )
         error.status = 400
-        // console.log('error ', error)
         throw error
     }
 
     const id = uuidv4()
-    // const id = nanoid()
-    // console.log('nanoid === ', id);
-
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
     const token = await createTokenInLocalStorage()
@@ -183,7 +134,6 @@ const createUser = async ({
 
     const user = {id, userName, passwordHash, token, bookmark}
     await saveUserInlocalStorage(user)
-    // await createTokenInLocalStorage()
 
     return user
 }
@@ -209,12 +159,7 @@ const authenticateUserForLogin = async ({
 
     const getUserWithUserNameInLocalStorage = await getUserNameInLocalStorage(
         userName,
-    ) //.then(user => console.log("getUserNameInLocalStorage",user)
-    //)
-    console.log(
-        'getUserWithUserNameInLocalStorage',
-        getUserWithUserNameInLocalStorage,
-    )
+    ) 
 
     if (
         getUserWithUserNameInLocalStorage === undefined ||
@@ -300,7 +245,6 @@ const deleteBookmarkSerieInLocalStorage = async (
 
     const newAuthUser = structuredClone(authUser)
     newAuthUser.bookmark.series = deleteBookmarkSerie
-    // console.log('newAuthUser in deleteBookmarkSerieInLocalStorage', newAuthUser);
 
     await deleteUserWithTokenInLocalStorage(authUser.token)
     await saveUserInlocalStorage(newAuthUser)
@@ -320,7 +264,6 @@ const deleteBookmarkMovieInLocalStorage = async (
 
     const newAuthUser = structuredClone(authUser)
     newAuthUser.bookmark.series = deleteBookmarkMovie
-    // console.log('newAuthUser in deleteBookmarkSerieInLocalStorage', newAuthUser);
 
     await deleteUserWithTokenInLocalStorage(authUser.token)
     await saveUserInlocalStorage(newAuthUser)

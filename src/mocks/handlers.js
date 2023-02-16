@@ -103,7 +103,7 @@ export const handlers = [
     ),
     rest.get('/getUserByToken', async (req, res, ctx) => {
         const user = await DB.getUserByTheTokenPresentInLocalStorage()
-        console.log({userInHandlerGetUserByToken: user})
+        
         return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
     }),
 ]
