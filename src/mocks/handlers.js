@@ -1,28 +1,21 @@
 import {rest} from 'msw'
-import * as usersDB from './db'
+import * as DB from './db'
 
 export const handlers = [
-    // Handles a POST /login request
     rest.post(
         'https://auth.service.mock.com/register',
         async (req, res, ctx) => {
             const {userName, password} = req.body
-            // console.log('req.body === ', req.body)
             const userFields = {userName, password}
-            // console.log('userFields === ', userFields)
-            const user = await usersDB.createUser(userFields)
-            // console.log('user in handlers/register ===', user)
+            const user = await DB.createUser(userFields)
 
             return res(ctx.json(user))
         },
     ),
-
-    // Handles a GET /user request
-    // rest.get('https://example.com/api/login', async (req, res, ctx) => {
     rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
         const {userName, password} = req.body
         const userFields = {userName, password}
-        const userLogin = await usersDB.authenticateUserForLogin(userFields)
+        const userLogin = await DB.authenticateUserForLogin(userFields)
 
         return res(
             // ctx.delay(1500),
@@ -36,10 +29,8 @@ export const handlers = [
             const token = req?.headers
                 .get('Authorization')
                 .replace('Bearer ', '')
-
-            const user = await usersDB.getUserWithTokenInLocalStorage(token)
-            // usersDB.getUserWithTokenInLocalStorage(token)
-            // console.log('****https://auth.service.mock.com/getUserAuth ****')
+            const user = await DB.getUserWithTokenInLocalStorage(token)
+            
             return res(
                 // ctx.delay(1500),
                 ctx.status(202, 'Mocked status'),
@@ -51,12 +42,9 @@ export const handlers = [
         'https://auth.service.mock.com/bookmark',
         async (req, res, ctx) => {
             const authUser = req.body.data
-            // const {id: serieID} = req.body.movie
-            // const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(serieID, authUser)
 
             return res(
                 ctx.status(202, 'Mocked status'),
-                // ctx.json(newAuthUser),
                 ctx.json(authUser),
             )
         },
@@ -66,7 +54,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: movieID} = req.body.movie
-            const newAuthUser = await usersDB.addBookmarkMovieInLocalStorage(
+            const newAuthUser = await DB.addBookmarkMovieInLocalStorage(
                 movieID,
                 authUser,
             )
@@ -79,7 +67,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: serieID} = req.body.movie
-            const newAuthUser = await usersDB.addBookmarkSerieInLocalStorage(
+            const newAuthUser = await DB.addBookmarkSerieInLocalStorage(
                 serieID,
                 authUser,
             )
@@ -92,7 +80,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: serieID} = req.body.movie
-            const newAuthUser = await usersDB.deleteBookmarkSerieInLocalStorage(
+            const newAuthUser = await DB.deleteBookmarkSerieInLocalStorage(
                 serieID,
                 authUser,
             )
@@ -105,7 +93,7 @@ export const handlers = [
         async (req, res, ctx) => {
             const authUser = req.body.data
             const {id: movieID} = req.body.movie
-            const newAuthUser = await usersDB.deleteBookmarkMovieInLocalStorage(
+            const newAuthUser = await DB.deleteBookmarkMovieInLocalStorage(
                 movieID,
                 authUser,
             )
@@ -113,15 +101,9 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
-    // rest.get(
-    //     `https://api.themoviedb.org/3/trending/movie/day`,
-    //     async (req, res, ctx) => {
-    //         console.log(
-    //             '////// in https://api.themoviedb.org/3/trending/movie/day',
-    //         )
-
-    //         return res(ctx.json('sampleMovie'))
-    //     },
-    // ),
+    rest.get('/getUserByToken', async (req, res, ctx) => {
+        const user = await DB.getUserByTheTokenPresentInLocalStorage()
+        
+        return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
+    }),
 ]
-// bookmark/movie req.body ===  {"id":"t0tQr7qYTUYuMB69IVD6o","userName":"titi2@hot.com","passwordHash":"$2a$10$4uxGGzx0/ET0KpkJXCcBx.QI5Y4GHlx5228cqudIEzpR7Kzl1abXW","token":"$2a$10$N8oo/LOueS.m1RjtRkIpCO","bookmark":{"movies":[],"series":[]}}

@@ -1,6 +1,6 @@
 import {rest} from 'msw'
 import * as usersDB from './db'
-import { sampleMovie } from '../test/data'
+import {sampleMovie} from '../test/data'
 
 export const handlers_for_run_tests = [
     // Handles a POST /login request
@@ -173,4 +173,9 @@ export const handlers_for_run_tests = [
             return res(ctx.json(sampleMovie))
         },
     ),
+    rest.get('/getUserByToken', async (req, res, ctx) => {
+        const user = await usersDB.getUserByTheTokenPresentInLocalStorage()
+        
+        return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
+    }),
 ]
