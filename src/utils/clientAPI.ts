@@ -73,6 +73,7 @@ const clientNetflix = (
         data: {data, movie},
         headers: {
             Authorization: data?.token ? `Bearer ${data.token}` : undefined,
+            // 'Content-Type': 'application/json',
         },
     }
     return axios(config)
