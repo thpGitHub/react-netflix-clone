@@ -13,20 +13,6 @@ import DialogContent from '@mui/material/DialogContent'
 // ** Contexts **
 import {AuthContext} from '../contexts/authContext'
 
-// interface IProps {
-//     signUp?: boolean
-//     createLoginCount?: boolean
-//     login: ({userName, password}: {userName: string; password: string}) => void
-//     register: ({
-//         userName,
-//         password,
-//     }: {
-//         userName: string
-//         password: string
-//     }) => void
-//     error?: any
-// }
-
 type AuthData = {
     userName: string
     password: string
@@ -47,7 +33,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
     const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
 
     return (
-        // <form autoComplete="off" onSubmit={handleSubmit}>
         <form autoComplete="off">
             <TextField
                 id="filled-basic-username"
@@ -73,7 +58,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        // type="submit"
                         onClick={() => register({userName, password})}
                     >
                         {labelButton}
@@ -84,7 +68,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        // type="submit"
                         onClick={() => login({userName, password})}
                     >
                         {labelButton}
@@ -94,11 +77,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
 
             <FormGroup>
                 <FormControlLabel
-                    // style={{
-                    //     paddingLeft: '24px',
-                    //     paddingRight: '24px',
-                    //     justifyContent: 'flex-start',
-                    // }}
                     control={<Checkbox defaultChecked />}
                     label="Se souvenir de moi"
                 />
