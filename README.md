@@ -6,6 +6,7 @@
 
 1. [Point d'entrée `App.tsx`](#app)
     - [Non Authentifié `<UnauthApp />`](#unauthapp)
+        - [`<LoginRegister />`](#loginregister)
     - [Authentifié `<AuthApp />`](#authapp)
         - [`<Route path="/" element={<NetflixApp />} /`>](#netflixapp)
             - [`useGetOneMovieWithApiTheMovieDB`](#hooksmovies)
@@ -204,7 +205,7 @@ const UnauthApp = () => {
 export default UnauthApp
 ````
 
-- `<LoginRegister />`
+- `<LoginRegister />` <a name="loginregister"></a>
 
 Le composant `<LoginRegister />` contient deux composants `<PopupLogin />` qui est le point d'entré et `<FormLogin />`
 
