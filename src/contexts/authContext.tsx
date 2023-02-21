@@ -86,27 +86,25 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const {data: authUser, status, execute, setData} = useFetchData()
     const [authError, setAuthError] = useState()
 
+    /**
+     * TODO : check if use useQuery here are necessary
+     * And on mutation => invalidateQueries
+     */
     useEffect(() => {
         // execute(getUserByToken())
         execute(clientAuth.getUserByToken2())
     }, [execute])
 
-    const login = ({
-        userName,
-        password,
-    }: {
-        userName: string
-        password: string
-    }) => {
+    const login = ({userName, password}: LoginData) => {
         authNetflixProvider
             .login({userName, password})
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
-    const register = (data: {userName: string; password: string}) => {
+    const register = ({userName, password}: LoginData) => {
         authNetflixProvider
-            .register(data)
+            .register({userName, password})
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
