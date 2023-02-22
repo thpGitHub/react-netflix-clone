@@ -9,7 +9,7 @@ import React, {
 // import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import * as authNetflixProvider from '../utils/authNetflixProvider'
-import * as clientAuth from '../utils/clientAuth'
+import * as clientAuth from '../services/clientToAuthenticationApi'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
