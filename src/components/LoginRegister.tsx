@@ -11,7 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 // ** Contexts **
-import {AuthContext} from '../contexts/authContext'
+import {useAuthContext} from '../contexts/authContext'
 
 type AuthData = {
     userName: string
@@ -86,7 +86,8 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
 }
 
 const PopupLogin = ({signUp = false}) => {
-    const {login, register, authError: error} = useContext(AuthContext)
+    // const {login, register, authError: error} = useContext(AuthContext)
+    const {login, register, authError: error} = useAuthContext()
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open] = React.useState(true)
 

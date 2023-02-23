@@ -9,6 +9,7 @@ import React, {
 // import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import * as authNetflixProvider from '../utils/authNetflixProvider'
+// import * as clientToNetflixApi from '../services/clientToNetflixApi'
 import * as clientAuth from '../services/clientToAuthenticationApi'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
@@ -71,7 +72,7 @@ type AuthContextProviderProps = {
 
 const AuthContext = createContext<Context>(null!)
 
-const useAuthContext = () => {
+export const useAuthContext = () => {
     const context = useContext(AuthContext)
     if (!context) {
         throw new Error(
@@ -80,8 +81,16 @@ const useAuthContext = () => {
     }
     return context
 }
-
-const AuthContextProvider = ({children}: AuthContextProviderProps) => {
+/**
+ * In App.tsx :
+ * 
+ * <AuthContextProvider>
+ *   {children}
+ * </AuthContextProvider>
+ *  
+ * the children can be access to context with the hook custom : useAuthContext
+ */
+export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     const queryClient = useQueryClient()
     const {data: authUser, status, execute, setData} = useFetchData()
     const [authError, setAuthError] = useState()
@@ -101,6 +110,13 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
+
+    // const login2 = ({userName, password}: LoginData) => {
+    //     clientToNetflixApi
+    //         .login({userName, password})
+    //         .then(user => setData(user))
+    //         .catch(error => setAuthError(error))
+    // }
 
     const register = ({userName, password}: LoginData) => {
         authNetflixProvider
@@ -132,4 +148,4 @@ const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     throw new Error('status invalide')
 }
 
-export {AuthContext, useAuthContext, AuthContextProvider}
+// export {AuthContext, useAuthContext, AuthContextProvider}

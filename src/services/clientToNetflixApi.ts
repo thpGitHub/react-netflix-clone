@@ -26,6 +26,36 @@ const clientSendsRequestsToTheNetflixApi = async (
     })
 }
 
+// const clientSendsRequestsToTheNetflixApi = async (
+//     endPoint: 'login' | 'register',
+//     data: LoginData,
+//   ): Promise<any> => {
+//     try {
+//       const response = await fetch(`/netflixAPI/${endPoint}`, {
+//         method: 'POST',
+//         body: JSON.stringify(data),
+//         headers: { 'Content-Type': 'application/json' },
+//       });
+//       const responseData = await response.json();
+  
+//       if (response.ok) {
+//         return responseData;
+//       } else {
+//         throw responseData;
+//         /*
+//          * or same result
+//          * throw new Error(responseData.message)
+//          */
+//       }
+//     } catch (error) {
+//       throw error;
+//       /*
+//        * or same result
+//        * throw new Error(error.message)
+//        */
+//     }
+//   }
+
 export const login = async ({userName, password}: LoginData) => {
     return await clientSendsRequestsToTheNetflixApi('login', {
         userName,
