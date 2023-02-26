@@ -26,6 +26,11 @@ type User = {
     }
 }
 
+type UserProps = {
+    userName: string
+    password: string
+}
+
 const getUsersFromLocalStorage = async () => {
     let users = localStorage.getItem(localStorageKey)
 
@@ -57,11 +62,11 @@ const saveUserInlocalStorage = async (user: {
 export const getUserByTheTokenPresentInLocalStorage = async () => {
     const token = localStorage.getItem(TOKEN_KEY_IN_LOCAL_STORAGE)
     let user: User | null = null
-    if(token) {
+    if (token) {
         const users = await getUsersFromLocalStorage()
         user = users.find((user: {token: string}) => user.token === token)
     }
-    
+
     return user
 }
 
@@ -90,17 +95,18 @@ const deleteUserWithTokenInLocalStorage = async (token: string) => {
 const createTokenInLocalStorage = async () => {
     const token = bcryptjs.genSaltSync(10)
     localStorage.setItem(TOKEN_KEY_IN_LOCAL_STORAGE, token)
-    
+
     return token
 }
 
-const createUser = async ({
-    userName,
-    password,
-}: {
-    userName: string
-    password: string
-}) => {
+// const createUser = async ({
+//     userName,
+//     password,
+// }: {
+//     userName: string
+//     password: string
+// }) => {
+const createUser = async ({userName, password}: UserProps): Promise<User> => {
     if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
         // error.status = 400
@@ -130,7 +136,8 @@ const createUser = async ({
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
     const token = await createTokenInLocalStorage()
-    const bookmark = {movies: [], series: []}
+    const bookmark: {movies: number[], series: number[]} = {movies: [], series: []}
+    // const bookmark = {movies: [], series: []}
 
     const user = {id, userName, passwordHash, token, bookmark}
     await saveUserInlocalStorage(user)
@@ -138,13 +145,14 @@ const createUser = async ({
     return user
 }
 
-const authenticateUserForLogin = async ({
-    userName,
-    password,
-}: {
-    userName: string
-    password: string
-}) => {
+// const authenticateUserForLogin = async ({
+//     userName,
+//     password,
+// }: {
+//     userName: string
+//     password: string
+// }) => {
+const authenticateUserForLogin = async ({userName, password}: UserProps) => {
     if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
         // error.status = 400
@@ -159,7 +167,7 @@ const authenticateUserForLogin = async ({
 
     const getUserWithUserNameInLocalStorage = await getUserNameInLocalStorage(
         userName,
-    ) 
+    )
 
     if (
         getUserWithUserNameInLocalStorage === undefined ||

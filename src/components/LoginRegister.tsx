@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState} from 'react'
 // *** MUI ***
 import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
@@ -11,21 +11,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 // ** Contexts **
-import {AuthContext} from '../contexts/authContext'
-
-// interface IProps {
-//     signUp?: boolean
-//     createLoginCount?: boolean
-//     login: ({userName, password}: {userName: string; password: string}) => void
-//     register: ({
-//         userName,
-//         password,
-//     }: {
-//         userName: string
-//         password: string
-//     }) => void
-//     error?: any
-// }
+import {useAuthContext} from '../contexts/authContext'
 
 type AuthData = {
     userName: string
@@ -47,7 +33,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
     const labelButton = createLoginCount ? 'Inscrivez-vous' : 'Connexion'
 
     return (
-        // <form autoComplete="off" onSubmit={handleSubmit}>
         <form autoComplete="off">
             <TextField
                 id="filled-basic-username"
@@ -73,7 +58,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        // type="submit"
                         onClick={() => register({userName, password})}
                     >
                         {labelButton}
@@ -84,7 +68,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
                     <Button
                         variant="contained"
                         fullWidth
-                        // type="submit"
                         onClick={() => login({userName, password})}
                     >
                         {labelButton}
@@ -94,11 +77,6 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
 
             <FormGroup>
                 <FormControlLabel
-                    // style={{
-                    //     paddingLeft: '24px',
-                    //     paddingRight: '24px',
-                    //     justifyContent: 'flex-start',
-                    // }}
                     control={<Checkbox defaultChecked />}
                     label="Se souvenir de moi"
                 />
@@ -108,7 +86,8 @@ const FormLogin = ({createLoginCount = true, login, register}: Props) => {
 }
 
 const PopupLogin = ({signUp = false}) => {
-    const {login, register, authError: error} = useContext(AuthContext)
+    // const {login, register, authError: error} = useContext(AuthContext)
+    const {login, register, authError: error} = useAuthContext()
     const [createLogin, setCreateLogin] = useState(signUp)
     const [open] = React.useState(true)
 

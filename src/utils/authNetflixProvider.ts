@@ -3,7 +3,6 @@ import {TOKEN_KEY_IN_LOCAL_STORAGE} from '../const'
 const clientApiNetflix = async (
     endPoint: string,
     data: {userName: string; password: string},
-    // ): Promise<any> => {
 ) => {
     // fetch('https://auth.service.mock.com/register', {
     return fetch(`https://auth.service.mock.com/${endPoint}`, {
@@ -11,19 +10,15 @@ const clientApiNetflix = async (
         body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'},
     }).then(async response => {
-        // console.log('response before', response)
         const data = await response.json()
-        // console.log('data after', data)
         if (response.ok) {
-            // console.log('**** IN response.ok ****', data)
-
             return data
         } else {
-            // console.log('**** IN Promise.reject ****', data)
-
             return Promise.reject(data)
-            // or same result
-            // throw new Error(data.message)
+            /*
+             * or same result
+             * throw new Error(data.message)
+             */
         }
     })
 }
