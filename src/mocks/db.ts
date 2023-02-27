@@ -279,9 +279,15 @@ const deleteBookmarkMovieInLocalStorage = async (
     return newAuthUser
 }
 
+const removeTokenInLocalStorage = async () => {
+    localStorage.removeItem('netflix-authUser-token')
+    return 'Remove Token in LocalStorage OK'
+}
+
 export {
     createUser,
     authenticateUserForLogin,
+    removeTokenInLocalStorage,
     getUserWithTokenInLocalStorage,
     addBookmarkMovieInLocalStorage,
     addBookmarkSerieInLocalStorage,

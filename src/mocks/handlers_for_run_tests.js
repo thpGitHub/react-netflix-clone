@@ -173,7 +173,7 @@ export const handlers_for_run_tests = [
             return res(ctx.json(sampleMovie))
         },
     ),
-    rest.get('/getUserByToken', async (req, res, ctx) => {
+    rest.get('/server.mock/authentication/getUserByToken', async (req, res, ctx) => {
         const user = await usersDB.getUserByTheTokenPresentInLocalStorage()
         
         return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))

@@ -2,14 +2,17 @@
 import React from 'react'
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
+import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
 import * as authNetflixProvider from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 import {TYPE_MOVIE} from 'src/const'
+// ** Contexts **
+import {useAuthContext} from '../contexts/authContext'
 
 const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-        clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
+        clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
 
     return data
@@ -50,7 +53,7 @@ const useGetMoviesbyEndpointWithApiTheMovieDB = (
     }
 
     const {data} = useQuery([`${endpoint}`], () =>
-        clientUseApiTheMovieDB(endpoint),
+        clientSendsRequestsToTheMovieDB(endpoint),
     )
 
     return data
@@ -68,6 +71,8 @@ const getUserByToken = async () => {
         user = data.data.user
     }
 
+    console.log({getUserByToken: user})
+
     return user
 }
 
@@ -84,7 +89,16 @@ type Data = {
     bookmark: Bookmark
 }
 
-const checkBookmark = (data: Data, type: string, movie: Movie) => {
+type User = {
+    id: string
+    token: string
+    bookmark: Bookmark
+    userName: string
+    passwordHash: string
+}
+
+// const checkBookmark = (data: Data, type: string, movie: Movie) => {
+const checkBookmark = (data: User | null, type: string, movie: Movie) => {
     const movieType = type === TYPE_MOVIE ? 'movies' : 'series'
     const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
     return isInBookmark
@@ -94,6 +108,11 @@ const useBookmark = (type: string, movie: Movie) => {
     const {data: userAuthenticated} = useQuery(['bookmark'], () => {
         return getUserByToken()
     })
+    // const {data: userAuthenticated} = useQuery(['bookmark'], () => {
+    //     return getUserByToken()
+    // })
+
+    // const {authUser: userAuthenticated} = useAuthContext()
 
     const isInBookmark = checkBookmark(userAuthenticated, type, movie)
 
@@ -102,7 +121,7 @@ const useBookmark = (type: string, movie: Movie) => {
 
 const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
-        clientUseApiTheMovieDB(`search/multi?query=${query}`),
+        clientSendsRequestsToTheMovieDB(`search/multi?query=${query}`),
     )
 
     return data?.data?.results ?? []

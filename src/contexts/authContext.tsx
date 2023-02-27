@@ -9,7 +9,7 @@ import React, {
 // import {clientAuth} from '../utils/clientAPI'
 import {useFetchData} from '../utils/hooks'
 import * as authNetflixProvider from '../utils/authNetflixProvider'
-// import * as clientToNetflixApi from '../services/clientToNetflixApi'
+import * as clientToNetflixApi from '../services/clientToNetflixApi'
 import * as clientAuth from '../services/clientToAuthenticationApi'
 // ** REACT Query
 import {useQueryClient} from '@tanstack/react-query'
@@ -83,11 +83,11 @@ export const useAuthContext = () => {
 }
 /**
  * In App.tsx :
- * 
+ *
  * <AuthContextProvider>
  *   {children}
  * </AuthContextProvider>
- *  
+ *
  * the children can be access to context with the hook custom : useAuthContext
  */
 export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
@@ -104,29 +104,30 @@ export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
         execute(clientAuth.getUserByToken2())
     }, [execute])
 
-    const login = ({userName, password}: LoginData) => {
-        authNetflixProvider
-            .login({userName, password})
-            .then(user => setData(user))
-            .catch(error => setAuthError(error))
-    }
-
-    // const login2 = ({userName, password}: LoginData) => {
-    //     clientToNetflixApi
+    // const login = ({userName, password}: LoginData) => {
+    //     authNetflixProvider
     //         .login({userName, password})
     //         .then(user => setData(user))
     //         .catch(error => setAuthError(error))
     // }
 
+    const login = ({userName, password}: LoginData) => {
+        clientToNetflixApi
+            .login({userName, password})
+            .then(user => setData(user))
+            .catch(error => setAuthError(error))
+    }
+
     const register = ({userName, password}: LoginData) => {
-        authNetflixProvider
+        clientToNetflixApi
             .register({userName, password})
             .then(user => setData(user))
             .catch(error => setAuthError(error))
     }
 
     const logout = () => {
-        authNetflixProvider.logout()
+        // authNetflixProvider.logout()
+        clientToNetflixApi.logout()
         queryClient.clear()
         setData(null)
     }

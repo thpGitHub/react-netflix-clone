@@ -111,8 +111,20 @@ export const handlers = [
      * i have a problem with TS :
      * req.body.data => Property 'data' does not exist on type 'string | number | boolean | Record<string, any> | DefaultRequestMultipartBody'.
      */
+
+    // rest.post(
+    //     'https://auth.service.mock.com/register',
+    //     async (req, res, ctx) => {
+    //         // const {userName, password} = req.body as UserRequest
+    //         const {userName, password} = (await req.json()) as UserRequest
+    //         const userFields = {userName, password}
+    //         const user = await DB.createUser(userFields)
+
+    //         return res(ctx.json(user))
+    //     },
+    // ),
     rest.post(
-        'https://auth.service.mock.com/register',
+        '/server.mock/netflix/register',
         async (req, res, ctx) => {
             // const {userName, password} = req.body as UserRequest
             const {userName, password} = (await req.json()) as UserRequest
@@ -122,7 +134,19 @@ export const handlers = [
             return res(ctx.json(user))
         },
     ),
-    rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
+    // rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
+    //     // const {userName, password} = req.body as UserRequest
+    //     const {userName, password} = (await req.json()) as UserRequest
+    //     const userFields = {userName, password}
+    //     const userLogin = await DB.authenticateUserForLogin(userFields)
+
+    //     return res(
+    //         // ctx.delay(1500),
+    //         ctx.status(202, 'Mocked status'),
+    //         ctx.json(userLogin),
+    //     )
+    // }),
+    rest.post('/server.mock/netflix/login', async (req, res, ctx) => {
         // const {userName, password} = req.body as UserRequest
         const {userName, password} = (await req.json()) as UserRequest
         const userFields = {userName, password}
@@ -132,6 +156,15 @@ export const handlers = [
             // ctx.delay(1500),
             ctx.status(202, 'Mocked status'),
             ctx.json(userLogin),
+        )
+    }),
+    rest.post('/server.mock/netflix/logout', async (req, res, ctx) => {
+        DB.removeTokenInLocalStorage()
+
+        return res(
+            // ctx.delay(1500),
+            ctx.status(202, 'Mocked status'),
+            ctx.json('Mocked data: remove token in localStorage'),
         )
     }),
     // rest.get(
@@ -336,7 +369,7 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
-    rest.get('/getUserByToken', async (req, res, ctx) => {
+    rest.get('/server.mock/authentication/getUserByToken', async (req, res, ctx) => {
         const user = await DB.getUserByTheTokenPresentInLocalStorage()
 
         return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))

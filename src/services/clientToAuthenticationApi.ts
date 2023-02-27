@@ -16,7 +16,7 @@ type User = {
 // }
 export const getUserByToken2 = async (): Promise<User | null> => {
     try {
-        const user: User | null = (await axios.get(`/getUserByToken`)).data.user
+        const user: User | null = (await axios.get(`/server.mock/authentication/getUserByToken`)).data.user
 
         return user
         /**

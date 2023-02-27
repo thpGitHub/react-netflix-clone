@@ -1,14 +1,14 @@
 type LoginData = {
-    userName: string
-    password: string
+    userName?: string
+    password?: string
 }
 
 const clientSendsRequestsToTheNetflixApi = async (
-    endPoint: 'login' | 'register',
+    endPoint: 'login' | 'register' | 'logout',
     // data: {userName: string; password: string},
     data: LoginData,
 ): Promise<any> => {
-    return fetch(`/netflixAPI/${endPoint}`, {
+    return fetch(`/server.mock/netflix/${endPoint}`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {'Content-Type': 'application/json'},
@@ -37,7 +37,7 @@ const clientSendsRequestsToTheNetflixApi = async (
 //         headers: { 'Content-Type': 'application/json' },
 //       });
 //       const responseData = await response.json();
-  
+
 //       if (response.ok) {
 //         return responseData;
 //       } else {
@@ -55,10 +55,20 @@ const clientSendsRequestsToTheNetflixApi = async (
 //        */
 //     }
 //   }
-
 export const login = async ({userName, password}: LoginData) => {
     return await clientSendsRequestsToTheNetflixApi('login', {
         userName,
         password,
     })
+}
+
+export const register = async ({userName, password}: LoginData) => {
+    return await clientSendsRequestsToTheNetflixApi('register', {
+        userName,
+        password,
+    })
+}
+
+export const logout = () => {
+    clientSendsRequestsToTheNetflixApi('logout', {})
 }
