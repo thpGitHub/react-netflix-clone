@@ -5,42 +5,16 @@ import React, {
     useContext,
     ReactNode,
 } from 'react'
-// ** utils **
-// import {clientAuth} from '../utils/clientAPI'
-import {useFetchData} from '../utils/hooks'
-import * as authNetflixProvider from '../utils/authNetflixProvider'
-import * as clientToNetflixApi from '../services/clientToNetflixApi'
-import * as clientAuth from '../services/clientToAuthenticationApi'
-// ** REACT Query
-import {useQueryClient} from '@tanstack/react-query'
 // ** MUI **
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
-
-// interface IContext {
-//     authUser: User
-//     authError: any
-//     login: ({userName, password}: {userName: string; password: string}) => void
-//     register: (data: {userName: string; password: string}) => void
-//     logout: () => void
-// }
-
-// type User = {
-//     id: string
-//     userName: string
-//     passwordHash: string
-//     token: string
-//     bookmark: {
-//         movies: number[]
-//         series: number[]
-//     }
-// }
-
-/**
- * before :
- * login: ({userName, password}: {userName: string; password: string}) => void
- * register: (data: {userName: string; password: string}) => void
- */
+// ** REACT Query **
+import {useQueryClient} from '@tanstack/react-query'
+// ** Services **
+import * as clientAuth from '../services/clientToAuthenticationApi'
+import * as clientToNetflixApi from '../services/clientToNetflixApi'
+// ** Utils **
+import {useFetchData} from '../utils/hooks'
 
 type LoginData = {
     userName: string
@@ -100,16 +74,8 @@ export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
      * And on mutation => invalidateQueries
      */
     useEffect(() => {
-        // execute(getUserByToken())
-        execute(clientAuth.getUserByToken2())
+        execute(clientAuth.getUserByToken())
     }, [execute])
-
-    // const login = ({userName, password}: LoginData) => {
-    //     authNetflixProvider
-    //         .login({userName, password})
-    //         .then(user => setData(user))
-    //         .catch(error => setAuthError(error))
-    // }
 
     const login = ({userName, password}: LoginData) => {
         clientToNetflixApi
@@ -126,7 +92,6 @@ export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     }
 
     const logout = () => {
-        // authNetflixProvider.logout()
         clientToNetflixApi.logout()
         queryClient.clear()
         setData(null)
@@ -148,5 +113,3 @@ export const AuthContextProvider = ({children}: AuthContextProviderProps) => {
     }
     throw new Error('status invalide')
 }
-
-// export {AuthContext, useAuthContext, AuthContextProvider}

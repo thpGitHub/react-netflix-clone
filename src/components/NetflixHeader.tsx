@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import useDimension from '../hooks/useDimension'
 import HeaderSkeleton from './skeletons/HeaderSkeleton'
-import {clientNetflix} from '../utils/clientAPI'
-import { clientAddOrDeleteBookmark } from '../services/clientToNetflixApi'
 import {IMAGE_URL, TYPE_MOVIE} from '../const'
 // *** MUI ***
 import Snackbar from '@mui/material/Snackbar'
@@ -11,6 +9,8 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
 // ** REACT Query
 import {useBookmark} from '../utils/hooksMovies'
 import {useMutation, useQueryClient} from '@tanstack/react-query'
+// ** Services **
+import {clientAddOrDeleteBookmark} from '../services/clientToNetflixApi'
 // ** TS **
 import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
 import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
@@ -27,7 +27,6 @@ type TvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
 interface NetflixHeaderProps {
     movie: TvOrMovie
     type: string
-    // type: 'bookmark/movie' | 'bookmark/tv'
 }
 
 const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
@@ -38,7 +37,6 @@ const NetflixHeader = ({movie, type = TYPE_MOVIE}: NetflixHeaderProps) => {
 
     const addMutation = useMutation(
         async () => {
-            // return clientNetflix(`bookmark/${type}`, {
             return clientAddOrDeleteBookmark(`bookmark/${type}`, {
                 method: 'POST',
                 userAuthenticated,

@@ -112,40 +112,14 @@ export const handlers = [
      * req.body.data => Property 'data' does not exist on type 'string | number | boolean | Record<string, any> | DefaultRequestMultipartBody'.
      */
 
-    // rest.post(
-    //     'https://auth.service.mock.com/register',
-    //     async (req, res, ctx) => {
-    //         // const {userName, password} = req.body as UserRequest
-    //         const {userName, password} = (await req.json()) as UserRequest
-    //         const userFields = {userName, password}
-    //         const user = await DB.createUser(userFields)
+    rest.post('/server.mock/netflix/register', async (req, res, ctx) => {
+        // const {userName, password} = req.body as UserRequest
+        const {userName, password} = (await req.json()) as UserRequest
+        const userFields = {userName, password}
+        const user = await DB.createUser(userFields)
 
-    //         return res(ctx.json(user))
-    //     },
-    // ),
-    rest.post(
-        '/server.mock/netflix/register',
-        async (req, res, ctx) => {
-            // const {userName, password} = req.body as UserRequest
-            const {userName, password} = (await req.json()) as UserRequest
-            const userFields = {userName, password}
-            const user = await DB.createUser(userFields)
-
-            return res(ctx.json(user))
-        },
-    ),
-    // rest.post('https://auth.service.mock.com/login', async (req, res, ctx) => {
-    //     // const {userName, password} = req.body as UserRequest
-    //     const {userName, password} = (await req.json()) as UserRequest
-    //     const userFields = {userName, password}
-    //     const userLogin = await DB.authenticateUserForLogin(userFields)
-
-    //     return res(
-    //         // ctx.delay(1500),
-    //         ctx.status(202, 'Mocked status'),
-    //         ctx.json(userLogin),
-    //     )
-    // }),
+        return res(ctx.json(user))
+    }),
     rest.post('/server.mock/netflix/login', async (req, res, ctx) => {
         // const {userName, password} = req.body as UserRequest
         const {userName, password} = (await req.json()) as UserRequest
@@ -167,21 +141,6 @@ export const handlers = [
             ctx.json('Mocked data: remove token in localStorage'),
         )
     }),
-    // rest.get(
-    //     'https://auth.service.mock.com/getUserAuth',
-    //     async (req, res, ctx) => {
-    //         const token = req?.headers
-    //             .get('Authorization')
-    //             ?.replace('Bearer ', '')
-    //         const user = await DB.getUserWithTokenInLocalStorage(token)
-
-    //         return res(
-    //             // ctx.delay(1500),
-    //             ctx.status(202, 'Mocked status'),
-    //             ctx.json({user: user}),
-    //         )
-    //     },
-    // ),
     rest.get(
         'https://auth.service.mock.com/getUserAuth',
         async (req, res, ctx) => {
@@ -200,61 +159,6 @@ export const handlers = [
             )
         },
     ),
-
-    // rest.post(
-    //     'https://auth.service.mock.com/bookmark',
-    //     async (req, res, ctx) => {
-    //         const authUser = req.body.data
-
-    //         return res(
-    //             ctx.status(202, 'Mocked status'),
-    //             ctx.json(authUser),
-    //         )
-    //     },
-    // ),
-
-    /**
-     * TODO :
-     * Check if this request : 'https://auth.service.mock.com/bookmark'
-     * is always called.
-     * 
-     * overridden by : /getUserByToken'
-     */
-    
-    // rest.post(
-    //     'https://auth.service.mock.com/bookmark',
-    //     async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
-    //         // const authUser =
-    //         //     typeof req.body === 'string' && JSON.parse(req.body)?.data
-    //         // const authUser = req.body.data
-    //         const body = await req.json()
-    //         const authUser = body.data
-    //         console.log({body: body, authUser: authUser});
-            
-    //         if (!authUser) {
-    //             return res(
-    //                 ctx.status(400, 'Bad Request'),
-    //                 ctx.json({message: 'Invalid request body'}),
-    //             )
-    //         }
-
-    //         return res(ctx.status(202, 'Mocked status'), ctx.json(authUser))
-    //     },
-    // ),
-
-    // rest.post(
-    //     'https://auth.service.mock.com/bookmark/movie',
-    //     async (req, res, ctx) => {
-    //         const authUser = req.body.data
-    //         const {id: movieID} = req.body.movie
-    //         const newAuthUser = await DB.addBookmarkMovieInLocalStorage(
-    //             movieID,
-    //             authUser,
-    //         )
-
-    //         return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
-    //     },
-    // ),
 
     rest.post(
         '/server.mock/netflix/bookmark/movie',
@@ -291,16 +195,6 @@ export const handlers = [
             const body = await req.json()
             const authUser = body?.data
             const serieID = body?.movie?.id
-            // const authUser = req?.body?.data
-            // const serieID = req?.body?.movie?.id
-
-            console.log({
-                authUser: authUser,
-                serieID: serieID,
-                req: req.body,
-                reqBodyTypeof: typeof req.body,
-                header: req.headers.get('Content-Type'),
-            })
 
             if (!serieID) {
                 return res(
@@ -324,10 +218,6 @@ export const handlers = [
             const authUser = body?.data
             const serieID = body?.movie?.id
 
-            // const authUser = req?.body?.data
-            // const serieID = req?.body?.movie?.id
-            console.log({authUser: authUser, serieID: serieID})
-
             if (!serieID) {
                 return res(
                     ctx.status(400, 'Bad Request'),
@@ -344,16 +234,8 @@ export const handlers = [
         },
     ),
     rest.delete(
-        // 'https://auth.service.mock.com/bookmark/movie',
         '/server.mock/netflix/bookmark/movie',
         async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
-            // const authUser = req.body.data
-            // const {id: movieID} = req.body.movie
-            // const authUser =
-            //     typeof req.body === 'string' && JSON.parse(req.body)?.data
-            // const movieID =
-            //     typeof req.body === 'string' && JSON.parse(req.body)?.movie?.id
-
             const body = await req.json()
             const authUser = body.data
             const movieID = body.movie.id
@@ -373,9 +255,12 @@ export const handlers = [
             return res(ctx.status(202, 'Mocked status'), ctx.json(newAuthUser))
         },
     ),
-    rest.get('/server.mock/authentication/getUserByToken', async (req, res, ctx) => {
-        const user = await DB.getUserByTheTokenPresentInLocalStorage()
+    rest.get(
+        '/server.mock/authentication/getUserByToken',
+        async (req, res, ctx) => {
+            const user = await DB.getUserByTheTokenPresentInLocalStorage()
 
-        return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
-    }),
+            return res(ctx.status(202, 'Mocked status'), ctx.json({user: user}))
+        },
+    ),
 ]

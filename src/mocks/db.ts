@@ -76,7 +76,7 @@ const getUserNameInLocalStorage: any = async (userName: string) => {
     return users?.find((item: {userName: string}) => item.userName === userName)
 }
 
-const getUserWithTokenInLocalStorage = async (token: string) => {
+export const getUserWithTokenInLocalStorage = async (token: string) => {
     const users = await getUsersFromLocalStorage()
     getUserByTheTokenPresentInLocalStorage()
 
@@ -99,14 +99,10 @@ const createTokenInLocalStorage = async () => {
     return token
 }
 
-// const createUser = async ({
-//     userName,
-//     password,
-// }: {
-//     userName: string
-//     password: string
-// }) => {
-const createUser = async ({userName, password}: UserProps): Promise<User> => {
+export const createUser = async ({
+    userName,
+    password,
+}: UserProps): Promise<User> => {
     if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
         // error.status = 400
@@ -136,8 +132,10 @@ const createUser = async ({userName, password}: UserProps): Promise<User> => {
     const salt = bcryptjs.genSaltSync(10)
     const passwordHash = bcryptjs.hashSync(password, salt)
     const token = await createTokenInLocalStorage()
-    const bookmark: {movies: number[], series: number[]} = {movies: [], series: []}
-    // const bookmark = {movies: [], series: []}
+    const bookmark: {movies: number[]; series: number[]} = {
+        movies: [],
+        series: [],
+    }
 
     const user = {id, userName, passwordHash, token, bookmark}
     await saveUserInlocalStorage(user)
@@ -145,14 +143,10 @@ const createUser = async ({userName, password}: UserProps): Promise<User> => {
     return user
 }
 
-// const authenticateUserForLogin = async ({
-//     userName,
-//     password,
-// }: {
-//     userName: string
-//     password: string
-// }) => {
-const authenticateUserForLogin = async ({userName, password}: UserProps) => {
+export const authenticateUserForLogin = async ({
+    userName,
+    password,
+}: UserProps) => {
     if (!userName) {
         const error = new Error("Le nom d'utilisateur est obligatoire !")
         // error.status = 400
@@ -189,7 +183,7 @@ const authenticateUserForLogin = async ({userName, password}: UserProps) => {
     return getUserWithUserNameInLocalStorage
 }
 
-const addBookmarkSerieInLocalStorage = async (
+export const addBookmarkSerieInLocalStorage = async (
     serieID: number,
     authUser: any,
 ) => {
@@ -214,7 +208,7 @@ const addBookmarkSerieInLocalStorage = async (
     return newAuthUser
 }
 
-const addBookmarkMovieInLocalStorage = async (
+export const addBookmarkMovieInLocalStorage = async (
     movieID: number,
     authUser: any,
 ) => {
@@ -235,13 +229,12 @@ const addBookmarkMovieInLocalStorage = async (
     newAuthUser.bookmark.movies = addBookmarkMovie
 
     await deleteUserWithTokenInLocalStorage(authUser.token)
-    // await saveUserInlocalStorage(newAuthUser2)
     await saveUserInlocalStorage(newAuthUser)
 
     return newAuthUser
 }
 
-const deleteBookmarkSerieInLocalStorage = async (
+export const deleteBookmarkSerieInLocalStorage = async (
     serieID: number,
     authUser: any,
 ) => {
@@ -260,7 +253,7 @@ const deleteBookmarkSerieInLocalStorage = async (
     return newAuthUser
 }
 
-const deleteBookmarkMovieInLocalStorage = async (
+export const deleteBookmarkMovieInLocalStorage = async (
     movieID: number,
     authUser: any,
 ) => {
@@ -279,18 +272,7 @@ const deleteBookmarkMovieInLocalStorage = async (
     return newAuthUser
 }
 
-const removeTokenInLocalStorage = async () => {
+export const removeTokenInLocalStorage = async () => {
     localStorage.removeItem('netflix-authUser-token')
     return 'Remove Token in LocalStorage OK'
-}
-
-export {
-    createUser,
-    authenticateUserForLogin,
-    removeTokenInLocalStorage,
-    getUserWithTokenInLocalStorage,
-    addBookmarkMovieInLocalStorage,
-    addBookmarkSerieInLocalStorage,
-    deleteBookmarkSerieInLocalStorage,
-    deleteBookmarkMovieInLocalStorage,
 }
