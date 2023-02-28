@@ -220,24 +220,27 @@ export const handlers = [
      * 
      * overridden by : /getUserByToken'
      */
-    rest.post(
-        'https://auth.service.mock.com/bookmark',
-        async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
-            // const authUser =
-            //     typeof req.body === 'string' && JSON.parse(req.body)?.data
-            // const authUser = req.body.data
-            const body = await req.json()
-            const authUser = body.data
-            if (!authUser) {
-                return res(
-                    ctx.status(400, 'Bad Request'),
-                    ctx.json({message: 'Invalid request body'}),
-                )
-            }
+    
+    // rest.post(
+    //     'https://auth.service.mock.com/bookmark',
+    //     async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
+    //         // const authUser =
+    //         //     typeof req.body === 'string' && JSON.parse(req.body)?.data
+    //         // const authUser = req.body.data
+    //         const body = await req.json()
+    //         const authUser = body.data
+    //         console.log({body: body, authUser: authUser});
+            
+    //         if (!authUser) {
+    //             return res(
+    //                 ctx.status(400, 'Bad Request'),
+    //                 ctx.json({message: 'Invalid request body'}),
+    //             )
+    //         }
 
-            return res(ctx.status(202, 'Mocked status'), ctx.json(authUser))
-        },
-    ),
+    //         return res(ctx.status(202, 'Mocked status'), ctx.json(authUser))
+    //     },
+    // ),
 
     // rest.post(
     //     'https://auth.service.mock.com/bookmark/movie',
@@ -254,7 +257,7 @@ export const handlers = [
     // ),
 
     rest.post(
-        'https://auth.service.mock.com/bookmark/movie',
+        '/server.mock/netflix/bookmark/movie',
         async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
             // const authUser =
             //     typeof req.body === 'string' && JSON.parse(req.body)?.data
@@ -283,7 +286,7 @@ export const handlers = [
     ),
 
     rest.post(
-        'https://auth.service.mock.com/bookmark/tv',
+        '/server.mock/netflix/bookmark/tv',
         async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
             const body = await req.json()
             const authUser = body?.data
@@ -315,7 +318,7 @@ export const handlers = [
         },
     ),
     rest.delete(
-        'https://auth.service.mock.com/bookmark/tv',
+        '/server.mock/netflix/bookmark/tv',
         async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
             const body = await req.json()
             const authUser = body?.data
@@ -341,7 +344,8 @@ export const handlers = [
         },
     ),
     rest.delete(
-        'https://auth.service.mock.com/bookmark/movie',
+        // 'https://auth.service.mock.com/bookmark/movie',
+        '/server.mock/netflix/bookmark/movie',
         async (req: RestRequest<RequestBody, PathParams<string>>, res, ctx) => {
             // const authUser = req.body.data
             // const {id: movieID} = req.body.movie

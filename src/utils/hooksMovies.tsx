@@ -3,6 +3,7 @@ import React from 'react'
 // ** Utils **
 import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
 import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
+import { getUserByToken2 } from 'src/services/clientToAuthenticationApi' 
 import * as authNetflixProvider from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
@@ -100,13 +101,20 @@ type User = {
 // const checkBookmark = (data: Data, type: string, movie: Movie) => {
 const checkBookmark = (data: User | null, type: string, movie: Movie) => {
     const movieType = type === TYPE_MOVIE ? 'movies' : 'series'
-    const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
+    const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id) ?? false
     return isInBookmark
 }
 
 const useBookmark = (type: string, movie: Movie) => {
-    const {data: userAuthenticated} = useQuery(['bookmark'], () => {
-        return getUserByToken()
+    /**
+     * Why null here ?
+     * data: userAuthenticated = null
+     * 
+     * getUserByToken2()renvoie une Promise<User | null>, alors userAuthenticated sera undefined jusqu'à ce * que la promesse soit résolue et renvoie une valeur. useQuery renvoie un objet avec une data propriété * qui est initialement undefined jusqu'à ce que les données soient récupérées.
+     */
+    const {data: userAuthenticated = null} = useQuery(['getUserForBookmark'], () => {
+        // return getUserByToken()
+        return getUserByToken2()
     })
     // const {data: userAuthenticated} = useQuery(['bookmark'], () => {
     //     return getUserByToken()

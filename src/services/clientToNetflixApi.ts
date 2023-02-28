@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 type LoginData = {
     userName?: string
     password?: string
@@ -72,3 +74,42 @@ export const register = async ({userName, password}: LoginData) => {
 export const logout = () => {
     clientSendsRequestsToTheNetflixApi('logout', {})
 }
+
+// export const clientNetflix = (
+export const clientAddOrDeleteBookmark = (
+    endpoint: string,
+    // endpoint: 'bookmark/movie' | 'bookmark/tv',
+    {userAuthenticated:data, method = 'get', movie}: any,
+) => {
+    const config: any = {
+        method,
+        // url: `https://auth.service.mock.com/${endpoint}`,
+        url: `/server.mock/netflix/${endpoint}`,
+        data: {data, movie},
+        headers: {
+            Authorization: data?.token ? `Bearer ${data.token}` : undefined,
+            // 'Content-Type': 'application/json',
+        },
+    }
+    return axios(config)
+        .then(response => {
+            // console.log('response data ', response?.data)
+            // console.log('movie ', movie)
+            return response.data
+        })
+        .catch(error => {
+            if (error?.response?.status === 401) {
+                // authNetflixProvider.logout()
+                logout()
+                return Promise.reject({
+                    message: 'Authentification incorrecte',
+                })
+            }
+            if (error.response) {
+                return Promise.reject(error.response.data)
+            } else {
+                return Promise.reject(error)
+            }
+        })
+}
+
