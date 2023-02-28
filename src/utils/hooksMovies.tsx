@@ -1,21 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
-// ** Utils **
-import {clientUseApiTheMovieDB, clientAuth} from './clientAPI'
-import * as authNetflixProvider from './authNetflixProvider'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
 import {TYPE_MOVIE} from 'src/const'
+// ** Services **
+import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
+import {getUserByToken} from 'src/services/clientToAuthenticationApi'
 
-const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
+export const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-        clientUseApiTheMovieDB(`${TYPE_MOVIE}/${id}`),
+        clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
 
     return data
 }
 
-const useGetMoviesbyEndpointWithApiTheMovieDB = (
+export const useGetMoviesbyEndpointWithApiTheMovieDB = (
     type: string,
     filter: string,
     param: string,
@@ -50,25 +50,10 @@ const useGetMoviesbyEndpointWithApiTheMovieDB = (
     }
 
     const {data} = useQuery([`${endpoint}`], () =>
-        clientUseApiTheMovieDB(endpoint),
+        clientSendsRequestsToTheMovieDB(endpoint),
     )
 
     return data
-}
-
-/**
- * This function is two fold in App.tsx
- */
-const getUserByToken = async () => {
-    let user = null
-    const token = await authNetflixProvider.getTokenInLocalStorage()
-
-    if (token) {
-        const data = await clientAuth('getUserAuth', token)
-        user = data.data.user
-    }
-
-    return user
 }
 
 type Movie = {
@@ -80,37 +65,45 @@ type Bookmark = {
     series: number[]
 }
 
-type Data = {
+type User = {
+    id: string
+    token: string
     bookmark: Bookmark
+    userName: string
+    passwordHash: string
 }
 
-const checkBookmark = (data: Data, type: string, movie: Movie) => {
+const checkBookmark = (data: User | null, type: string, movie: Movie) => {
     const movieType = type === TYPE_MOVIE ? 'movies' : 'series'
-    const isInBookmark = data?.bookmark?.[movieType]?.includes(movie?.id)
+    const isInBookmark =
+        data?.bookmark?.[movieType]?.includes(movie?.id) ?? false
     return isInBookmark
 }
 
-const useBookmark = (type: string, movie: Movie) => {
-    const {data: userAuthenticated} = useQuery(['bookmark'], () => {
-        return getUserByToken()
-    })
+export const useBookmark = (type: string, movie: Movie) => {
+    /**
+     * Why null here ?
+     * data: userAuthenticated = null
+     *
+     * getUserByToken()renvoie une Promise<User | null>, alors userAuthenticated sera undefined jusqu'à ce * que la promesse soit résolue et renvoie une valeur. useQuery renvoie un objet avec une data propriété * qui est initialement undefined jusqu'à ce que les données soient récupérées.
+     */
+    const {data: userAuthenticated = null} = useQuery(
+        ['getUserForBookmark'],
+        () => {
+            // return getUserByToken()
+            return getUserByToken()
+        },
+    )
 
     const isInBookmark = checkBookmark(userAuthenticated, type, movie)
 
     return {userAuthenticated, isInBookmark}
 }
 
-const useSearchMoviesWithApiTheMovieDB = (query: string) => {
+export const useSearchMoviesWithApiTheMovieDB = (query: string) => {
     const {data} = useQuery([`search/multi?query=${query}`], () =>
-        clientUseApiTheMovieDB(`search/multi?query=${query}`),
+        clientSendsRequestsToTheMovieDB(`search/multi?query=${query}`),
     )
 
     return data?.data?.results ?? []
-}
-
-export {
-    useGetOneMovieWithApiTheMovieDB,
-    useGetMoviesbyEndpointWithApiTheMovieDB,
-    useBookmark,
-    useSearchMoviesWithApiTheMovieDB,
 }
