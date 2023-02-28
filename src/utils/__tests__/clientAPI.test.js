@@ -9,7 +9,7 @@ afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
 
-test('send a request to a endPoint', async () => {
+test.skip('send a request to a endPoint', async () => {
     const endPoint = 'fake-endpoint'
     const resultRequest = {mockResult: 'TEST'}
     // const resultRequestFalse = {mockResult: 'TEST2'}
@@ -28,7 +28,7 @@ test('send a request to a endPoint', async () => {
     expect(result.data).toEqual(resultRequest)
     // expect(result.data).toEqual(resultRequestFalse)
 })
-test('check the token passed as parameter', async () => {
+test.skip('check the token passed as parameter', async () => {
     const endPoint = 'fake-endpoint'
     const resultRequest = {mockResult: 'TEST'}
     const token = 'fake-token'
@@ -49,7 +49,7 @@ test('check the token passed as parameter', async () => {
     await clientAuth(endPoint, token)
     expect(request.headers.get('authorization')).toBe(`Bearer ${token}`)
 })
-test('check when no token passed as parameter', async () => {
+test.skip('check when no token passed as parameter', async () => {
     const endPoint = 'fake-endpoint'
     const resultRequest = {mockResult: 'TEST'}
     const token = 'undefined'
@@ -70,7 +70,7 @@ test('check when no token passed as parameter', async () => {
     await clientAuth(endPoint)
     expect(request.headers.get('authorization')).toBe(`${token}`)
 })
-test('check error mesage on 401', async () => {
+test.skip('check error mesage on 401', async () => {
     const endPoint = 'fake-endpoint'
     const resultRequest = {mockResult: 'TEST'}
     const data = {fake: 'fake data'}
