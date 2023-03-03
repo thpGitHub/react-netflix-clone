@@ -1,7 +1,13 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
+import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
+import {OneMovieWithTypeTV} from 'src/ts/interfaces/getOneMovieWithTypeTV'
+import { MutltiTvOrMovie } from 'src/ts/interfaces/searchMultiTvOrMovie'
 
-export const clientSendsRequestsToTheMovieDB = async (endpoint: string) => {
+export const clientSendsRequestsToTheMovieDB = async (
+    endpoint: string,
+    // ): Promise<AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV | MutltiTvOrMovie | undefined>> => {
+) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`
@@ -18,7 +24,7 @@ export const clientSendsRequestsToTheMovieDB = async (endpoint: string) => {
      * Pour le moment les datas de la réponse axios est sur any
      * <AxiosResponse<any, any>
      * Les composants qui reçoivent en props une des réponses devront la typer !
-     * TODO : une fois toutes les interfaces créés, voir pour typer la réponse axios !
+     * TODO : une fois toutes les types créés, voir pour typer la réponse axios !
      */
     return axios
         .get(`${API_URL_THEMOVIEDB}/${endpoint}${keyLang}`)

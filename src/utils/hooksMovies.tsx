@@ -6,13 +6,15 @@ import {TYPE_MOVIE} from 'src/const'
 // ** Services **
 import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
 import {getUserByToken} from 'src/services/clientToAuthenticationApi'
+import { MutltiTvOrMovie } from 'src/ts/interfaces/searchMultiTvOrMovie'
+import { AxiosResponse } from 'axios'
 
 export const useGetOneMovieWithApiTheMovieDB = (TYPE_MOVIE: string, id: number) => {
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-
-    return data
+    const movie = data?.data
+    return movie
 }
 
 export const useGetMoviesbyEndpointWithApiTheMovieDB = (
@@ -73,7 +75,7 @@ type User = {
     passwordHash: string
 }
 
-const checkBookmark = (data: User | null, type: string, movie: Movie) => {
+const checkBookmark = (data: User | null, type: string, movie: Movie): boolean => {
     const movieType = type === TYPE_MOVIE ? 'movies' : 'series'
     const isInBookmark =
         data?.bookmark?.[movieType]?.includes(movie?.id) ?? false
@@ -105,5 +107,9 @@ export const useSearchMoviesWithApiTheMovieDB = (query: string) => {
         clientSendsRequestsToTheMovieDB(`search/multi?query=${query}`),
     )
 
-    return data?.data?.results ?? []
+    console.log({data: data});
+    
+    // return data?.data?.results ?? []
+    return (data as AxiosResponse<MutltiTvOrMovie>)?.data?.results ?? [];
+    // return data?.results ?? []
 }

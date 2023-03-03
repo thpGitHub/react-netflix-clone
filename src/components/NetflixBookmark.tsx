@@ -40,7 +40,7 @@ const NetflixBookmark = () => {
     return (
         <>
             <NetflixAppBar />
-            {/* <NetflixHeader movie={headerMovie?.data} type={TYPE_MOVIE} /> */}
+            {/* <NetflixHeader movie={headerMovie} type={TYPE_MOVIE} /> */}
         </>
     )
 }

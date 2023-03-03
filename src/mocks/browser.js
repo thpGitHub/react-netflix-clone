@@ -5,17 +5,8 @@ export const worker = setupWorker(...handlers)
 
 // worker.start() 
 
+/**
+ * tells MSW to bypass any requests that do not match one of the defined request handlers.
+ * cancel the warnings in the console.
+ */
 worker.start({ onUnhandledRequest: 'bypass' });
-
-// worker.start({
-//     serviceWorker: {
-//       url: '/mockServiceWorker.js',
-//       options: {
-//         scope: '/',
-//         // exclude the image.tmdb.org domain from being intercepted by MSW
-//         exclude: [
-//           'https://image.tmdb.org/*'
-//         ]
-//       }
-//     }
-//   });
