@@ -14,7 +14,7 @@ import {clientAddOrDeleteBookmark} from '../services/clientToNetflixApi'
 // ** TS **
 import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
 import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
-import { MutltiTvOrMovie, MovieOrTV } from 'src/ts/interfaces/searchMultiTvOrMovie'
+import {MovieOrTV } from 'src/ts/interfaces/getMultiTvOrMovie'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,

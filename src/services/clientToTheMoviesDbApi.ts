@@ -1,8 +1,8 @@
-import axios, {AxiosResponse} from 'axios'
+import axios from 'axios'
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
-import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
-import {OneMovieWithTypeTV} from 'src/ts/interfaces/getOneMovieWithTypeTV'
-import { MutltiTvOrMovie } from 'src/ts/interfaces/searchMultiTvOrMovie'
+// import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
+// import {OneMovieWithTypeTV} from 'src/ts/interfaces/getOneMovieWithTypeTV'
+// import { MutltiTvOrMovie } from 'src/ts/interfaces/getMultiTvOrMovie'
 
 export const clientSendsRequestsToTheMovieDB = async (
     endpoint: string,

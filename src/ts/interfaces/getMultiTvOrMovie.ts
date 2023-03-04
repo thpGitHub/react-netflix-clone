@@ -18,7 +18,7 @@ export type MovieOrTV = {
     origin_country?: string[]
 }
 
-export type MutltiTvOrMovie = {
+export type MultiTvOrMovie = {
     page: number
     results: MovieOrTV[]
     total_pages: number
