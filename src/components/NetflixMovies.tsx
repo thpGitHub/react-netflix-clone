@@ -29,7 +29,7 @@ const NetflixMovies = () => {
     return (
         <div>
             <NetflixAppBar />
-            <NetflixHeader movie={headerMovie?.data} type={type} />
+            <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
                 type={TYPE_MOVIE}

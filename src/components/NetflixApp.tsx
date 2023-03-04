@@ -16,11 +16,14 @@ const NetflixApp = () => {
     const [defaultMovieId] = useState(getRandomId(type))
     
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
+    console.log({headerMovie: headerMovie});
+    
 
     return (
         <div>
             <NetflixAppBar />
-            <NetflixHeader movie={headerMovie?.data} type={type} />
+            {/* <NetflixHeader movie={headerMovie} type={type} /> */}
+            <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
                 type={TYPE_MOVIE}

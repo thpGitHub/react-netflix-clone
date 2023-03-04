@@ -14,6 +14,7 @@ import {clientAddOrDeleteBookmark} from '../services/clientToNetflixApi'
 // ** TS **
 import {OneMovieWithTypeTV} from '../ts/interfaces/getOneMovieWithTypeTV'
 import {OneMovieWithTypeMovie} from '../ts/interfaces/getOneMovieWithTypeMovie'
+import {MovieOrTV } from 'src/ts/interfaces/getMultiTvOrMovie'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -22,7 +23,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-type TvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie
+type TvOrMovie = OneMovieWithTypeTV | OneMovieWithTypeMovie | MovieOrTV
 
 interface NetflixHeaderProps {
     movie: TvOrMovie
