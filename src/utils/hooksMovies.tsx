@@ -1,14 +1,23 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
+import {TYPE_MOVIE} from 'src/const'
+import {AxiosResponse} from 'axios'
 // ** REACT Query **
 import {useQuery} from '@tanstack/react-query'
-import {TYPE_MOVIE} from 'src/const'
 // ** Services **
-import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
 import {getUserByToken} from 'src/services/clientToAuthenticationApi'
+import {clientSendsRequestsToTheMovieDB} from 'src/services/clientToTheMoviesDbApi'
+// ** TS **
 import {MultiTvOrMovie} from 'src/ts/interfaces/getMultiTvOrMovie'
-import {AxiosResponse} from 'axios'
+import {OneMovieWithTypeTV} from 'src/ts/interfaces/getOneMovieWithTypeTV'
+import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
 
+/**
+ * call with 2 endpoints
+ * 
+ * https://api.themoviedb.org/3/tv/66732?api_key=<API_KEY>&language=fr-fr&page=1
+ * https://api.themoviedb.org/3/movie/937278?api_key=<API_KEY>&language=fr-fr&page=1
+ */
 export const useGetOneMovieWithApiTheMovieDB = (
     TYPE_MOVIE: string,
     id: number,
@@ -16,10 +25,22 @@ export const useGetOneMovieWithApiTheMovieDB = (
     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
         clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
     )
-    const movie = data?.data
+    const movie = (
+        data as AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV>
+    )?.data
+
     return movie
 }
 
+/**
+ * <NetflixRow /> call 5 endpoints  :
+ *
+ * https://api.themoviedb.org/3/trending/movie/day?api_key=<API_KEY>&language=fr-fr&page=1
+ * https://api.themoviedb.org/3/trending/tv/day?api_key=<API_KEY>&language=fr-fr&page=1
+ * https://api.themoviedb.org/3/movie/top_rated?api_key=<API_KEY>&language=fr-fr&page=1
+ * https://api.themoviedb.org/3/discover/tv?with_genres=10759&api_key=<API_KEY>&language=fr-fr&page=1
+ * https://api.themoviedb.org/3/discover/movie?with_genres=53&api_key=<API_KEY>&language=fr-fr&page=1
+ */
 export const useGetMoviesbyEndpointWithApiTheMovieDB = (
     type: string,
     filter: string,
@@ -58,7 +79,7 @@ export const useGetMoviesbyEndpointWithApiTheMovieDB = (
         clientSendsRequestsToTheMovieDB(endpoint),
     )
 
-    return data
+    return data as AxiosResponse<MultiTvOrMovie>
 }
 
 type Movie = {
@@ -78,6 +99,10 @@ type User = {
     passwordHash: string
 }
 
+type BookmarkHookResult = {
+    userAuthenticated: User | null
+    isInBookmark: boolean
+}
 const checkBookmark = (
     data: User | null,
     type: string,
@@ -89,7 +114,7 @@ const checkBookmark = (
     return isInBookmark
 }
 
-export const useBookmark = (type: string, movie: Movie) => {
+export const useBookmark = (type: string, movie: Movie): BookmarkHookResult => {
     /**
      * Why null here ?
      * data: userAuthenticated = null
@@ -114,9 +139,5 @@ export const useSearchMoviesWithApiTheMovieDB = (query: string) => {
         clientSendsRequestsToTheMovieDB(`search/multi?query=${query}`),
     )
 
-    console.log({data: data})
-
-    // return data?.data?.results ?? []
     return (data as AxiosResponse<MultiTvOrMovie>)?.data?.results ?? []
-    // return data?.results ?? []
 }

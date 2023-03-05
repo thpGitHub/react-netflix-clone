@@ -29,8 +29,9 @@ const NetflixSearch = () => {
 
     // const defaultMovie = useGetOneMovieWithApiTheMovieDB(TYPE_MOVIE, 785752)
     const defaultMovie = useGetOneMovieWithApiTheMovieDB(TYPE_TV, 72987)
-    //console.log('defaultMovie === ', defaultMovie)
-    const headerMovie = data?.[0] ?? defaultMovie?.data
+    console.log('defaultMovie === ', defaultMovie)
+    // const headerMovie = data?.[0] ?? defaultMovie?.data
+    const headerMovie = data?.[0] ?? defaultMovie
     //console.log('headerMovie === ', headerMovie)
 
     const type = headerMovie?.media_type

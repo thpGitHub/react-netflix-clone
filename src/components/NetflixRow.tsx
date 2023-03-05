@@ -7,33 +7,16 @@ import RowSkeleton from './skeletons/RowSkeleton'
 import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
 // ** REACT Query
 import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
+// ** TS **
+import {MovieOrTV} from 'src/ts/interfaces/getMultiTvOrMovie'
 
-interface IProps {
+type NetflixRowProps = {
     type: string
     param?: string
     title: string
     filter: string
     watermark: boolean
     wideImage: boolean
-}
-
-interface IMovie {
-    adult: false
-    backdrop_path: '/wcKFYIiVDvRURrzglV9kGu7fpfY.jpg'
-    genre_ids: [14, 28, 12]
-    id: 453395
-    media_type: 'movie'
-    title?: 'Doctor Strange in the Multiverse of Madness'
-    name?: 'Doctor Strange in the Multiverse of Madness'
-    original_language: 'en'
-    original_title: 'Doctor Strange in the Multiverse of Madness'
-    overview: "Le Docteur Strange lance un sort interdit qui ouvre le portail du Multivers, incluant des versions alternatives de lui-même. Cette menace à l'humanité est plus puissante que les pouvoirs combinés de Strange, Wong et Wanda Maximoff."
-    popularity: 7931.499
-    poster_path: '/arfzjn1tGvXWwkX7eaGVuXsc0mp.jpg'
-    release_date: '2022-05-04'
-    video: false
-    vote_average: 7.539
-    vote_count: 4015
 }
 
 const NetflixRow = ({
@@ -43,10 +26,12 @@ const NetflixRow = ({
     filter = 'populaire',
     watermark = false,
     wideImage = true,
-}: IProps) => {
+}: NetflixRowProps) => {
     const data = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
+    console.log({dataInNetflixrow: data})
 
-    const buildImagePath = (data: IMovie) => {
+    // const buildImagePath = (data: IMovie) => {
+    const buildImagePath = (data: MovieOrTV) => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path
         return `${IMAGE_URL_ORIGINAL}${image}`
     }
@@ -61,8 +46,7 @@ const NetflixRow = ({
         <div className="row">
             <h2>{title}</h2>
             <div className="row__posters">
-                {/* {data.data.results.map((movie: IMovie) => { */}
-                {data?.data?.results?.map((movie: IMovie) => {
+                {data?.data?.results?.map((movie: MovieOrTV) => {
                     return (
                         <Link key={movie.id} to={`/${type}/${movie.id}`}>
                             <div
