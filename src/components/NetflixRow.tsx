@@ -28,7 +28,6 @@ const NetflixRow = ({
     wideImage = true,
 }: NetflixRowProps) => {
     const data = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
-    console.log({dataInNetflixrow: data})
 
     // const buildImagePath = (data: IMovie) => {
     const buildImagePath = (data: MovieOrTV) => {

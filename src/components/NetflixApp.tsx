@@ -14,10 +14,8 @@ import NetflixRow from './NetflixRow'
 const NetflixApp = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
-    
+
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
-    console.log({headerMovie: headerMovie});
-    
 
     return (
         <div>
@@ -73,4 +71,3 @@ const NetflixApp = () => {
 }
 
 export default NetflixApp
-
