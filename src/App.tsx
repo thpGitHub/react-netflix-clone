@@ -5,8 +5,8 @@ import './mocks'
 import {useAuthContext} from './contexts/authContext'
 import AppProviders from './contexts'
 // ** Dynamic imports
-const AuthApp = lazy(() => import(/* webpackPrefetch: true */'./AuthApp'))
-const UnauthApp = lazy(() => import('./UnauthApp'))
+const AppAuthenticatedUser = lazy(() => import(/* webpackPrefetch: true */'./AppAuthenticatedUser'))
+const AppUnauthenticatedUser = lazy(() => import('./AppUnauthenticatedUser'))
 
 function App() {
     return (
@@ -21,7 +21,7 @@ const AppConsumer = () => {
     
     return (
         <Suspense fallback={<div role="alert">Chargement...</div>} >
-            {authUser ? <AuthApp /> : <UnauthApp />}
+            {authUser ? <AppAuthenticatedUser /> : <AppUnauthenticatedUser />}
         </Suspense>
     )
 }

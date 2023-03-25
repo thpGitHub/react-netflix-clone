@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginRegister from './components/LoginRegister'
 
-const UnauthApp = () => {
+const AppUnauthenticatedUser = () => {
     const imageURL = '/images/posters.jpg'
 
     return (
@@ -29,4 +29,4 @@ const UnauthApp = () => {
     )
 }
 
-export default UnauthApp
+export default AppUnauthenticatedUser

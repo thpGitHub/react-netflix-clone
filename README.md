@@ -5,9 +5,9 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/thpgithub/react-netflix-clone/badge/main)](https://www.codefactor.io/repository/github/thpgithub/react-netflix-clone/overview/main)
 
 1. [Point d'entrée `App.tsx`](#app)
-    - [Non Authentifié `<UnauthApp />`](#unauthapp)
+    - [Non Authentifié `<AppUnauthenticatedUser />`](#unauthapp)
         - [`<LoginRegister />`](#loginregister)
-    - [Authentifié `<AuthApp />`](#authapp)
+    - [Authentifié `<AppAuthenticatedUser />`](#authapp)
         - [`<Route path="/" element={<NetflixApp />} /`>](#netflixapp)
             - [`useGetOneMovieWithApiTheMovieDB`](#hooksmovies)
                 - [`clientUseApiTheMovieDB`](#clientapi)
@@ -39,8 +39,8 @@ import './mocks'
 import {useAuthContext} from './contexts/authContext'
 import AppProviders from './contexts'
 // ** Dynamic imports
-const AuthApp = lazy(() => import(/* webpackPrefetch: true */'./AuthApp'))
-const UnauthApp = lazy(() => import('./UnauthApp'))
+const AppAuthenticatedUser = lazy(() => import(/* webpackPrefetch: true */'./AppAuthenticatedUser'))
+const AppUnauthenticatedUser = lazy(() => import('./AppUnauthenticatedUser'))
 
 function App() {
     return (
@@ -54,7 +54,7 @@ const AppConsumer = () => {
     const {authUser} = useAuthContext()
     return (
         <Suspense fallback={<div role="alert">Chargement...</div>} >
-            {authUser ? <AuthApp /> : <UnauthApp />}
+            {authUser ? <AppAuthenticatedUser /> : <AppUnauthenticatedUser />}
         </Suspense>
     )
 }
@@ -149,18 +149,18 @@ const {authUser} = useAuthContext()
 - ### Découpage dynamique de code avec les imports dynamiques
 
 Cela va nous permettre de fractionner notre bundle et de gagner en performance.  
-On est authentifié (AuthApp) ou pas (UnauthApp).
+On est authentifié (AppAuthenticatedUser) ou pas (AppUnauthenticatedUser).
 
 ````typescript
-const AuthApp = lazy(() => import(/* webpackPrefetch: true */'./AuthApp'))
-const UnauthApp = lazy(() => import('./UnauthApp'))
+const AppAuthenticatedUser = lazy(() => import(/* webpackPrefetch: true */'./AppAuthenticatedUser'))
+const AppUnauthenticatedUser = lazy(() => import('./AppUnauthenticatedUser'))
 ````
 
 La fonction `lazy()` permet d’afficher un composant importé dynamiquement et chargera automatiquement le bundle contenant le composant.
 
 ```JSX
 <Suspense fallback={<div role="alert">Chargement...</div>} >
-    {authUser ? <AuthApp /> : <UnauthApp />}
+    {authUser ? <AppAuthenticatedUser /> : <AppUnauthenticatedUser />}
 </Suspense>
 ```
 
@@ -168,13 +168,13 @@ Un composant importé dynamiquement doit être wrapper dans un composant `Suspen
 
 ---
 
-## Non Authentifié `<UnauthApp />` <a name="unauthapp"></a>
+## Non Authentifié `<AppUnauthenticatedUser />` <a name="unauthapp"></a>
 
 ````typescript
 import React from 'react'
 import LoginRegister from './components/LoginRegister'
 
-const UnauthApp = () => {
+const AppUnauthenticatedUser = () => {
     const imageURL = '/images/posters.jpg'
 
     return (
@@ -202,7 +202,7 @@ const UnauthApp = () => {
     )
 }
 
-export default UnauthApp
+export default AppUnauthenticatedUser
 ````
 
 - `<LoginRegister />` <a name="loginregister"></a>
@@ -359,9 +359,9 @@ export default PopupLogin
 
 ---
 
-## Authentifié `<AuthApp />` <a name="authapp"></a>
+## Authentifié `<AppAuthenticatedUser />` <a name="authapp"></a>
 
-Le composant `<AuthApp />` contient les routes de l'application.
+Le composant `<AppAuthenticatedUser />` contient les routes de l'application.
 
 ````typescript
 import React from 'react'
@@ -378,7 +378,7 @@ import NetflixSearch from './components/NetflixSearch'
 import NetflixSeries from './components/NetflixSeries'
 import NetflixBookmark from './components/NetflixBookmark'
 
-const AuthApp = () => {
+const AppAuthenticatedUser = () => {
     return (
         <Router>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -401,7 +401,7 @@ const AuthApp = () => {
     )
 }
 
-export default AuthApp
+export default AppAuthenticatedUser
 ````
 
 - `<Route path="/" element={<NetflixApp />} />` <a name="netflixapp"></a>
