@@ -12,7 +12,7 @@ import NetflixSearch from './components/NetflixSearch'
 import NetflixSeries from './components/NetflixSeries'
 import NetflixBookmark from './components/NetflixBookmark'
 
-const AuthApp = () => {
+const AppAuthenticatedUser = () => {
     return (
         <Router>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -35,4 +35,4 @@ const AuthApp = () => {
     )
 }
 
-export default AuthApp
+export default AppAuthenticatedUser

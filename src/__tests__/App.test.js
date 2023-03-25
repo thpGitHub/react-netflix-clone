@@ -22,7 +22,7 @@ test('should render of App with login page', async () => {
 
 /**
  * test skip
- * Big big problem with this test : i can't render AuthApp
+ * Big big problem with this test : i can't render AppAuthenticatedUser
  * I got around the problem by directly testing the component : NetFlixApp
  */
 test.skip('sould render of App in connect mode', async () => {
