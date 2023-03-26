@@ -31,7 +31,7 @@ const NetflixRow = ({
     watermark = false,
     wideImage = true,
 }: NetflixRowProps) => {
-    const data = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
+    const movies = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
 
     // const buildImagePath = (data: IMovie) => {
     const buildImagePath = (data: MovieOrTV) => {
@@ -41,7 +41,7 @@ const NetflixRow = ({
 
     const watermarkClass: string = watermark ? 'watermarked' : ''
 
-    if (!data) {
+    if (!movies) {
         return <RowSkeleton title={title} wideImage={true} />
     }
 
@@ -49,7 +49,7 @@ const NetflixRow = ({
         <div className="row">
             <h2>{title}</h2>
             <div className="row__posters">
-                {data?.data?.results?.map((movie: MovieOrTV) => {
+                {movies?.data?.results?.map((movie: MovieOrTV) => {
                     return (
                         <Link key={movie.id} to={`/${type}/${movie.id}`}>
                             <div
