@@ -18,19 +18,7 @@ import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
  * https://api.themoviedb.org/3/tv/66732?api_key=<API_KEY>&language=fr-fr&page=1
  * https://api.themoviedb.org/3/movie/937278?api_key=<API_KEY>&language=fr-fr&page=1
  */
-// export const useGetOneMovieWithApiTheMovieDB = (
-//     TYPE_MOVIE: string,
-//     id: number,
-// ) => {
-//     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-//         clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
-//     )
-//     const movie = (
-//         data as AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV>
-//     )?.data
 
-//     return movie
-// }
 export const useGetOneMovieWithApiTheMovieDB = (
     type: 'tv' | 'movie',
     id: number,
@@ -60,7 +48,6 @@ type MediaType = 'movie' | 'tv'
 type Filter = 'popular' | 'latest' | 'toprated' | 'genre' | 'trending'
 
 export const useGetMoviesbyEndpointWithApiTheMovieDB = (
-    // type: string,
     type: MediaType,
     filter: Filter,
     param: string,

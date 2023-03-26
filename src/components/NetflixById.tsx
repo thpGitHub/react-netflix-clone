@@ -11,32 +11,13 @@ import {TYPE_TV} from '../const'
 // ** REACT Query
 import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
-
-// const NetflixById = ({logout}: IProps) => {
 const NetflixById = () => {
     let {tvId, movieId} = useParams()
     const location = useLocation()
-
-    //console.log('location', location)
-    //console.log('params tvID', tvId)
-    //console.log('params movieId', movieId)
-
-    // const [type, setType] = useState(
-    //     location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
-    // )
     const [type, setType] = useState<'tv' | 'movie'>(
         location.pathname.includes('tv') ? 'tv' : 'movie',
     )
     const [id, setId] = useState(type === TYPE_TV ? tvId : movieId)
-
-    // const {data: headerMovie} = useQuery([`${type}/${id}`], () =>
-    //     clientApi(`${type}/${id}`),
-    // )
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, Number(id))
 
     useEffect(() => {
@@ -52,7 +33,6 @@ const NetflixById = () => {
 
     return (
         <div>
-            {/* <NetflixAppBar logout={logout} /> */}
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie} type={type} />
 

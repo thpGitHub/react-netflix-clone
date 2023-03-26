@@ -7,24 +7,12 @@ import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {getRandomId} from '../utils/helper'
-// import {TYPE_TV} from '../const'
 // ** REACT Query
 import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
-
 const NetflixSeries = () => {
-    // const [type] = useState(TYPE_TV)
     const [type] = useState<'tv' | 'movie'>('tv')
     const [defaultMovieId] = useState(getRandomId(type))
-
-    // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
-    //     clientApi(`${type}/${defaultMovieId}`),
-    // )
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (

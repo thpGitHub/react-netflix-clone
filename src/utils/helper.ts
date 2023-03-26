@@ -12,7 +12,6 @@ export function getRandomIntInclusive(min: number, max: number) {
  */
 export function getRandomType(): 'tv' | 'movie' {
     // return [TYPE_TV, TYPE_MOVIE][getRandomIntInclusive(0, 1)]
-    // return ['tv', 'movie'][getRandomIntInclusive(0, 1)]
     return Math.random() < 0.5 ? 'tv' : 'movie'
 }
 export function getRandomMovie() {

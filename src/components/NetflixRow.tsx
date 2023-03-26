@@ -11,11 +11,9 @@ import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 import {MovieOrTV} from 'src/ts/interfaces/getMultiTvOrMovie'
 
 type NetflixRowProps = {
-    // type: string
     type: 'movie' | 'tv'
     param?: string
     title: string
-    // filter: string
     filter: 'popular' | 'latest' | 'toprated' | 'genre' | 'trending'
     watermark: boolean
     wideImage: boolean
@@ -26,13 +24,11 @@ const NetflixRow = ({
     param = '',
     title = '',
     filter = 'popular',
-    // filter: Filter,
     watermark = false,
     wideImage = true,
 }: NetflixRowProps) => {
     const movies = useGetMoviesbyEndpointWithApiTheMovieDB(type, filter, param)
 
-    // const buildImagePath = (data: IMovie) => {
     const buildImagePath = (data: MovieOrTV) => {
         const image = wideImage ? data?.backdrop_path : data?.poster_path
         return `${IMAGE_URL_ORIGINAL}${image}`
