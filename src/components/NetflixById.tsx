@@ -7,7 +7,7 @@ import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
-import {TYPE_MOVIE, TYPE_TV} from '../const'
+import {TYPE_TV} from '../const'
 // ** REACT Query
 import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
 

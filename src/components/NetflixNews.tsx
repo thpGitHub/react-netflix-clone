@@ -7,7 +7,7 @@ import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {getRandomType, getRandomId} from '../utils/helper'
-import {TYPE_MOVIE, TYPE_TV} from '../const'
+// import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
 import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
 

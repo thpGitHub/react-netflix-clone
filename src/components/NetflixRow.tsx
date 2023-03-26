@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 // ** Component **
 import RowSkeleton from './skeletons/RowSkeleton'
 // ** Const **
-import {TYPE_MOVIE, IMAGE_URL_ORIGINAL} from '../const'
+import {IMAGE_URL_ORIGINAL} from '../const'
 // ** REACT Query
 import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 // ** TS **
