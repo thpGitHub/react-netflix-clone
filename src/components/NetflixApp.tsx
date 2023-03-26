@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import './Netflix.css'
 // ** Components **
-// import NetflixRow from './NetflixRow'
 import NetflixAppBar from './NetflixAppBar'
 import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
-// import {TYPE_MOVIE, TYPE_TV} from '../const'
 import {getRandomType, getRandomId} from '../utils/helper'
 import NetflixRow from './NetflixRow'
 
@@ -20,11 +18,10 @@ const NetflixApp = () => {
     return (
         <div>
             <NetflixAppBar />
-            {/* <NetflixHeader movie={headerMovie} type={type} /> */}
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -32,7 +29,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries Netflix"
                 filter="trending"
                 watermark={true}
@@ -40,7 +37,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -48,7 +45,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -57,7 +54,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"

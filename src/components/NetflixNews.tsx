@@ -7,23 +7,13 @@ import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {getRandomType, getRandomId} from '../utils/helper'
-// import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
-
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 const NetflixNews = () => {
     const [type] = useState(getRandomType())
     const [defaultMovieId] = useState(getRandomId(type))
 
-    // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
-    //     clientApi(`${type}/${defaultMovieId}`),
-    // )
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (
@@ -32,7 +22,7 @@ const NetflixNews = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="A venir"
                 filter="latest"
                 watermark={true}
@@ -40,7 +30,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Nouveauté"
                 filter="trending"
                 watermark={true}
@@ -48,7 +38,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -56,7 +46,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -65,7 +55,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"
@@ -79,4 +69,3 @@ const NetflixNews = () => {
 }
 
 export default NetflixNews
-

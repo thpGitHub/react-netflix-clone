@@ -7,24 +7,12 @@ import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {getRandomId} from '../utils/helper'
-// import {TYPE_TV} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
-
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 const NetflixSeries = () => {
-    // const [type] = useState(TYPE_TV)
     const [type] = useState<'tv' | 'movie'>('tv')
     const [defaultMovieId] = useState(getRandomId(type))
-
-    // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
-    //     clientApi(`${type}/${defaultMovieId}`),
-    // )
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, defaultMovieId)
 
     return (
@@ -33,7 +21,7 @@ const NetflixSeries = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries tendances Netflix"
                 filter="trending"
                 watermark={true}
@@ -41,7 +29,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries les mieux notées"
                 filter="toprated"
                 watermark={true}
@@ -49,7 +37,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Les séries populaires"
                 filter="popular"
                 watermark={true}
@@ -57,7 +45,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="99"
                 title="Les documentaires"
                 filter="genre"
@@ -66,7 +54,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="80"
                 title="Les séries criminelles"
                 filter="genre"

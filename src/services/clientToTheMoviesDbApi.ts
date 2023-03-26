@@ -1,13 +1,7 @@
 import axios from 'axios'
 import {API_KEY_THEMOVIEDB, LANG, API_URL_THEMOVIEDB} from '../const'
-// import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
-// import {OneMovieWithTypeTV} from 'src/ts/interfaces/getOneMovieWithTypeTV'
-// import { MutltiTvOrMovie } from 'src/ts/interfaces/getMultiTvOrMovie'
 
-export const clientSendsRequestsToTheMovieDB = async (
-    endpoint: string,
-    // ): Promise<AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV | MutltiTvOrMovie | undefined>> => {
-) => {
+export const clientSendsRequestsToTheMovieDB = async (endpoint: string) => {
     const page = 1
     const startChar = endpoint.includes('?') ? `&` : `?`
     const keyLang = `${startChar}api_key=${API_KEY_THEMOVIEDB}&language=${LANG}&page=${page}`

@@ -9,34 +9,15 @@ import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {TYPE_TV} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
-// interface IProps {
-//     logout: () => void
-//     // authUser: any
-//     // setAuthUser: any
-// }
-
-// const NetflixById = ({logout}: IProps) => {
 const NetflixById = () => {
     let {tvId, movieId} = useParams()
     const location = useLocation()
-
-    //console.log('location', location)
-    //console.log('params tvID', tvId)
-    //console.log('params movieId', movieId)
-
-    // const [type, setType] = useState(
-    //     location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
-    // )
     const [type, setType] = useState<'tv' | 'movie'>(
         location.pathname.includes('tv') ? 'tv' : 'movie',
     )
     const [id, setId] = useState(type === TYPE_TV ? tvId : movieId)
-
-    // const {data: headerMovie} = useQuery([`${type}/${id}`], () =>
-    //     clientApi(`${type}/${id}`),
-    // )
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, Number(id))
 
     useEffect(() => {
@@ -52,12 +33,11 @@ const NetflixById = () => {
 
     return (
         <div>
-            {/* <NetflixAppBar logout={logout} /> */}
             <NetflixAppBar />
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -65,7 +45,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries Netflix"
                 filter="trending"
                 watermark={true}
@@ -73,7 +53,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -81,7 +61,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -90,7 +70,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"
@@ -104,4 +84,3 @@ const NetflixById = () => {
 }
 
 export default NetflixById
-
