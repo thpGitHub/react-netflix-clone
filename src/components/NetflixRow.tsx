@@ -10,7 +10,6 @@ import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 // ** TS **
 import {MovieOrTV} from 'src/ts/interfaces/getMultiTvOrMovie'
 
-
 type NetflixRowProps = {
     // type: string
     type: 'movie' | 'tv'

@@ -9,7 +9,7 @@ import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {TYPE_TV} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -57,7 +57,7 @@ const NetflixById = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -65,7 +65,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries Netflix"
                 filter="trending"
                 watermark={true}
@@ -73,7 +73,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -81,7 +81,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -90,7 +90,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"
@@ -104,4 +104,3 @@ const NetflixById = () => {
 }
 
 export default NetflixById
-

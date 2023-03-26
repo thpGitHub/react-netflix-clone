@@ -9,7 +9,7 @@ import NetflixHeader from './NetflixHeader'
 import {getRandomId} from '../utils/helper'
 // import {TYPE_MOVIE} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -33,7 +33,7 @@ const NetflixMovies = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -41,7 +41,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les mieux notées"
                 filter="toprated"
                 watermark={true}
@@ -49,7 +49,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 title="Les films populaires"
                 filter="popular"
                 watermark={true}
@@ -57,7 +57,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="14"
                 title="Les films fantastiques"
                 filter="genre"
@@ -66,7 +66,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type='movie'
+                type="movie"
                 param="878"
                 title="Les films de sciences fictions"
                 filter="genre"

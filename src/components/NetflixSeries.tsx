@@ -9,7 +9,7 @@ import NetflixHeader from './NetflixHeader'
 import {getRandomId} from '../utils/helper'
 // import {TYPE_TV} from '../const'
 // ** REACT Query
-import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
+import {useGetOneMovieWithApiTheMovieDB} from '../utils/hooksMovies'
 
 // interface IProps {
 //     logout: () => void
@@ -33,7 +33,7 @@ const NetflixSeries = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries tendances Netflix"
                 filter="trending"
                 watermark={true}
@@ -41,7 +41,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Séries les mieux notées"
                 filter="toprated"
                 watermark={true}
@@ -49,7 +49,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 title="Les séries populaires"
                 filter="popular"
                 watermark={true}
@@ -57,7 +57,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="99"
                 title="Les documentaires"
                 filter="genre"
@@ -66,7 +66,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type='tv'
+                type="tv"
                 param="80"
                 title="Les séries criminelles"
                 filter="genre"

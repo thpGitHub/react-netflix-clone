@@ -1,6 +1,8 @@
 export const LANG: string = 'fr-fr'
-export const API_KEY_THEMOVIEDB: string | undefined = process.env.REACT_APP_API_KEY
-export const API_URL_THEMOVIEDB: string | undefined = process.env.REACT_APP_API_URL
+export const API_KEY_THEMOVIEDB: string | undefined =
+    process.env.REACT_APP_API_KEY
+export const API_URL_THEMOVIEDB: string | undefined =
+    process.env.REACT_APP_API_URL
 export const TYPE_TV: string = 'tv'
 export const IMAGE_URL: string | undefined = process.env.REACT_APP_IMAGE_URL
 export const TYPE_MOVIE: string = 'movie'
