@@ -7,7 +7,7 @@ import NetflixFooter from './NetflixFooter'
 import NetflixHeader from './NetflixHeader'
 // ** Utils **
 import {getRandomType, getRandomId} from '../utils/helper'
-import {TYPE_MOVIE, TYPE_TV} from '../const'
+// import {TYPE_MOVIE, TYPE_TV} from '../const'
 // ** REACT Query
 import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
 
@@ -32,7 +32,7 @@ const NetflixNews = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="A venir"
                 filter="latest"
                 watermark={true}
@@ -40,7 +40,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Nouveauté"
                 filter="trending"
                 watermark={true}
@@ -48,7 +48,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -56,7 +56,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -65,7 +65,7 @@ const NetflixNews = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"
