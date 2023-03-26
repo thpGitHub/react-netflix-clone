@@ -26,8 +26,11 @@ const NetflixById = () => {
     //console.log('params tvID', tvId)
     //console.log('params movieId', movieId)
 
-    const [type, setType] = useState(
-        location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
+    // const [type, setType] = useState(
+    //     location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE,
+    // )
+    const [type, setType] = useState<'tv' | 'movie'>(
+        location.pathname.includes('tv') ? 'tv' : 'movie',
     )
     const [id, setId] = useState(type === TYPE_TV ? tvId : movieId)
 
@@ -37,7 +40,7 @@ const NetflixById = () => {
     const headerMovie = useGetOneMovieWithApiTheMovieDB(type, Number(id))
 
     useEffect(() => {
-        const type = location.pathname.includes(TYPE_TV) ? TYPE_TV : TYPE_MOVIE
+        const type = location.pathname.includes('tv') ? 'tv' : 'movie'
         setType(type)
         setId(type === TYPE_TV ? tvId : movieId)
 
@@ -54,7 +57,7 @@ const NetflixById = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -62,7 +65,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Séries Netflix"
                 filter="trending"
                 watermark={true}
@@ -70,7 +73,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -78,7 +81,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -87,7 +90,7 @@ const NetflixById = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"

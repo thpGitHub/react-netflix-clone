@@ -1021,7 +1021,7 @@ const useGetMoviesbyEndpointWithApiTheMovieDB = (type: string, filter: string, p
     let endpoint: string = ''
 
     switch (filter) {
-        case 'populaire':
+        case 'popular':
             endpoint = endpointPopular
             break
         case 'latest':
@@ -1668,7 +1668,7 @@ const NetflixRow = ({
     type = TYPE_MOVIE,
     param = '',
     title = '',
-    filter = 'populaire',
+    filter = 'popular',
     watermark = false,
     wideImage = true,
 }: IProps) => {

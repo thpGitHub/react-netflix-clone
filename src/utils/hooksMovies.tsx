@@ -14,16 +14,29 @@ import {OneMovieWithTypeMovie} from 'src/ts/interfaces/getOneMovieWithTypeMovie'
 
 /**
  * call with 2 endpoints
- * 
+ *
  * https://api.themoviedb.org/3/tv/66732?api_key=<API_KEY>&language=fr-fr&page=1
  * https://api.themoviedb.org/3/movie/937278?api_key=<API_KEY>&language=fr-fr&page=1
  */
+// export const useGetOneMovieWithApiTheMovieDB = (
+//     TYPE_MOVIE: string,
+//     id: number,
+// ) => {
+//     const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
+//         clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
+//     )
+//     const movie = (
+//         data as AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV>
+//     )?.data
+
+//     return movie
+// }
 export const useGetOneMovieWithApiTheMovieDB = (
-    TYPE_MOVIE: string,
+    type: 'tv' | 'movie',
     id: number,
 ) => {
-    const {data} = useQuery([`${TYPE_MOVIE}/${id}`], () =>
-        clientSendsRequestsToTheMovieDB(`${TYPE_MOVIE}/${id}`),
+    const {data} = useQuery([`${type}/${id}`], () =>
+        clientSendsRequestsToTheMovieDB(`${type}/${id}`),
     )
     const movie = (
         data as AxiosResponse<OneMovieWithTypeMovie | OneMovieWithTypeTV>
@@ -40,46 +53,48 @@ export const useGetOneMovieWithApiTheMovieDB = (
  * https://api.themoviedb.org/3/movie/top_rated?api_key=<API_KEY>&language=fr-fr&page=1
  * https://api.themoviedb.org/3/discover/tv?with_genres=10759&api_key=<API_KEY>&language=fr-fr&page=1
  * https://api.themoviedb.org/3/discover/movie?with_genres=53&api_key=<API_KEY>&language=fr-fr&page=1
+ *
  */
+
+type MediaType = 'movie' | 'tv'
+type Filter = 'popular' | 'latest' | 'toprated' | 'genre' | 'trending'
+
 export const useGetMoviesbyEndpointWithApiTheMovieDB = (
-    type: string,
-    filter: string,
+    // type: string,
+    type: MediaType,
+    filter: Filter,
     param: string,
 ) => {
-    const endpointLatest = `${type}/upcoming`
-    const endpointPopular = `${type}/popular`
-    const endpointTopRated = `${type}/top_rated`
-    const endpointGenre = `discover/${type}?with_genres=${param}`
-    const endpointTrending = `trending/${type}/day`
-
-    let endpoint: string = ''
-
-    switch (filter) {
-        case 'populaire':
-            endpoint = endpointPopular
-            break
-        case 'latest':
-            endpoint = endpointLatest
-            break
-        case 'toprated':
-            endpoint = endpointTopRated
-            break
-        case 'genre':
-            endpoint = endpointGenre
-            break
-        case 'trending':
-            endpoint = endpointTrending
-            break
-
-        default:
-            throw new Error('Type non supporté')
-    }
+    const endpoint = getEndpoint(type, filter, param)
 
     const {data} = useQuery([`${endpoint}`], () =>
         clientSendsRequestsToTheMovieDB(endpoint),
     )
 
     return data as AxiosResponse<MultiTvOrMovie>
+}
+
+const getEndpoint = (type: MediaType, filter: Filter, param: string) => {
+    const endpointLatest = `${type}/upcoming`
+    const endpointPopular = `${type}/popular`
+    const endpointTopRated = `${type}/top_rated`
+    const endpointGenre = `discover/${type}?with_genres=${param}`
+    const endpointTrending = `trending/${type}/day`
+
+    switch (filter) {
+        case 'popular':
+            return endpointPopular
+        case 'latest':
+            return endpointLatest
+        case 'toprated':
+            return endpointTopRated
+        case 'genre':
+            return endpointGenre
+        case 'trending':
+            return endpointTrending
+        default:
+            throw new Error('unsupported filter')
+    }
 }
 
 type Movie = {
@@ -124,7 +139,6 @@ export const useBookmark = (type: string, movie: Movie): BookmarkHookResult => {
     const {data: userAuthenticated = null} = useQuery(
         ['getUserForBookmark'],
         () => {
-            // return getUserByToken()
             return getUserByToken()
         },
     )

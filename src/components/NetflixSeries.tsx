@@ -18,7 +18,8 @@ import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
 // }
 
 const NetflixSeries = () => {
-    const [type] = useState(TYPE_TV)
+    // const [type] = useState(TYPE_TV)
+    const [type] = useState<'tv' | 'movie'>('tv')
     const [defaultMovieId] = useState(getRandomId(type))
 
     // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
@@ -32,7 +33,7 @@ const NetflixSeries = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Séries tendances Netflix"
                 filter="trending"
                 watermark={true}
@@ -40,7 +41,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Séries les mieux notées"
                 filter="toprated"
                 watermark={true}
@@ -48,15 +49,15 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Les séries populaires"
-                filter="populaire"
+                filter="popular"
                 watermark={true}
                 wideImage={false}
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 param="99"
                 title="Les documentaires"
                 filter="genre"
@@ -65,7 +66,7 @@ const NetflixSeries = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 param="80"
                 title="Les séries criminelles"
                 filter="genre"

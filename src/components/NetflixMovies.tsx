@@ -18,7 +18,8 @@ import { useGetOneMovieWithApiTheMovieDB } from '../utils/hooksMovies'
 // }
 
 const NetflixMovies = () => {
-    const [type] = useState(TYPE_MOVIE)
+    // const [type] = useState(TYPE_MOVIE)
+    const [type] = useState<'tv' | 'movie'>('movie')
     const [defaultMovieId] = useState(getRandomId(type))
 
     // const {data: headerMovie} = useQuery([`${type}/${defaultMovieId}`], () =>
@@ -32,7 +33,7 @@ const NetflixMovies = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -40,7 +41,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Les mieux notées"
                 filter="toprated"
                 watermark={true}
@@ -48,15 +49,15 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Les films populaires"
-                filter="populaire"
+                filter="popular"
                 watermark={true}
                 wideImage={false}
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 param="14"
                 title="Les films fantastiques"
                 filter="genre"
@@ -65,7 +66,7 @@ const NetflixMovies = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 param="878"
                 title="Les films de sciences fictions"
                 filter="genre"

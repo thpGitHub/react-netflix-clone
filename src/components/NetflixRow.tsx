@@ -10,20 +10,24 @@ import {useGetMoviesbyEndpointWithApiTheMovieDB} from '../utils/hooksMovies'
 // ** TS **
 import {MovieOrTV} from 'src/ts/interfaces/getMultiTvOrMovie'
 
+
 type NetflixRowProps = {
-    type: string
+    // type: string
+    type: 'movie' | 'tv'
     param?: string
     title: string
-    filter: string
+    // filter: string
+    filter: 'popular' | 'latest' | 'toprated' | 'genre' | 'trending'
     watermark: boolean
     wideImage: boolean
 }
 
 const NetflixRow = ({
-    type = TYPE_MOVIE,
+    type = 'movie',
     param = '',
     title = '',
-    filter = 'populaire',
+    filter = 'popular',
+    // filter: Filter,
     watermark = false,
     wideImage = true,
 }: NetflixRowProps) => {

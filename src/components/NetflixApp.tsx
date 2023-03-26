@@ -24,7 +24,7 @@ const NetflixApp = () => {
             <NetflixHeader movie={headerMovie} type={type} />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Films Netflix"
                 filter="trending"
                 watermark={true}
@@ -32,7 +32,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 title="Séries Netflix"
                 filter="trending"
                 watermark={true}
@@ -40,7 +40,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 title="Les mieux notés"
                 filter="toprated"
                 watermark={true}
@@ -48,7 +48,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type={TYPE_TV}
+                type='tv'
                 param="10759"
                 title="Action & aventure"
                 filter="genre"
@@ -57,7 +57,7 @@ const NetflixApp = () => {
             />
 
             <NetflixRow
-                type={TYPE_MOVIE}
+                type='movie'
                 param="53"
                 title="Les meilleurs thrillers"
                 filter="genre"
